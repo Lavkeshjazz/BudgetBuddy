@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    </head>
+    <style>
+      body{
+        background-image: url("../images/sky_02.jpg");
+        font-size: 12px;
+         position: relative;
+         background-position:center; 
+         background-repeat: no-repeat;
+         background-size:cover;
+         background-attachment:fixed;
+        color: #ffffff;
+      }
+      .btn-outline-success{
+        color: white;
+        border:1px solid white;
+      }
+      .btn-outline-success:hover {
+       background-color:#ef9488; /* Green */
+       color: white;
+      }
+      .navbar-brand{
+        color: rgb(255, 255, 255);
+      }
+      .footer1{
+          text-align: center!important;
+        }
+      </style>
+    <body>
+        <nav class="navbar">
+            <div class="container-fluid">
+              <a class="navbar-brand"><img src="../images/cloudy.png" height="35px" width="35px"> Weather Forecast</a>
+              <form class="d-flex" action="/search" method="POST" role="search">
+                <input name="city" id="idInput" class="form-control me-2" type="search"  placeholder="Search" aria-label="Search">
+                <button id="submit" class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+          <div class="container">
+            <h1 class="my-4 text-center"><%= heading%></h1>
+            <h1 class="my-4 text-center"><%= heading1%></h1>
+</head>
+</body>
+<footer>
+  <p class="footer1">Copyright © Lavkesh Jaiswal 2024</p>
+</footer>
+</html>
