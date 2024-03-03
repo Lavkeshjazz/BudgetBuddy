@@ -10,16 +10,18 @@ const expectedPrices={
     new:90000,
     old:80000
 };
-
-async function main(){
+fetchPrice()
+async function fetchPrice(){
+    
+    console.log('hello');
     const response=await axios.get(url,{
         headers: {
             "User-Agent": userAgent
         }
     });
     const html=response.data;
-    const $ =cheerio.load(html);
-    const priceElementText= $("#a-price").text();
+    const vh=cheerio.load(html);
+    const priceElementText= vh(".a-price-whole").text();
 
     console.log(priceElementText);
 }
