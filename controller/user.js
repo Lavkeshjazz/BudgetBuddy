@@ -1,159 +1,100 @@
-
-var bodyParser = require('body-parser');
+const { response } = require('express');
 const axios = require("axios");
-
-const place="New Delhi";
-const place2="Mumbai";
-const place3="Kolkata";
-const place4="Bangalore";
-const place5="Pune";
-const place6="Hyderabad";
-
-
-const API_URL = "https://weather-by-api-ninjas.p.rapidapi.com/v1/weather";
-const options = {
-    // method: 'GET',
-     // url: 'https://weather-by-api-ninjas.p.rapidapi.com/v1/weather',
-     // params: {city: 'Seattle'},
-     headers: {
-       'X-RapidAPI-Key': '735e72ee60msh6ec9764972a47e2p159ad9jsn95a7f88fe07d',
-       'X-RapidAPI-Host': 'weather-by-api-ninjas.p.rapidapi.com'
-     }
-   };
-
+// Important: If axios is used with multiple domains, the information will be sent to all of them.
+const cheerio=require("cheerio");
+const nodemailer=require("nodemailer");
+var newPrice;
 async function defaultPage(req,res){
-    const response1 = await axios.get(API_URL+"?city="+place,options);
-// const response2 = await axios.get(API_URL+"?city="+place2,options);
-// const response3= await axios.get(API_URL+"?city="+place3,options);
-// const response4= await axios.get(API_URL+"?city="+place4,options);
-// const response5= await axios.get(API_URL+"?city="+place5,options);
-// const response6= await axios.get(API_URL+"?city="+place6,options);
-    try {
-        const response = await axios.get(API_URL+"?city="+place,options);
-      res.render("index.ejs",{
-          heading : "Weather for "+place,
-          temp: response.data.feels_like,
-          mintemp: response.data.min_temp,
-          maxtemp:response.data.max_temp,
-          wspeed:response.data.wind_speed,
-          hmdtiy:response.data.humidity,
-          wdegree:response.data.wind_degrees,
-          feels1:response1.data.feels_like,
-          humid1:response1.data.humidity,
-          max1:response1.data.max_temp,
-          min1:response1.data.min_temp,
-          ws1:response1.data.wind_speed,
-    
-          feels2:response1.data.feels_like,
-          humid2:response1.data.humidity,
-          max2:response1.data.max_temp,
-          min2:response1.data.min_temp,
-          ws2:response1.data.wind_speed,
-    
-          feels3:response1.data.feels_like,
-          humid3:response1.data.humidity,
-          max3:response1.data.max_temp,
-          min3:response1.data.min_temp,
-          sunr3:response1.data.sunrise,
-          suns3:response1.data.sunset,
-          ws3:response1.data.wind_speed,
-    
-          feels4:response1.data.feels_like,
-          humid4:response1.data.humidity,
-          max4:response1.data.max_temp,
-          min4:response1.data.min_temp,
-          ws4:response1.data.wind_speed,
-    
-          feels5:response1.data.feels_like,
-          humid5:response1.data.humidity,
-          max5:response1.data.max_temp,
-          min5:response1.data.min_temp,
-          ws5:response1.data.wind_speed,
-    
-          feels6:response1.data.feels_like,
-          humid6:response1.data.humidity,
-          max6:response1.data.max_temp,
-          min6:response1.data.min_temp,
-          ws6:response1.data.wind_speed,
-        })
-    } catch (error) {
-        console.error(error);
-      res.render("index1.ejs",{
-        heading:"Oops...! It seem's like you entered wrong spelling.",
-        heading1:"Please correct it and try again :)",
-      });
-    }
+try{
+  res.render("homepage.ejs")
+
+} catch(error){
+  console.log(error);
+}
 }
 
 async function searchResult(req,res){
-    const searchjagah =req.body.city;
-    const firstLetter = searchjagah.charAt(0);
-    const capitalizedFirstLetter = firstLetter.toUpperCase();
-    const capitalizedString = capitalizedFirstLetter + searchjagah.slice(1);
-    const response1 = await axios.get(API_URL+"?city="+place,options);
-// const response2 = await axios.get(API_URL+"?city="+place2,options);
-// const response3= await axios.get(API_URL+"?city="+place3,options);
-// const response4= await axios.get(API_URL+"?city="+place4,options);
-// const response5= await axios.get(API_URL+"?city="+place5,options);
-// const response6= await axios.get(API_URL+"?city="+place6,options);
-    try{
-      const response = await axios.get(API_URL+"?city="+searchjagah,options);
-      //console.log(response.data);
-  
-    res.render("index.ejs",{
-      heading : "Weather for "+capitalizedString,
-      temp: response.data.feels_like,
-        mintemp: response.data.min_temp,
-        maxtemp:response.data.max_temp,
-        wspeed:response.data.wind_speed,
-        hmdtiy:response.data.humidity,
-        wdegree:response.data.wind_degrees,
-  
-        feels1:response1.data.feels_like,
-        humid1:response1.data.humidity,
-        max1:response1.data.max_temp,
-        min1:response1.data.min_temp,
-        ws1:response1.data.wind_speed,
-  
-        feels2:response1.data.feels_like,
-        humid2:response1.data.humidity,
-        max2:response1.data.max_temp,
-        min2:response1.data.min_temp,
-        ws2:response1.data.wind_speed,
-  
-        feels3:response1.data.feels_like,
-        humid3:response1.data.humidity,
-        max3:response1.data.max_temp,
-        min3:response1.data.min_temp,
-        ws3:response1.data.wind_speed,
-  
-        feels4:response1.data.feels_like,
-        humid4:response1.data.humidity,
-        max4:response1.data.max_temp,
-        min4:response1.data.min_temp,
-        ws4:response1.data.wind_speed,
-  
-        feels5:response1.data.feels_like,
-        humid5:response1.data.humidity,
-        max5:response1.data.max_temp,
-        min5:response1.data.min_temp,
-        ws5:response1.data.wind_speed,
-  
-        feels6:response1.data.feels_like,
-        humid6:response1.data.humidity,
-        max6:response1.data.max_temp,
-        min6:response1.data.min_temp,
-        ws6:response1.data.wind_speed,
-        
-    })
-    }catch (error) {
-      console.log(error);
-      res.render("index1.ejs",{
-        heading:"Oops...! It seem's like you entered wrong spelling.",
-        heading1:"Please correct it and try again :)",
-      });
+  async function fetchPrice(){
+    const userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+    const url=req.body.ProductURL;
+    console.log(`I have reached here ${url}`);
+    const expectedPrice=req.body.expectedPrice;
+    const response=await axios.get(url,{
+      headers: {
+        "User-Agent": userAgent
+      }
+    });
+    
+    
+    
+    const html=response.data;
+    const vh=cheerio.load(html);
+    //To parse the html response from the url 
+      let priceElementText= vh(".a-price-whole").text();
+      //the method returns the array of elements belonging to the same class in the 
+      //html document so split it using the . operator and return the first value
+      // let price =    priceElementText.split('.');
+      priceElementText=priceElementText.split('.');
+      // priceElementText=priceElementText.replace(", ", "");
+      newPrice= priceElementText[0];
+      newPrice = parseFloat(newPrice.replace(",",""));
+      console.log(newPrice);
+      
+      if(expectedPrice>newPrice){
+        await sendmail();
+      }
     }
+      
+    try{
+    await fetchPrice()
+    res.render("result.ejs",{
+      currprice:newPrice
+    })
+    var bodyParser = require('body-parser');
+const axios=require("axios").default;
+
+
+
+//we didn't call the function that is why code didn't execute 
+
+
+async function sendmail(){
+    const nodemailer = require("nodemailer");
+    const user = "zen.jaiswal34@gmail.com";
+    const pass="ejbtxdljmgevlkmw"
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user,
+    pass
+  },
+});
+
+// async..await is not allowed in global scope, must use a wrapper
+async function main() {
+  // send mail with defined transport object
+  const info = await transporter.sendMail({
+    from: `"Lavkesh" <${user}>`, // sender address
+    to: "lavkesh.jaiswal34@gmail.com, btech10237.22@bitmesra.ac.in", // list of receivers
+    subject: "Price fell down ✔", // Subject line
+    text: `The price of ${url} fell down, check it out!!!`, // plain text body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
 }
+
+main().catch(console.error);
+
+}
+  } catch(error){
+    console.log(error);
+  }
+}
+
 module.exports = {
-    defaultPage,searchResult
+  defaultPage,searchResult
 };
