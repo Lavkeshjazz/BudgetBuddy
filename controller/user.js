@@ -19,6 +19,17 @@ try{
   console.log(error);
 }
 }
+//Forget password email
+async function checkforemail(req,res){
+  try{
+    const abc=req.body.emailforget;
+    console.log(abc);
+    return res.redirect("/");
+  }
+  catch(error){
+    console.log(error);
+  }
+}
 
 async function searchResult(req,res){
   async function fetchPrice(){
@@ -102,5 +113,5 @@ main().catch(console.error);
 }
 
 module.exports = {
-  defaultPage,searchResult
+  defaultPage,searchResult,checkforemail
 };

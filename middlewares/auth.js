@@ -21,7 +21,7 @@ async function checkAuth(req, res, next) {
   //if (userUid) {
     const user = getUser(userUid);
     //if (user) {
-      console.log(req.user);
+     // console.log(req.user);
       req.user = user;
     //}
  // }
