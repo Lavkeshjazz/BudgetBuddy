@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
   visitHistory: [{ type: Number }],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "BudgetBuddy-users",
+    ref: "users",
   },
 },
 { timestamps: true }

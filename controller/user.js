@@ -3,11 +3,18 @@ const axios = require("axios");
 // Important: If axios is used with multiple domains, the information will be sent to all of them.
 const cheerio=require("cheerio");
 const nodemailer=require("nodemailer");
+const userSchema=require("../models/user");
 var newPrice;
 async function defaultPage(req,res){
 try{
-  res.render("homepage.ejs")
+  if (!req.user) return res.render("homepage");
+  const xyz=req.user.email;
+  return res.render("homepage", {
+    user: xyz,
+  });
 
+  // console.log('reached here')
+  // res.render("homepage.ejs");
 } catch(error){
   console.log(error);
 }
@@ -86,7 +93,6 @@ async function main() {
   console.log("Message sent: %s", info.messageId);
   // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
 }
-
 main().catch(console.error);
 
 }
