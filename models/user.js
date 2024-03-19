@@ -23,6 +23,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    itemsAdded:[
+      {
+      productURL: {
+        //type: mongoose.Schema.Types.ObjectId,
+        type:String,
+        // unique: true,
+      },
+      expectedPrice: {
+        type:Number,
+      },
+    }
+    ],
   visitHistory: [{ type: Number }],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

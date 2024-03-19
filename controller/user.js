@@ -19,6 +19,18 @@ try{
   console.log(error);
 }
 }
+
+
+//Add product urls in database
+async function addUrlinDatabase(req,res,next){
+  //const{ProductURL,expectedPrice}=req.body;
+  const xyz=req.user.email;
+  const CurrentUser=await User.findOne({email:xyz});
+  console.log(req.body.ProductURL);
+  CurrentUser.itemsAdded.push({productURL:req.body.ProductURL,expectedPrice:req.body.expectedPrice});
+  await CurrentUser.save();
+  next();
+}
 //Forget password email
 async function checkforemail(req,res){
   try{
@@ -113,5 +125,5 @@ main().catch(console.error);
 }
 
 module.exports = {
-  defaultPage,searchResult,checkforemail
+  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,  
 };
