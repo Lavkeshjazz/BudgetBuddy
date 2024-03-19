@@ -8,7 +8,7 @@ const { connectToMongoDB } = require("./connect");
 
 const userRouter = require("./routes/user");
 const userRouterauth = require("./routes/auth");      //Authentican Part
-const {restrictToLoggedinUserOnly, checkAuth} = require("./middlewares/auth");  //Authentican Part
+const {restrictToLoggedinUserOnly, checkAuth}= require("./middlewares/auth");  //Authentican Part
 
 const app = express();
 const port = 3000;
@@ -22,13 +22,31 @@ app.set("views", path.resolve("./views"));
 app.use(express.static("public"));
 app.use(express.urlencoded({extended:false}));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());  
 app.use(cookieParser());              //Authentican Part
 
+//test 1
 
-
-app.use("/", checkAuth,userRouter);               
+//app.use("/", checkAuth,userRouter);         
+//app.use('*', checkUser);
+app.use("/", checkAuth,userRouter);   
 app.use("/search", restrictToLoggedinUserOnly,userRouter);
 app.use("/user", userRouterauth);
+app.use("/forget-password", userRouter);
+// test 2 
+// function restrictToLoggedinUserOnlyFromRoot(req, res, next) {
+//   if (req.path.startsWith("/search") && !req.user) {
+//     return res.redirect("/login"); // Redirect to login if user is not logged in
+//   }
+//   next();
+// }
+
+// Apply route-specific middleware
+// app.use("/", restrictToLoggedinUserOnly, userRouter);
+// app.use("/search",checkAuth,restrictToLoggedinUserOnlyFromRoot, userRouter);
+// app.use("/user", userRouterauth);
+
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });

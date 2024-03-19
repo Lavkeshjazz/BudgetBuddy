@@ -12,7 +12,7 @@ async function handleUserSignup(req,res){
         email,
         password,
     });
-    return res.redirect("/");
+    return res.redirect("/login");
 }
 
 async function handleUserLogin(req,res){
@@ -27,6 +27,7 @@ async function handleUserLogin(req,res){
         res.cookie("uid", token);
         return res.redirect("/");
 }
+
 module.exports={
     handleUserSignup,
     handleUserLogin,
