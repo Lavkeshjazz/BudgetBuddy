@@ -215,4 +215,5 @@ async function forgotPassword(req,res){
 
 module.exports = {
   defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,  
+  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,  
 };
