@@ -1,6 +1,8 @@
 const express = require("express");
 var bodyParser = require('body-parser');
 const axios = require("axios");
+const { defaultPage, searchResult,checkforemail,resetPassword,forgotPassword,renderResetPassword, addUrlinDatabase} = require("../controller/user");
+
 
 const { defaultPage, searchResult,checkforemail,resetPassword,forgotPassword,renderResetPassword, addUrlinDatabase,deleteDatabase} = require("../controller/user");
 const { restrictToSearchRoute, checkAuth, restrictToLoggedinUserOnly} = require("../middlewares/auth");
