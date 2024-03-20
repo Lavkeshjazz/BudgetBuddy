@@ -25,25 +25,14 @@ try{
 
 //Add product urls in database
 async function addUrlinDatabase(req,res,next){
-  //const{ProductURL,expectedPrice}=req.body;
-  const xyz=req.user.email;
-  const CurrentUser=await User.findOne({email:xyz});
-  //console.log(req.body.ProductURL);
-  CurrentUser.itemsAdded.push({productURL:req.body.ProductURL,expectedPrice:req.body.expectedPrice});
-  await CurrentUser.save();
-  next();
-  const result = await User.aggregate([
-    { $unwind: "$itemsAdded" },  // Unwind the itemsAdded array
-    { $group: { _id: "$itemsAdded.productURL" } }, // Group by productURL to get unique values
-    { $project: { _id: 0, productURL: "$_id" } }  // Project only the productURL field
-  ])
-  console.log("Mai yaha hu");
-  console.log(result);
-  items = result;
-  res.render("searchpage",{
-    listTitle:xyz,
-    listItems: items,
-  })
+  const data = {productURL:req.body.ProductURL , expectedPrice : req.body.expectedPrice}
+  await User.updateOne({ email : req.user.email ,'itemsAdded.productURL' :{$ne:data.productURL} },{ $push: {itemsAdded:data}})
+  const user = await  User.findOne({ email : req.user.email})
+  let products = {
+    listTitle:user.email,
+    listItems: user.itemsAdded,
+  }
+  res.render("searchpage",products)
 }
 //Forget password email
 async function checkforemail(req,res){
