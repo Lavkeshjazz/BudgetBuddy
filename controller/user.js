@@ -22,6 +22,27 @@ try{
 }
 }
 
+//Delete database
+async function deleteDatabase(req,res){
+  const URLToDelete = req.body.deleteItemId;
+  try {
+    await User.updateMany({"itemsAdded.productURL": URLToDelete}, {$pull: {itemsAdded: {productURL: URLToDelete}}});
+    console.log("delete hogya mai");
+    const xyz=req.user.email;
+    const result = await User.aggregate([
+      { $unwind: "$itemsAdded" },  // Unwind the itemsAdded array
+      { $group: { _id: "$itemsAdded.productURL" } }, // Group by productURL to get unique values
+      { $project: { _id: 0, productURL: "$_id" } }  // Project only the productURL field
+    ])
+    items = result;
+    res.render("searchpage",{
+      listTitle:xyz,
+      listItems: items,
+    })
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 //Add product urls in database
 async function addUrlinDatabase(req,res,next){
@@ -214,6 +235,5 @@ async function forgotPassword(req,res){
 }
 
 module.exports = {
-  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,  
-  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,  
+  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,deleteDatabase
 };
