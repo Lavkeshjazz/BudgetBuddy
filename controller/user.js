@@ -3,7 +3,7 @@ const axios = require("axios");
 // Important: If axios is used with multiple domains, the information will be sent to all of them.
 const cheerio=require("cheerio");
 const nodemailer=require("nodemailer");
-const userSchema=require("../models/user");
+const User=require("../models/user");
 var newPrice;
 async function defaultPage(req,res){
 try{
@@ -18,6 +18,30 @@ try{
 } catch(error){
   console.log(error);
 }
+}
+
+
+//Add product urls in database
+async function addUrlinDatabase(req,res,next){
+  //const{ProductURL,expectedPrice}=req.body;
+  const xyz=req.user.email;
+  const CurrentUser=await User.findOne({email:xyz});
+  //console.log(req.body.ProductURL);
+  CurrentUser.itemsAdded.push({productURL:req.body.ProductURL,expectedPrice:req.body.expectedPrice});
+  await CurrentUser.save();
+  next();
+  const result = await User.aggregate([
+    { $unwind: "$itemsAdded" },  // Unwind the itemsAdded array
+    { $group: { _id: "$itemsAdded.productURL" } }, // Group by productURL to get unique values
+    { $project: { _id: 0, productURL: "$_id" } }  // Project only the productURL field
+  ])
+  console.log("Mai yaha hu");
+  console.log(result);
+  items = result;
+  res.render("searchpage",{
+    listTitle:xyz,
+    listItems: items,
+  })
 }
 //Forget password email
 async function checkforemail(req,res){
@@ -113,5 +137,5 @@ main().catch(console.error);
 }
 
 module.exports = {
-  defaultPage,searchResult,checkforemail
+  defaultPage,searchResult,checkforemail,addUrlinDatabase,  
 };
