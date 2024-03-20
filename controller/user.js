@@ -4,6 +4,8 @@ const axios = require("axios");
 const cheerio=require("cheerio");
 const nodemailer=require("nodemailer");
 const User=require("../models/user");
+const sendEmail = require('../utils/email')
+const crypto = require('crypto')
 var newPrice;
 async function defaultPage(req,res){
 try{
@@ -48,7 +50,7 @@ async function checkforemail(req,res){
   try{
     const abc=req.body.emailforget;
     console.log(abc);
-    return res.redirect("/");
+    return res.redirect('/forgotPassword')
   }
   catch(error){
     console.log(error);
@@ -59,16 +61,13 @@ async function searchResult(req,res){
   async function fetchPrice(){
     const userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
     const url=req.body.ProductURL;
-    console.log(`I have reached here ${url}`);
+    //console.log(`I have reached here ${url}`);
     const expectedPrice=req.body.expectedPrice;
     const response=await axios.get(url,{
       headers: {
         "User-Agent": userAgent
       }
     });
-    
-    
-    
     const html=response.data;
     const vh=cheerio.load(html);
     //To parse the html response from the url 
@@ -131,11 +130,89 @@ async function main() {
 main().catch(console.error);
 
 }
-  } catch(error){
-    console.log(error);
+} catch(error){
+  console.log(error);
+}
+
+}
+
+/*
+Method to render the reset password webpage when a user clicks 
+on the link on the email
+*/
+let renderResetPassword = (req,res)=>{
+    
+  res.render('resetPassword',{
+      token : req.params.token
+  })
+}
+
+/*
+reset Password method to fire when the user submits a new password using 
+link sent to email , this method stores the new password along with deletion 
+of the resetToken 
+*/
+let resetPassword=async (req,res)=>{
+  try{
+  const token = crypto.createHash('sha256').update(req.params.token).digest('hex')
+  const user = await User.findOne({passwordResetToken:token, passwordResetTokenExpires:{$gt: Date.now()}})
+  if(!user){
+      return res.status(400).json({message:'Token is invalid or expired'})
+  }
+  user.password = req.body.password;
+  user.passwordResetToken = undefined
+  user.passwordResetTokenExpires = undefined
+  user.save()
+  return res.status(200).json('password changed')
+  }catch(err){
+      console.log(err.message+"and stack is /n"+err.stack)
+  }
+}
+
+/*
+  Method to fire when user request for a forgot password 
+  This function creates a reset token to be stored in db 
+  create a reset password url 
+  send that url to user using nodemailer 
+*/
+async function forgotPassword(req,res){
+  const user = await User.findOne({email : req.body.email})
+  console.log(req.body.email);
+  if(!user){
+     return res.status(400).json({message:"Cannot find user with that email"});
+  }
+  const resetToken = user.createToken();
+  await user.save();
+  const resetUrl = `${req.protocol}://${req.get('host')}/user/resetPassword/${resetToken}`
+  const message = `We have received a password reset request. Please use the below link to reset your password\n\n${resetUrl}`;
+  let mail = {
+      type : 'Password Reset Email',
+      body :{
+          from : 'zen.jaiswal34@gmail.com',
+          to : user.email,
+          subject : 'Password Reset ',
+          text : message
+      }
+  }
+  try{
+       sendEmail(mail);
+      res.status(200).json({
+          status: 'success',
+          message: 'password reset link sent to email'
+      })
+  }catch(err){
+      user.passwordResetToken = undefined
+      user.passwordResetTokenExpires = undefined
+      user.save()
+      console.log(err.message)
+      res.status(400)
+      res.json({
+          status: 'error',
+          message: 'Could not send email'
+      })
   }
 }
 
 module.exports = {
-  defaultPage,searchResult,checkforemail,addUrlinDatabase,  
+  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,  
 };

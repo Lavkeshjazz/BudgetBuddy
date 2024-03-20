@@ -32,8 +32,7 @@ app.use(cookieParser());              //Authentican Part
 app.use("/", checkAuth,userRouter);   
 app.use("/search", restrictToLoggedinUserOnly,userRouter);
 app.use("/user", userRouterauth);
-app.use("/user/forget-password", userRouter);
-
+app.use("/forget-password", userRouter);
 // test 2 
 // function restrictToLoggedinUserOnlyFromRoot(req, res, next) {
 //   if (req.path.startsWith("/search") && !req.user) {

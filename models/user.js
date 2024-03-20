@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-
+const crypto = require('crypto')
+const bcrypt = require('bcrypt')
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -40,10 +41,23 @@ const userSchema = new mongoose.Schema(
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
   },
+  passwordResetToken : {
+    type : String,
+},
+passwordResetTokenExpires : {
+    type : Date
+}
 },
 { timestamps: true }
 );
 
+userSchema.methods.createToken =    function(){ 
+const resetToken = crypto.randomBytes(32).toString('hex'); 
+this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+this.passwordResetTokenExpires = Date.now()+ 10*60*1000;
+console.log(resetToken,this.passwordResetToken);
+return resetToken;
+}
 const User = mongoose.model("BudgetBuddy-users", userSchema);
 
 module.exports = User;

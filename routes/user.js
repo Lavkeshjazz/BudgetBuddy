@@ -30,5 +30,4 @@ router.get("/login", (req,res)=>{
 router.get("/forget-password",(req,res)=>{
    return res.render("forget.ejs");
 })
-
 module.exports = router;
