@@ -56,6 +56,37 @@ async function addUrlinDatabase(req,res,next){
   }
   res.render("searchpage",products)
 }
+
+//Add new producturls and expectedprice in existing database using plus button
+async function add_new_data_in_existing_database(req,res,next){
+  const item1 = req.body.newProductURL;
+  const item2 = req.body.newexpectedPrice;
+  const xyz=req.user.email;
+  try {
+    // await User.updateOne(
+    //   { _id: ObjectId(req.user._id) },
+    //   { $push: { itemsAdded: { productURL: item1, expectedPrice: item2 } } }
+    // )
+    const CurrentUser=await User.findOne({email:xyz});
+    CurrentUser.itemsAdded.push({productURL:item1,expectedPrice:item2});
+    await CurrentUser.save();
+    console.log("Add hogya mai");
+   // const xyz=req.user.email;
+    const result = await User.aggregate([
+      { $unwind: "$itemsAdded" },  // Unwind the itemsAdded array
+      { $group: { _id: "$itemsAdded.productURL" } }, // Group by productURL to get unique values
+      { $project: { _id: 0, productURL: "$_id" } }  // Project only the productURL field
+    ])
+    // items = result;
+    res.render("searchpage",{
+      listTitle:xyz,
+      listItems: result,
+    })
+  } catch (err) {
+    console.log(err);
+  }
+
+}
 //Forget password email
 async function checkforemail(req,res){
   try{
@@ -225,5 +256,5 @@ async function forgotPassword(req,res){
 }
 
 module.exports = {
-  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,deleteDatabase
+  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database
 };
