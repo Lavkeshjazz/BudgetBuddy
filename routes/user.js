@@ -12,12 +12,10 @@ router.get("/", defaultPage);
 router.post("/search", restrictToLoggedinUserOnly,addUrlinDatabase,searchResult);
 router.post("/delete", deleteDatabase);
 
-// router.get("/delete",(req,res)=>{
-//     return res.render("searchpage");
-// })
 router.get("/search",(req,res)=>{
     return res.render("searchpage");
 })
+
 //Authentication Part   
 router.get("/signup", (req,res)=>{
     return res.render("signup");

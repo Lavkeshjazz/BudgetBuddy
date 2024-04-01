@@ -1,7 +1,6 @@
 //Hello
 const express = require("express");
 const path = require("path");
-const axios = require("axios");
 var bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');    //Authentican Part
 const { connectToMongoDB } = require("./connect");
@@ -25,26 +24,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());  
 app.use(cookieParser());              //Authentican Part
 
-//test 1
-
-//app.use("/", checkAuth,userRouter);         
-//app.use('*', checkUser);
 app.use("/", checkAuth,userRouter);   
 app.use("/search", restrictToLoggedinUserOnly,userRouter);
 app.use("/user", userRouterauth);
 app.use("/forget-password", userRouter);
-// test 2 
-// function restrictToLoggedinUserOnlyFromRoot(req, res, next) {
-//   if (req.path.startsWith("/search") && !req.user) {
-//     return res.redirect("/login"); // Redirect to login if user is not logged in
-//   }
-//   next();
-// }
 
-// Apply route-specific middleware
-// app.use("/", restrictToLoggedinUserOnly, userRouter);
-// app.use("/search",checkAuth,restrictToLoggedinUserOnlyFromRoot, userRouter);
-// app.use("/user", userRouterauth);
 
 
 app.listen(port, () => {
