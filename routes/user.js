@@ -34,4 +34,20 @@ router.get("/login", (req,res)=>{
 router.get("/forget-password",(req,res)=>{
    return res.render("forget.ejs");
 })
+
+router.get("/mail",(req,res)=>{
+    return res.render("verifyemail");
+})
+router.get("/verify",(req,res)=>{
+    console.log("hello i m verify from user");
+    return res.render("forget.ejs")
+})
+
+
+const { mailT, verify } = require("../controller/trader"); // Import the functions from the trader controller
+
+router.post("/mail2", mailT); // Route to handle mail POST requests
+router.post("/verify2", verify); // Route to handle verify POST requests
+
+``
 module.exports = router;

@@ -4,15 +4,27 @@ const {setUser} = require("../service/auth");
 
 
 async function handleUserSignup(req,res){
-    const { firstName,lastName,phone_number,email,password} = req.body;
+    const { firstName,lastName,phone_number,email,password,userType } = req.body;
     await User.create({
         firstName,
         lastName,
         phone_number,
         email,
         password,
+        userType 
     });
-    return res.redirect("/login");
+    console.log("user type:",userType);
+
+    if(userType =='user')
+    {
+        console.log("mai yaha hu")
+        return res.redirect("/login");
+    }
+    if(userType =='trader') {
+        // Render a message asking the user to verify their email
+        console.log("herer")
+        return res.redirect("/mail");
+    }
 }
 
 async function handleUserLogin(req,res){
@@ -27,6 +39,7 @@ async function handleUserLogin(req,res){
         res.cookie("uid", token);
         return res.redirect("/");
 }
+
 module.exports={
     handleUserSignup,
     handleUserLogin,
