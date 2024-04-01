@@ -13,16 +13,21 @@ const userSchema = new mongoose.Schema(
     phone_number: {
         type: String,
         required: true,
-        unique: true,
+        
     },
     email: {
       type: String,
       required: true,
-      unique: true,
+      
     },
     password: {
       type: String,
       required: true,
+    },
+    userType: { // Add userType field to the schema
+      type: String,
+      required: true,
+       // Specify the allowed values
     },
     itemsAdded:[
       {
