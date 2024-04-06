@@ -4,6 +4,7 @@ const axios = require("axios");
 const cheerio=require("cheerio");
 const nodemailer=require("nodemailer");
 const User=require("../models/user");
+const Product = require('../models/product')
 const sendEmail = require('../utils/email')
 const crypto = require('crypto');
 const ProductFactory = require('../service/productFactory');
@@ -108,12 +109,13 @@ async function searchResult(req,res){
       console.log(imageUrl);
       console.log(productName);
       console.log(newPrice);
-      console.log(req.user);
       let product = {
         name : productName,
-        url :  url,
-        imageUrl : imageUrl
+        url :  url, 
+        imageUrl : imageUrl,
+        price : newPrice
     }  
+      await Product.findOneAndUpdate({ url },product , {upsert : true})
       if(expectedPrice>newPrice){
         await sendmail();
       }
@@ -124,13 +126,9 @@ async function searchResult(req,res){
     res.render("result.ejs",{
       currprice:newPrice
     })
-    var bodyParser = require('body-parser');
 const axios=require("axios").default;
 
-
-
 //we didn't call the function that is why code didn't execute 
-
 
 async function sendmail(){
     const nodemailer = require("nodemailer");
