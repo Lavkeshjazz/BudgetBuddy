@@ -39,7 +39,11 @@
       <% } %>
 
         <form class="item" action="/add" method="post">
-          <input type="text" name="newItem" placeholder="New Item" autocomplete="off" autofocus="true" />
+          <label>Product URL</label>
+          <input type="text" required name="newProductURL" />
+          <label>Expected Price</label>
+          <input type="text" required name="newexpectedPrice" />
+          <!-- <input type="text" name="newItem" placeholder="New Item" autocomplete="off" autofocus="true" /> -->
           <button class="add" type="submit" name="list" value=<%=listTitle %> >+</button>
         </form>
   </div>
@@ -49,13 +53,6 @@
       <button type="logout">Logout</button>
       </form>
   <% } %>
-  <form action="/search" method="post">
-    <label>Product URL</label>
-    <input type="text" required name="ProductURL" />
-    <label>Expected Price</label>
-    <input type="text" required name="expectedPrice" />
-    <button type="search">Search</button>
-  </form>
   <script>
     function handler(id) {
       document.getElementById("title" + id).setAttribute("hidden", true)
