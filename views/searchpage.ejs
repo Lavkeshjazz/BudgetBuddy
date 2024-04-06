@@ -26,7 +26,18 @@
 
         <p id="title<%=item.id%>">
           <%= item.productURL %>
+          <br>
+          <br>
+          Expected Price is : <%= item.expectedPrice %>
+          <br>
+          Current Price of Product is : <%= item.currprice %>
         </p>
+
+        <!-- Adding Detail/Arrow button -->
+        <form action="/details" method="post">
+          <input type="checkbox" onchange="this.form.submit()" name="DetailList" value="<%= item.productURL,item.expectedPrice %>">
+          <!-- <button class="details" type="enter" name="DetailList" value="<%= item.productURL %>" >-></button> -->
+        </form>
 
         <form class="edit" action="/edit" method="post">
           <input type="hidden" name="updatedItemId" value="<%= item.productURL %>">

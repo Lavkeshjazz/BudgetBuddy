@@ -23,10 +23,32 @@ try{
   console.log(error);
 }
 }
+//Detailed Page
+async function open_detailed_page(req,res){
+  const detail1=req.body.DetailList;
+  console.log("Details yaha hai");
+  try {
+    // await User.updateOne(
+    //   { _id: ObjectId(req.user._id) },
+    //   { $push: { itemsAdded: { productURL: item1, expectedPrice: item2 } } }
+    // )
+    const CurrentProduct=await User.findOne({'itemsAdded.productURL': detail1 },{ 'itemsAdded.$': 1 });
+    console.log("Find hogya mai");
+    const detail2=CurrentProduct.itemsAdded[0].expectedPrice;
+  res.render("details",{
+    ProductURL:detail1,
+    expectedPrice:detail2
+  })
+}catch (err) {
+  console.log(err);
+}
+}
 
 //Delete database
 async function deleteDatabase(req,res){
   const URLToDelete = req.body.deleteItemId;
+  console.log("delete delete");
+    console.log(URLToDelete);
   try {
     await User.updateMany({"itemsAdded.productURL": URLToDelete}, {$pull: {itemsAdded: {productURL: URLToDelete}}});
     console.log("delete hogya mai");
@@ -192,8 +214,8 @@ async function main() {
 main().catch(console.error);
 
 }
-} catch(error){
-  console.log(error);
+} catch (error) {
+  console.error(error.response.data);     // NOTE - use "error.response.data` (not "error")
 }
 
 }
@@ -276,5 +298,5 @@ async function forgotPassword(req,res){
 }
 
 module.exports = {
-  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database
+  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database,open_detailed_page
 };
