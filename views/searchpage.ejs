@@ -23,11 +23,14 @@
         <form action="/delete" method="post">
           <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= listItems[i].productURL %>">
         </form>
-
+        <div class="img">
+          <img class="images" src=<%= listImage[i].imageUrl %> alt="Description of the image">
+        </div>
         <p id="title<%=listItems[i].id%>">
           <%= listItems[i].productURL %>
           <br>
           <br>
+          Name of the product : <%= listName[i].name %>
           Expected Price is : <%= listItems[i].expectedPrice %>
           <br>
           Current Price of Product is : <%= listprice[i].price %>
@@ -37,14 +40,6 @@
         <form action="/details" method="post">
           <input type="checkbox" onchange="this.form.submit()" name="DetailList" value="<%=listItems[i].productURL,listItems[i].expectedPrice %>">
           <!-- <button class="details" type="enter" name="DetailList" value="<%= listItems[i].productURL %>" >-></button> -->
-        </form>
-
-        <form class="edit" action="/edit" method="post">
-          <input type="hidden" name="updatedItemId" value="<%= listItems[i].productURL %>">
-          <input id="input<%=listItems[i].productURL%>" type="text" name="updatedItemTitle" value="<%= listItems[i].title %>" autocomplete="off"
-            autofocus="true" hidden="true" />
-          <button id="done<%=listItems[i].id%>" class="edit" type="submit" hidden><img class="icon"
-              src="/assets/icons/check-solid.svg" alt="tick image"></button>
         </form>
       </div>
       <% } %>
