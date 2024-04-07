@@ -33,13 +33,14 @@ async function open_detailed_page(req,res){
     //   { $push: { itemsAdded: { productURL: item1, expectedPrice: item2 } } }
     // )
     const CurrentProduct=await User.findOne({'itemsAdded.productURL': detail1 },{ 'itemsAdded.$': 1 });
-    const checkPrice=await Product.findOne({url:detail1});
+    const checkDetails=await Product.findOne({url:detail1});
     console.log("Find hogya mai");
     const detail2=CurrentProduct.itemsAdded[0].expectedPrice;
   res.render("details",{
     ProductURL:detail1,
     expectedPrice:detail2,
-    currentPrice:checkPrice.price
+    currentPrice:checkDetails.price,
+    imageUrl:checkDetails.imageUrl
   })
 }catch (err) {
   console.log(err);
@@ -58,10 +59,14 @@ async function deleteDatabase(req,res){
     const xyz=req.user.email;
     const checkPrice=await Product.find({},{price:1,_id:0})
     const result = await  User.findOne({ email : req.user.email})
+    const checkImage=await Product.find({},{imageUrl:1,_id:0})
+    const checkName=await Product.find({},{name:1,_id:0})
     let products ={
       listTitle:xyz,
       listItems: result.itemsAdded,
-      listprice: checkPrice
+      listprice: checkPrice,
+      listImage: checkImage,
+      listName:checkName
     }
     res.render("searchpage",products)
 
@@ -78,12 +83,16 @@ async function addUrlinDatabase(req,res){
   await User.updateOne({ email : req.user.email ,'itemsAdded.productURL' :{$ne:data.productURL} },{ $push: {itemsAdded:data}})  //Uniquely adds url in database
   const user = await  User.findOne({ email : req.user.email})
   const checkPrice=await Product.find({},{price:1,_id:0})
+  const checkImage=await Product.find({},{imageUrl:1,_id:0})
+  const checkName=await Product.find({},{name:1,_id:0})
   
 
   let products = {
     listTitle:user.email,
     listItems: user.itemsAdded,
-    listprice: checkPrice
+    listprice: checkPrice,
+    listImage: checkImage, 
+    listName:checkName
   }
   console.log("lisitems");
   console.log(user.itemsAdded);
@@ -108,10 +117,14 @@ async function add_new_data_in_existing_database(req,res,next){
     const checkPrice=await Product.find({},{price:1,_id:0})
    // const xyz=req.user.email;
    const result = await  User.findOne({ email : req.user.email})
+   const checkImage=await Product.find({},{imageUrl:1,_id:0})
+   const checkName=await Product.find({},{name:1,_id:0})
   let products ={
     listTitle:xyz,
     listItems: result.itemsAdded,
-    listprice: checkPrice
+    listprice: checkPrice,
+    listImage: checkImage,
+    listName:checkName
   }
   res.render("searchpage",products)
   } catch (err) {
@@ -157,6 +170,7 @@ async function fetchPrice(url,expectedPrice){
   //To parse the html response from the url 
     let priceElementText= vh(attributes.price).text();
     let productName = vh(attributes.name).text().trim();
+    console.log(productName);
     let imageUrl = vh(attributes.image).attr().src;
     //the method returns the array of elements belonging to the same class in the 
     //html document so split it using the . operator and return the first value
