@@ -1,5 +1,5 @@
 const { response } = require('express');
-const axios = require("axios");
+const axios=require("axios").default;
 // Important: If axios is used with multiple domains, the information will be sent to all of them.
 const cheerio=require("cheerio");
 const nodemailer=require("nodemailer");
@@ -23,68 +23,97 @@ try{
   console.log(error);
 }
 }
+//Detailed Page
+async function open_detailed_page(req,res){
+  const detail1=req.body.DetailList;
+  console.log("Details yaha hai");
+  try {
+    // await User.updateOne(
+    //   { _id: ObjectId(req.user._id) },
+    //   { $push: { itemsAdded: { productURL: item1, expectedPrice: item2 } } }
+    // )
+    const CurrentProduct=await User.findOne({'itemsAdded.productURL': detail1 },{ 'itemsAdded.$': 1 });
+    const checkPrice=await Product.findOne({url:detail1});
+    console.log("Find hogya mai");
+    const detail2=CurrentProduct.itemsAdded[0].expectedPrice;
+  res.render("details",{
+    ProductURL:detail1,
+    expectedPrice:detail2,
+    currentPrice:checkPrice.price
+  })
+}catch (err) {
+  console.log(err);
+}
+}
 
 //Delete database
 async function deleteDatabase(req,res){
   const URLToDelete = req.body.deleteItemId;
+  console.log("delete delete");
+    console.log(URLToDelete);
   try {
     await User.updateMany({"itemsAdded.productURL": URLToDelete}, {$pull: {itemsAdded: {productURL: URLToDelete}}});
+    await Product.deleteOne({url: URLToDelete});
     console.log("delete hogya mai");
     const xyz=req.user.email;
-    const result = await User.aggregate([
-      { $unwind: "$itemsAdded" },  // Unwind the itemsAdded array
-      { $group: { _id: "$itemsAdded.productURL" } }, // Group by productURL to get unique values
-      { $project: { _id: 0, productURL: "$_id" } }  // Project only the productURL field
-    ])
-    items = result;
-    res.render("searchpage",{
+    const checkPrice=await Product.find({},{price:1,_id:0})
+    const result = await  User.findOne({ email : req.user.email})
+    let products ={
       listTitle:xyz,
-      listItems: items,
-    })
+      listItems: result.itemsAdded,
+      listprice: checkPrice
+    }
+    res.render("searchpage",products)
+
   } catch (err) {
     console.log(err);
   }
 }
 
 //Add product urls in database
-async function addUrlinDatabase(req,res,next){
-  
+
+async function addUrlinDatabase(req,res){
   const data = {productURL:req.body.ProductURL , expectedPrice : req.body.expectedPrice}
-  await User.updateOne({ email : req.user.email ,'itemsAdded.productURL' :{$ne:data.productURL} },{ $push: {itemsAdded:data}})
+  await fetchPrice(data.productURL,data.expectedPrice);
+  await User.updateOne({ email : req.user.email ,'itemsAdded.productURL' :{$ne:data.productURL} },{ $push: {itemsAdded:data}})  //Uniquely adds url in database
   const user = await  User.findOne({ email : req.user.email})
+  const checkPrice=await Product.find({},{price:1,_id:0})
+  
+
   let products = {
     listTitle:user.email,
     listItems: user.itemsAdded,
+    listprice: checkPrice
   }
+  console.log("lisitems");
+  console.log(user.itemsAdded);
+  
   res.render("searchpage",products)
-  next();
 }
 
 //Add new producturls and expectedprice in existing database using plus button
 async function add_new_data_in_existing_database(req,res,next){
-  const item1 = req.body.newProductURL;
-  const item2 = req.body.newexpectedPrice;
   const xyz=req.user.email;
   try {
     // await User.updateOne(
     //   { _id: ObjectId(req.user._id) },
     //   { $push: { itemsAdded: { productURL: item1, expectedPrice: item2 } } }
     // )
-    const CurrentUser=await User.findOne({email:xyz});
-    CurrentUser.itemsAdded.push({productURL:item1,expectedPrice:item2});
-    await CurrentUser.save();
+    const data = {productURL:req.body.newProductURL , expectedPrice : req.body.newexpectedPrice}
+    await fetchPrice(data.productURL,data.expectedPrice);
+    // CurrentUser.itemsAdded.push({productURL:item1,expectedPrice:item2});
+    // await CurrentUser.save();
+    await User.updateOne({ email : req.user.email ,'itemsAdded.productURL' :{$ne:data.productURL} },{ $push: {itemsAdded:data}})
     console.log("Add hogya mai");
+    const checkPrice=await Product.find({},{price:1,_id:0})
    // const xyz=req.user.email;
-    const result = await User.aggregate([
-      { $unwind: "$itemsAdded" },  // Unwind the itemsAdded array
-      { $group: { _id: "$itemsAdded.productURL" } }, // Group by productURL to get unique values
-      { $project: { _id: 0, productURL: "$_id" } }  // Project only the productURL field
-    ])
-    // items = result;
-    res.render("searchpage",{
-      listTitle:xyz,
-      listItems: result,
-    })
+   const result = await  User.findOne({ email : req.user.email})
+  let products ={
+    listTitle:xyz,
+    listItems: result.itemsAdded,
+    listprice: checkPrice
+  }
+  res.render("searchpage",products)
   } catch (err) {
     console.log(err);
   }
@@ -102,99 +131,102 @@ async function checkforemail(req,res){
   }
 }
 
-async function searchResult(req,res){
-  async function fetchPrice(){
-    const userAgent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
-    const url=req.body.ProductURL;
-    //console.log(`I have reached here ${url}`);
-    const expectedPrice=req.body.expectedPrice;
-    console.log(url)
-    const response=await axios.get(url,{
-      headers: {
-        "User-Agent": userAgent,
-        "Sec-Ch-Ua-Full-Version-List":"\"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"120.0.6099.71\", \"Microsoft Edge\";v=\"120.0.2210.61\"",
-        "Sec-Ch-Ua-Mobile": "?0",
-        "Sec-Ch-Ua-Model": '""',
-        "Sec-Ch-Ua-Platform": '"Linux"',
-        "Sec-Ch-Ua-Platform-Version": '"6.5.0"',
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Site": "none",
-        "Sec-Fetch-User": "?1"
-      }
-    });
-    const html=response.data;
-    const vh=cheerio.load(html);
-    let attributes = ProductFactory.getProductTags(url)
-    //To parse the html response from the url 
-      let priceElementText= vh(attributes.price).text();
-      let productName = vh(attributes.name).text().trim();
-      let imageUrl = vh(attributes.image).attr().src;
-      //the method returns the array of elements belonging to the same class in the 
-      //html document so split it using the . operator and return the first value
-      // let price =    priceElementText.split('.');
-      priceElementText=priceElementText.split('.');
-      // priceElementText=priceElementText.replace(", ", "");
-      newPrice= priceElementText[0];
-      newPrice = parseFloat(newPrice.replace(/\D/g,""));
-      console.log(imageUrl);
-      console.log(productName);
-      console.log(newPrice);
-      let product = {
-        name : productName,
-        url :  url, 
-        imageUrl : imageUrl,
-        price : newPrice
-    }  
-      await Product.findOneAndUpdate({ url },product , {upsert : true})
-      if(expectedPrice>newPrice){
-        await sendmail();
-      }
+async function fetchPrice(url,expectedPrice){
+  const userAgent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
+  
+  //console.log(`I have reached here ${url}`);
+ 
+  console.log(url)
+  const response=await axios.get(url,{
+    headers: {
+      "User-Agent": userAgent,
+      "Sec-Ch-Ua-Full-Version-List":"\"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"120.0.6099.71\", \"Microsoft Edge\";v=\"120.0.2210.61\"",
+      "Sec-Ch-Ua-Mobile": "?0",
+      "Sec-Ch-Ua-Model": '""',
+      "Sec-Ch-Ua-Platform": '"Linux"',
+      "Sec-Ch-Ua-Platform-Version": '"6.5.0"',
+      "Sec-Fetch-Dest": "document",
+      "Sec-Fetch-Mode": "navigate",
+      "Sec-Fetch-Site": "none",
+      "Sec-Fetch-User": "?1"
     }
-      
-    try{
-    await fetchPrice()
-    res.render("result.ejs",{
-      currprice:newPrice
-    })
-const axios=require("axios").default;
+  });
+  const html=response.data;
+  const vh=cheerio.load(html);
+  let attributes = ProductFactory.getProductTags(url)
+  //To parse the html response from the url 
+    let priceElementText= vh(attributes.price).text();
+    let productName = vh(attributes.name).text().trim();
+    let imageUrl = vh(attributes.image).attr().src;
+    //the method returns the array of elements belonging to the same class in the 
+    //html document so split it using the . operator and return the first value
+    // let price =    priceElementText.split('.');
+    priceElementText=priceElementText.split('.');
+    // priceElementText=priceElementText.replace(", ", "");
+    newPrice= priceElementText[0];
+    newPrice = parseFloat(newPrice.replace(/\D/g,""));
+    console.log(imageUrl);
+    console.log(productName);
+    console.log(newPrice);
+    let product = {
+      name : productName,
+      url :  url, 
+      imageUrl : imageUrl,
+      price : newPrice
+  }  
+    await Product.findOneAndUpdate({ url },product , {upsert : true})
+    if(expectedPrice>newPrice){
+      await sendmail();
+    }
 
-//we didn't call the function that is why code didn't execute 
+    return newPrice;
+  }
+
+// async function searchResult(req,res){
+//     try{
+//       const url=req.body.ProductURL;
+//       const expectedPrice=req.body.expectedPrice;
+//       addUrlinDatabase(url,expectedPrice);
+
+
+// //we didn't call the function that is why code didn't execute 
+
+// } catch (error) {
+//   console.error(error);     // NOTE - use "error.response.data` (not "error")
+// }
+
+// }
+
 
 async function sendmail(){
-    const nodemailer = require("nodemailer");
-    const user = "zen.jaiswal34@gmail.com";
-    const pass="ejbtxdljmgevlkmw"
+  const nodemailer = require("nodemailer");
+  const user = "zen.jaiswal34@gmail.com";
+  const pass="ejbtxdljmgevlkmw"
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // Use `true` for port 465, `false` for all other ports
-  auth: {
-    user,
-    pass
-  },
+host: "smtp.gmail.com",
+port: 587,
+secure: false, // Use `true` for port 465, `false` for all other ports
+auth: {
+  user,
+  pass
+},
 });
 
 // async..await is not allowed in global scope, must use a wrapper
 async function main() {
-  // send mail with defined transport object
-  const info = await transporter.sendMail({
-    from: `"Lavkesh" <${user}>`, // sender address
-    to: "lavkesh.jaiswal34@gmail.com, btech10237.22@bitmesra.ac.in", // list of receivers
-    subject: "Price fell down ✔", // Subject line
-    text: `The price of ${url} fell down, check it out!!!`, // plain text body
-  });
+// send mail with defined transport object
+const info = await transporter.sendMail({
+  from: `"Lavkesh" <${user}>`, // sender address
+  to: "lavkesh.jaiswal34@gmail.com, btech10237.22@bitmesra.ac.in", // list of receivers
+  subject: "Price fell down ✔", // Subject line
+  text: `The price of ${url} fell down, check it out!!!`, // plain text body
+});
 
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+console.log("Message sent: %s", info.messageId);
+// Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
 }
 main().catch(console.error);
-
-}
-} catch(error){
-  console.log(error);
-}
 
 }
 
@@ -276,5 +308,5 @@ async function forgotPassword(req,res){
 }
 
 module.exports = {
-  defaultPage,searchResult,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database
+  defaultPage,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database,open_detailed_page
 };

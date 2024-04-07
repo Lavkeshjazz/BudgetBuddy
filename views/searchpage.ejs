@@ -18,21 +18,32 @@
     </h1>
   </div>
   <div class="box">
-    <% for(let item of listItems){%>
+    <% for(let i = 0; i < listItems.length; i++){ %>
       <div class="item">
         <form action="/delete" method="post">
-          <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= item.productURL %>">
+          <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= listItems[i].productURL %>">
         </form>
 
-        <p id="title<%=item.id%>">
-          <%= item.productURL %>
+        <p id="title<%=listItems[i].id%>">
+          <%= listItems[i].productURL %>
+          <br>
+          <br>
+          Expected Price is : <%= listItems[i].expectedPrice %>
+          <br>
+          Current Price of Product is : <%= listprice[i].price %>
         </p>
 
+        <!-- Adding Detail/Arrow button -->
+        <form action="/details" method="post">
+          <input type="checkbox" onchange="this.form.submit()" name="DetailList" value="<%=listItems[i].productURL,listItems[i].expectedPrice %>">
+          <!-- <button class="details" type="enter" name="DetailList" value="<%= listItems[i].productURL %>" >-></button> -->
+        </form>
+
         <form class="edit" action="/edit" method="post">
-          <input type="hidden" name="updatedItemId" value="<%= item.productURL %>">
-          <input id="input<%=item.productURL%>" type="text" name="updatedItemTitle" value="<%= item.title %>" autocomplete="off"
+          <input type="hidden" name="updatedItemId" value="<%= listItems[i].productURL %>">
+          <input id="input<%=listItems[i].productURL%>" type="text" name="updatedItemTitle" value="<%= listItems[i].title %>" autocomplete="off"
             autofocus="true" hidden="true" />
-          <button id="done<%=item.id%>" class="edit" type="submit" hidden><img class="icon"
+          <button id="done<%=listItems[i].id%>" class="edit" type="submit" hidden><img class="icon"
               src="/assets/icons/check-solid.svg" alt="tick image"></button>
         </form>
       </div>
