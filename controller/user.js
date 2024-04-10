@@ -145,39 +145,36 @@ async function checkforemail(req,res){
 }
 
 
-async function searchResult(req,res){
-  async function fetchPrice(){
-    const userAgent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
-    const url=req.body.ProductURL;
-    //console.log(`I have reached here ${url}`);
-    const expectedPrice=req.body.expectedPrice;
-    console.log(url)
-    const response=await axios.get(url,{
-      headers: {
-        "User-Agent": userAgent,
-        "Sec-Ch-Ua-Full-Version-List":"\"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"120.0.6099.71\", \"Microsoft Edge\";v=\"120.0.2210.61\"",
-        "Sec-Ch-Ua-Mobile": "?0",
-        "Sec-Ch-Ua-Model": '""',
-        "Sec-Ch-Ua-Platform": '"Linux"',
-        "Sec-Ch-Ua-Platform-Version": '"6.5.0"',
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Site": "none",
-        "Sec-Fetch-User": "?1"
-      }
-    });
-      const html=response.data;
+async function fetchPrice(url,expectedPrice){
+  const userAgent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
+  
+  //console.log(`I have reached here ${url}`);
+ 
+  console.log(url)
+  const response=await axios.get(url,{
+    headers: {
+      "User-Agent": userAgent,
+      "Sec-Ch-Ua-Full-Version-List":"\"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"120.0.6099.71\", \"Microsoft Edge\";v=\"120.0.2210.61\"",
+      "Sec-Ch-Ua-Mobile": "?0",
+      "Sec-Ch-Ua-Model": '""',
+      "Sec-Ch-Ua-Platform": '"Linux"',
+      "Sec-Ch-Ua-Platform-Version": '"6.5.0"',
+      "Sec-Fetch-Dest": "document",
+      "Sec-Fetch-Mode": "navigate",
+      "Sec-Fetch-Site": "none",
+      "Sec-Fetch-User": "?1"
+    }
+  });
+  const html=response.data;
       const parsedhtml=cheerio.load(html); //html parsing through cheerio
       let product = ProductFactory.getProduct(url,parsedhtml) //Factory for getting product items
       product.url = url;//adding url to product object 
       console.log(product)
       //Adding the product to product collection
-      await Product.findOneAndUpdate({ url },product , {upsert : true})
-      if(expectedPrice>newPrice){
-        await sendmail();
+    await Product.findOneAndUpdate({ url },product , {upsert : true})
+    if(expectedPrice>newPrice){
+      await sendmail();
       }
-    }
-
     return newPrice;
   }
 
