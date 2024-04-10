@@ -22,7 +22,7 @@ async function handleUserSignup(req,res){
     }
     if(userType =='trader') {
         // Render a message asking the user to verify their email
-        console.log("herer")
+      
         return res.redirect("/mail");
     }
 }

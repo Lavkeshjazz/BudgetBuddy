@@ -45,7 +45,7 @@ async function deleteDatabase(req,res){
 }
 
 //Add product urls in database
-async function addUrlinDatabase(req,res,next){
+async function addUrlinDatabase(req,res){
   
   const data = {productURL:req.body.ProductURL , expectedPrice : req.body.expectedPrice}
   await User.updateOne({ email : req.user.email ,'itemsAdded.productURL' :{$ne:data.productURL} },{ $push: {itemsAdded:data}})
@@ -103,7 +103,7 @@ async function searchResult(req,res){
   async function fetchPrice(){
     const userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
     const url=req.body.ProductURL;
-    //console.log(`I have reached here ${url}`);
+    console.log(`I have reached here ${url}`);
     const expectedPrice=req.body.expectedPrice;
     const response=await axios.get(url,{
       headers: {
