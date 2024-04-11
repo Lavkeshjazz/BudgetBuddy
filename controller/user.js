@@ -16,29 +16,19 @@ try{
   return res.render("homepage", {
     user: xyz,
   });
-
-  // console.log('reached here')
-  // res.render("homepage.ejs");
 } catch(error){
   console.log(error);
 }
 }
+
 //Detailed Page
 async function open_detailed_page(req,res){
   const detail1=req.body.DetailList;
-  console.log("Details yaha hai");
   try {
-    // await User.updateOne(
-    //   { _id: ObjectId(req.user._id) },
-    //   { $push: { itemsAdded: { productURL: item1, expectedPrice: item2 } } }
-    // )
     const CurrentProduct=await User.findOne({'itemsAdded.productURL': detail1 },{ 'itemsAdded.$': 1 });
     const checkDetails=await Product.findOne({url:detail1});
-    console.log("Find hogya mai");
-    const detail2=CurrentProduct.itemsAdded[0].expectedPrice;
   res.render("details",{
     ProductURL:detail1,
-    expectedPrice:detail2,
     currentPrice:checkDetails.price,
     imageUrl:checkDetails.imageUrl
   })
@@ -50,23 +40,44 @@ async function open_detailed_page(req,res){
 //Delete database
 async function deleteDatabase(req,res){
   const URLToDelete = req.body.deleteItemId;
-  console.log("delete delete");
-    console.log(URLToDelete);
-  try {
+  const xyz=req.user.email;
+  var checker=false;
+  const resulttttttt = await  User.findOne({ email : req.user.email})
+  if(resulttttttt.userType=='user'){
     await User.updateMany({"itemsAdded.productURL": URLToDelete}, {$pull: {itemsAdded: {productURL: URLToDelete}}});
-    await Product.deleteOne({url: URLToDelete});
-    console.log("delete hogya mai");
-    const xyz=req.user.email;
-    const checkPrice=await Product.find({},{price:1,_id:0})
-    const result = await  User.findOne({ email : req.user.email})
-    const checkImage=await Product.find({},{imageUrl:1,_id:0})
-    const checkName=await Product.find({},{name:1,_id:0})
+  }
+  if(resulttttttt.userType=='trader'){
+    for(const index in resulttttttt.itemsAdded){ 
+      if(URLToDelete==resulttttttt.itemsAdded[index].productURL){
+        checker=true;
+      }
+    }
+    if(checker==true){
+      await User.updateMany({"itemsAdded.productURL": URLToDelete}, {$pull: {itemsAdded: {productURL: URLToDelete}}});
+    }
+    else{
+      console.log("Not Your Product");
+    }
+  }
+ 
+  const result = await  User.findOne({ email : req.user.email})
+    let listYourProduct=[];
+  let listAllProduct=[];
+  let flag=false;
+  try {
+    if(result.userType=='user'){
+      listYourProduct=await yourproductlisting(result.itemsAdded);
+    }
+    if(result.userType=='trader'){
+      listYourProduct=await yourproductlisting(result.itemsAdded);
+      flag=true;
+      listAllProduct=await allproductlisiting();
+    }
     let products ={
-      listTitle:xyz,
-      listItems: result.itemsAdded,
-      listprice: checkPrice,
-      listImage: checkImage,
-      listName:checkName
+      listTitle: xyz,
+    listItems: listYourProduct,
+    listAllItems : listAllProduct,
+    checkUser: flag
     }
     res.render("searchpage",products)
 
@@ -76,57 +87,94 @@ async function deleteDatabase(req,res){
 }
 
 //Add product urls in database
-
 async function addUrlinDatabase(req,res){
   const data = {productURL:req.body.ProductURL , expectedPrice : req.body.expectedPrice}
   await fetchPrice(data.productURL,data.expectedPrice);
   await User.updateOne({ email : req.user.email ,'itemsAdded.productURL' :{$ne:data.productURL} },{ $push: {itemsAdded:data}})  //Uniquely adds url in database
-  const user = await  User.findOne({ email : req.user.email})
-  const checkPrice=await Product.find({},{price:1,_id:0})
-  const checkImage=await Product.find({},{imageUrl:1,_id:0})
-  const checkName=await Product.find({},{name:1,_id:0})
-  
+  let user = await  User.findOne({ email : req.user.email})
+  let listYourProduct=[];
+  let listAllProduct=[];
+  let flag=false;
+
+  if(user.userType=='user'){
+   listYourProduct= await yourproductlisting(user.itemsAdded)
+}
+
+if(user.userType=='trader'){
+  listYourProduct= await yourproductlisting(user.itemsAdded)
+  flag=true;
+  listAllProduct=await allproductlisiting();
+}
 
   let products = {
-    listTitle:user.email,
-    listItems: user.itemsAdded,
-    listprice: checkPrice,
-    listImage: checkImage, 
-    listName:checkName
+    listTitle: user.email,
+    listItems: listYourProduct,
+    listAllItems : listAllProduct,
+    checkUser: flag
   }
-  console.log("lisitems");
-  console.log(user.itemsAdded);
-  
-  res.render("searchpage",products)
+  res.render("searchpage",products) 
+}
+
+//ListYourProduct
+async function yourproductlisting(database){
+  let listYourProduct=[];
+  for(var  index in database){  
+    const x= database[index].productURL;
+    const y=await Product.findOne({url : x});
+    let product = JSON.parse(JSON.stringify(database[index]));
+    product.name = y.name;
+    product.price = y.price;
+    product.imageUrl = y.imageUrl;
+    listYourProduct[index] = product;
+  }
+  return listYourProduct;
+}
+
+//AllYourProduct
+async function allproductlisiting(){
+  let listAllProduct=[];
+  for(const index in await Product.find({},{_id:1})){ 
+    const y=await Product.find({});
+    let product = [];
+    product.url=y[index].url;
+    product.name = y[index].name;
+    product.price = y[index].price;
+    product.imageUrl = y[index].imageUrl;
+    listAllProduct[index] = product;
+  }
+  return listAllProduct;
 }
 
 //Add new producturls and expectedprice in existing database using plus button
 async function add_new_data_in_existing_database(req,res,next){
   const xyz=req.user.email;
+  let listYourProduct=[];
+  let listAllProduct=[];
+  let flag=false;
   try {
-    // await User.updateOne(
-    //   { _id: ObjectId(req.user._id) },
-    //   { $push: { itemsAdded: { productURL: item1, expectedPrice: item2 } } }
-    // )
     const data = {productURL:req.body.newProductURL , expectedPrice : req.body.newexpectedPrice}
     await fetchPrice(data.productURL,data.expectedPrice);
     // CurrentUser.itemsAdded.push({productURL:item1,expectedPrice:item2});
     // await CurrentUser.save();
     await User.updateOne({ email : req.user.email ,'itemsAdded.productURL' :{$ne:data.productURL} },{ $push: {itemsAdded:data}})
-    console.log("Add hogya mai");
-    const checkPrice=await Product.find({},{price:1,_id:0})
-   // const xyz=req.user.email;
    const result = await  User.findOne({ email : req.user.email})
-   const checkImage=await Product.find({},{imageUrl:1,_id:0})
-   const checkName=await Product.find({},{name:1,_id:0})
-  let products ={
-    listTitle:xyz,
-    listItems: result.itemsAdded,
-    listprice: checkPrice,
-    listImage: checkImage,
-    listName:checkName
-  }
-  res.render("searchpage",products)
+   if(result.userType=='user'){
+    listYourProduct= await yourproductlisting(result.itemsAdded)
+ }
+ 
+ if(result.userType=='trader'){
+   listYourProduct= await yourproductlisting(result.itemsAdded)
+   flag=true;
+   listAllProduct=await allproductlisiting();
+ }
+ 
+   let products = {
+     listTitle: result.email,
+     listItems: listYourProduct,
+     listAllItems : listAllProduct,
+     checkUser: flag
+   }
+   res.render("searchpage",products) 
   } catch (err) {
     console.log(err);
   }
@@ -136,7 +184,7 @@ async function add_new_data_in_existing_database(req,res,next){
 async function checkforemail(req,res){
   try{
     const abc=req.body.emailforget;
-    console.log(abc);
+   // console.log(abc);
     return res.redirect('/forgotPassword')
   }
   catch(error){
@@ -150,7 +198,7 @@ async function fetchPrice(url,expectedPrice){
   
   //console.log(`I have reached here ${url}`);
  
-  console.log(url)
+  //console.log(url)
   const response=await axios.get(url,{
     headers: {
       "User-Agent": userAgent,
@@ -166,6 +214,7 @@ async function fetchPrice(url,expectedPrice){
     }
   });
   const html=response.data;
+
       const parsedhtml=cheerio.load(html); //html parsing through cheerio
       let product = ProductFactory.getProduct(url,parsedhtml) //Factory for getting product items
       product.url = url;//adding url to product object 
@@ -177,22 +226,6 @@ async function fetchPrice(url,expectedPrice){
       }
     return newPrice;
   }
-
-// async function searchResult(req,res){
-//     try{
-//       const url=req.body.ProductURL;
-//       const expectedPrice=req.body.expectedPrice;
-//       addUrlinDatabase(url,expectedPrice);
-
-
-// //we didn't call the function that is why code didn't execute 
-
-// } catch (error) {
-//   console.error(error);     // NOTE - use "error.response.data` (not "error")
-// }
-
-// }
-
 
 async function sendmail(){
   const nodemailer = require("nodemailer");
@@ -267,7 +300,7 @@ let resetPassword=async (req,res)=>{
 */
 async function forgotPassword(req,res){
   const user = await User.findOne({email : req.body.email})
-  console.log(req.body.email);
+  //console.log(req.body.email);
   if(!user){
      return res.status(400).json({message:"Cannot find user with that email"});
   }
