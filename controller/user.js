@@ -192,6 +192,7 @@ async function checkforemail(req,res){
   }
 }
 
+
 async function fetchPrice(url,expectedPrice){
   const userAgent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
   
@@ -213,34 +214,16 @@ async function fetchPrice(url,expectedPrice){
     }
   });
   const html=response.data;
-  const vh=cheerio.load(html);
-  let attributes = ProductFactory.getProductTags(url)
-  //To parse the html response from the url 
-    let priceElementText= vh(attributes.price).text();
-    let productName = vh(attributes.name).text().trim();
-   // console.log(productName);
-    let imageUrl = vh(attributes.image).attr().src;
-    //the method returns the array of elements belonging to the same class in the 
-    //html document so split it using the . operator and return the first value
-    // let price =    priceElementText.split('.');
-    priceElementText=priceElementText.split('.');
-    // priceElementText=priceElementText.replace(", ", "");
-    newPrice= priceElementText[0];
-    newPrice = parseFloat(newPrice.replace(/\D/g,""));
-   // console.log(imageUrl);
-   // console.log(productName);
-   // console.log(newPrice);
-    let product = {
-      name : productName,
-      url :  url, 
-      imageUrl : imageUrl,
-      price : newPrice
-  }  
+
+      const parsedhtml=cheerio.load(html); //html parsing through cheerio
+      let product = ProductFactory.getProduct(url,parsedhtml) //Factory for getting product items
+      product.url = url;//adding url to product object 
+      console.log(product)
+      //Adding the product to product collection
     await Product.findOneAndUpdate({ url },product , {upsert : true})
     if(expectedPrice>newPrice){
       await sendmail();
-    }
-
+      }
     return newPrice;
   }
 
