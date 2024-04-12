@@ -4,7 +4,7 @@ const path = require("path");
 var bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');    //Authentican Part
 const { connectToMongoDB } = require("./connect");
-
+const cron = require('./utils/scheduler.js')
 const userRouter = require("./routes/user");
 const userRouterauth = require("./routes/auth");  
 const trader = require("./routes/trader")    //Authentican Part
@@ -57,30 +57,9 @@ app.use("/forget-password", userRouter);
  // NODEMAILER
 
 // Route to handle OTP verification
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
+//Start scheduled task of fetching price and sending email  
+cron.start();
   

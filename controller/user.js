@@ -193,7 +193,7 @@ async function checkforemail(req,res){
 }
 
 
-async function fetchPrice(url,expectedPrice){
+async function fetchPrice(url){
   const userAgent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
   
   //console.log(`I have reached here ${url}`);
@@ -218,13 +218,26 @@ async function fetchPrice(url,expectedPrice){
       const parsedhtml=cheerio.load(html); //html parsing through cheerio
       let product = ProductFactory.getProduct(url,parsedhtml) //Factory for getting product items
       product.url = url;//adding url to product object 
-      console.log(product)
+      const date = new Date()
       //Adding the product to product collection
-    await Product.findOneAndUpdate({ url },product , {upsert : true})
-    if(expectedPrice>newPrice){
-      await sendmail();
+      const doc = await Product.findOne({ url })
+      if(!doc){
+        product.priceHistory=[]
+        product.priceHistory.push({
+          price : product.price,
+          date : date
+        })
+        Product.create(product)
       }
-    return newPrice;
+      else{
+        doc.priceHistory.push({
+          price : product.price,
+          date : date
+        })
+        doc.price = product.price
+        doc.save();
+      }
+    return product.price;
   }
 
 async function sendmail(){
@@ -337,5 +350,5 @@ async function forgotPassword(req,res){
 }
 
 module.exports = {
-  defaultPage,checkforemail,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database,open_detailed_page
+  defaultPage,checkforemail,fetchPrice,renderResetPassword,resetPassword,forgotPassword,addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database,open_detailed_page
 };
