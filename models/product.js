@@ -10,9 +10,20 @@ const productSchema = new mongoose.Schema({
     imageUrl:{
         type: String,
     },
-    price : {
+    price :{
         type : Number
-    }
+    },
+    priceHistory : [
+        {
+            price:{
+                type : Number
+            },
+            date : {
+                type : Date
+            }
+
+        }    
+    ]
     });
 const Products = mongoose.model('Products',productSchema)
 module.exports = Products;
