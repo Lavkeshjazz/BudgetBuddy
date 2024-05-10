@@ -3,7 +3,6 @@ const User = require("../models/user");
 const {setUser} = require("../service/auth");
 const {containsOnlyDigits} = require("../middlewares/utils");
 
-
 async function handleUserSignup(req,res){
     let { firstName,lastName,phone_number,email,password,userType } = req.body;
     firstName =  firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
@@ -65,9 +64,15 @@ async function handleUserSignup(req,res){
     });
     }
     console.log("user type:",userType);
+<<<<<<< HEAD:controller/auth.js
     if(userType =='user')
     {
         //console.log("mai yaha hu")
+=======
+
+    if(userType =='user'){
+        console.log("mai yaha hu")
+>>>>>>> d1cbfac (chore : folder restructuring):Backend/controller/auth.js
         return res.redirect("/login");
     }
     if(userType =='trader') {
@@ -92,6 +97,7 @@ async function handleUserSignup(req,res){
     }
 
 async function handleUserLogin(req,res){
+<<<<<<< HEAD:controller/auth.js
     const email = req.body.email;
     const password = req.body.password;
     try{
@@ -160,6 +166,16 @@ async function handleUserLogin(req,res){
         }
     )
 }
+=======
+    const {email,password} = req.body;
+    const user = await User.findOne({ email, password});
+    if(!user){
+        return res.render("login",{error: "Invalid Username or Password",});
+    }
+    const token = setUser(user);
+    res.cookie("uid", token);
+    return res.redirect("/");
+>>>>>>> d1cbfac (chore : folder restructuring):Backend/controller/auth.js
 }
 
 module.exports={
