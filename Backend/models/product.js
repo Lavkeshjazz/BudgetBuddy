@@ -13,17 +13,14 @@ const productSchema = new mongoose.Schema({
     price :{
         type : Number
     },
-    priceHistory : [
-        {
-            price:{
-                type : Number
-            },
-            date : {
-                type : Date
-            }
-
-        }    
-    ]
-    });
+    priceHistory : [{
+        price:{
+            type : Number
+        },
+        date : {
+            type : Date
+        }
+    }]
+});
 const Products = mongoose.model('Products',productSchema)
 module.exports = Products;

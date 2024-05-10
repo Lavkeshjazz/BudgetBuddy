@@ -10,15 +10,15 @@ const crypto = require('crypto');
 const ProductFactory = require('../service/productFactory');
 var newPrice;
 async function defaultPage(req,res){
-try{
-  if (!req.user) return res.render("homepage");
-  const xyz=req.user.email;
-  return res.render("homepage", {
-    user: xyz,
-  });
-} catch(error){
-  console.log(error);
-}
+  try{
+    if (!req.user) return res.render("homepage");
+    const xyz=req.user.email;
+    return res.render("homepage", {
+      user: xyz,
+    });
+  } catch(error){
+    console.log(error);
+  }
 }
 
 //Detailed Page
@@ -27,14 +27,15 @@ async function open_detailed_page(req,res){
   try {
     const CurrentProduct=await User.findOne({'itemsAdded.productURL': detail1 },{ 'itemsAdded.$': 1 });
     const checkDetails=await Product.findOne({url:detail1});
-  res.render("details",{
-    ProductURL:detail1,
-    currentPrice:checkDetails.price,
-    imageUrl:checkDetails.imageUrl
-  })
-}catch (err) {
-  console.log(err);
-}
+    res.render("details",{
+      ProductURL:detail1,
+      currentPrice:checkDetails.price,
+      imageUrl:checkDetails.imageUrl
+    })
+  }
+  catch (err) {
+    console.log(err);
+  }
 }
 
 //Delete database
@@ -42,7 +43,7 @@ async function deleteDatabase(req,res){
   const URLToDelete = req.body.deleteItemId;
   const xyz=req.user.email;
   var checker=false;
-  const resulttttttt = await  User.findOne({ email : req.user.email})
+  const resulttttttt = await User.findOne({ email : req.user.email})
   if(resulttttttt.userType=='user'){
     await User.updateMany({"itemsAdded.productURL": URLToDelete}, {$pull: {itemsAdded: {productURL: URLToDelete}}});
   }
@@ -61,7 +62,8 @@ async function deleteDatabase(req,res){
   }
  
   const result = await  User.findOne({ email : req.user.email})
-    let listYourProduct=[];
+  
+  let listYourProduct=[];
   let listAllProduct=[];
   let flag=false;
   try {
