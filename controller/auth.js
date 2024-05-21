@@ -28,16 +28,74 @@ async function handleUserSignup(req,res){
 }
 
 async function handleUserLogin(req,res){
-    const {email,password} = req.body;
-    const user = await User.findOne({ email, password});
-    if(!user){
-        return res.render("login",{
-            error: "Invalid Username or Password",
-        });
+    const email = req.body.email;
+    const password = req.body.password;
+    try{
+    const valid_email=email.indexOf('@');
+    if(valid_email==-1){
+         //    return res.render("login",{
+        return res.status(404).json({
+            status: "error",
+            statusCode: 404,
+            error: {
+                code: "INVALID_EMAILID",
+                message: "The email provided is invalid",
+                details: "The user with the email " + email + " does not exist in our records.",
+                timestamp: new Date().toISOString(),
+                suggestion: "Please check if the email is correct"
+              },
+            }
+        );
     }
-        const token = setUser(user);
-        res.cookie("uid", token);
-        return res.redirect("/");
+    const user_exist = await User.findOne({email}); 
+    if(!user_exist){
+         //    return res.render("login",{
+        return res.status(404).json({
+            status: "error",
+            statusCode: 404,
+            error: {
+                code: "USER_NOT_EXIST",
+                message: "User does not exist",
+                details: "The user with the email " + email + " does not exist in our records.",
+                timestamp: new Date().toISOString(),
+                suggestion: "Please create your account first"
+              },
+            }
+        );
+    }
+        if(user_exist.password!=password){
+            //return res.render("login",{
+            return res.status(404).json({
+            status: "error",
+            statusCode: 404,
+            error: {
+                code: "INCORRECT_PASSWORD",
+                message: "Password is incorrect",
+                timestamp: new Date().toISOString(),
+                suggestion: "Please check your password or else click on forget password"
+              },
+            }
+        );
+        }
+            console.log("Correct Credentials");
+            const token = setUser(user_exist);
+            res.cookie("uid", token);
+            return res.redirect("/");
+    }catch (error) {
+    // Handle any other errors
+    // return res.render("login", {
+    //     error: "An error occurred. Please try again.",
+    // });
+    return res.status(404).json({
+        status: "error",
+        statusCode: 404,
+        error: {
+            code: "SOMETHING_WENT_WRONG",
+            message: "An error occurred. Please try again.",
+          },
+        }
+    )
+}
 }
 
 module.exports={
