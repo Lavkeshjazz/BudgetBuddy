@@ -1,10 +1,60 @@
 const {v4: uuidv4} = require('uuid');
 const User = require("../models/user");
 const {setUser} = require("../service/auth");
+const {containsOnlyDigits} = require("../middlewares/utils");
 
 
 async function handleUserSignup(req,res){
-    const { firstName,lastName,phone_number,email,password,userType } = req.body;
+    let { firstName,lastName,phone_number,email,password,userType } = req.body;
+    firstName =  firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+    lastName =  lastName.charAt(0).toUpperCase() + lastName.slice(1).toLowerCase();
+    email = email.toLowerCase();
+    try{
+    const valid_email=email.indexOf('@');
+    if(valid_email==-1){
+         //    return res.render("login",{
+        return res.status(404).json({
+            status: "error",
+            statusCode: 404,
+            error: {
+                code: "INVALID_EMAILID",
+                message: "The email provided is invalid",
+                timestamp: new Date().toISOString(),
+                suggestion: "Please check if the email is valid or not"
+              },
+            }
+        );
+    }
+    if(password.length<8){
+        return res.status(404).json({
+            status: "error",
+            statusCode: 404,
+            error: {
+                code: "PASSWORD_TOO_WEAK",
+                message: "Password is too weak",
+                timestamp: new Date().toISOString(),
+                suggestion: "Create a stronger password"
+              },
+            }
+        );
+    }
+    if(!containsOnlyDigits(phone_number) || phone_number.length!=10){
+        return res.status(404).json({
+            status: "error",
+            statusCode: 404,
+            error: {
+                code: "INVALID_PHONE_NUMBER",
+                message: "Phone number given is invalid",
+                timestamp: new Date().toISOString(),
+                suggestion: "Enter a Valid Phone Number"
+              },
+            }
+        );
+    }
+    const check_phonenumber= await User.findOne({phone_number});
+    const check_email= await User.findOne({email});
+
+    if(!check_phonenumber && !check_email){
     await User.create({
         firstName,
         lastName,
@@ -13,19 +63,33 @@ async function handleUserSignup(req,res){
         password,
         userType 
     });
+    }
     console.log("user type:",userType);
-
     if(userType =='user')
     {
-        console.log("mai yaha hu")
+        //console.log("mai yaha hu")
         return res.redirect("/login");
     }
     if(userType =='trader') {
         // Render a message asking the user to verify their email
-        console.log("herer")
+        //console.log("herer")
         return res.redirect("/mail");
     }
-}
+    }catch (error) {
+    // Handle any other errors
+    // return res.render("login", {
+    //     error: "An error occurred. Please try again.",
+    // });
+    return res.status(404).json({
+        status: "error",
+        statusCode: 404,
+        error: {
+            code: "SOMETHING_WENT_WRONG",
+            message: "An error occurred. Please try again.",
+          },
+    })
+    }
+    }
 
 async function handleUserLogin(req,res){
     const email = req.body.email;
