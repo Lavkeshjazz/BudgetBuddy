@@ -31,20 +31,17 @@ const Nav = (props) => {
         expectedPrice
       })
     });
-    if (res) {
+    const data = await res.json();
+    console.log(data);
+    if (res.ok) {
+      window.alert('sent successfully');
+      console.log('data sent');
+      Navigate(`/searchitempage/${expectedPrice}`, { state: data });
+    }
+    else if (res.status === 400) {
       const data = await res.json();
       console.log(data);
-
-      if (res.ok) {
-        console.log('data sent');
-        Navigate(`/searchitempage/${expectedPrice}`, { state: data });
-        setOpen(false);
-      }
-      else if (res.status === 400) {
-        const data = await res.json();
-        console.log(data);
-        window.alert(data.error.message);
-      }
+      window.alert(data.error.message);
     }
   };
   return (

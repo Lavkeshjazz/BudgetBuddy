@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Jersey+25+Charted&family=Jost:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display&family=Reddit+Sans&display=swap');
-
 .btns {
   padding: 10px 20px;
   margin-right: 6px;
@@ -220,7 +219,6 @@ body {
   border-radius: 8px;
   transition: .5s;
 }
-
 /* ------------------------------------------- */
 /* .landingbtn{
   padding: 19px 20px;
@@ -349,7 +347,6 @@ body {
   align-items: center;
   margin-top: 30px;
 }
-
 /* .loginform input{
   width: 30em;
   height: 30px;
