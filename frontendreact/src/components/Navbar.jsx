@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { useUserContext } from "./userContex";
 import { NavLink, useNavigate } from 'react-router-dom';
 
-// import {useAuth} from '../context/AuthContext';
-
 const Navbar = () => {
   const Navigate = useNavigate();
   const userContext = useUserContext();
@@ -17,7 +15,6 @@ const Navbar = () => {
     })
     // eslint-disable-next-line
   }, []);
-  console.log(userContext.user);
   function logout() {
     fetch('http://localhost:5000/logout', {
       credentials: 'include',
@@ -28,9 +25,7 @@ const Navbar = () => {
     })
   }
   const uid = userContext.user;
-
-  console.log(uid);
-
+  if(uid)  console.log(uid);
   return (
     <div className='navbar_container'>
       <div className='navbar'>
@@ -58,5 +53,4 @@ const Navbar = () => {
     </div>
   )
 }
-
 export default Navbar

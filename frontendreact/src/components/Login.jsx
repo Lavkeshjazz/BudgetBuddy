@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import { useState} from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useUserContext } from "./userContex";
-
+import { GoArrowRight } from "react-icons/go";
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null)
   const navigate = useNavigate();
   const userContext = useUserContext();
-  
   async function loginuser(e) {
+    console.log(email, password)
     e.preventDefault();
-
     const response = await fetch("http://localhost:5000/user/login", {
       method: 'POST',
       body: JSON.stringify({ email, password }),
@@ -25,55 +24,61 @@ const Login = () => {
       })
     }
     else {
-      alert('Wrong Credentials');
+      alert('Please fill the details correctly.');
     }
   }
   return (
     <div className='log_in'>
       <div className='loginpage'>
-        <div className='logincard'>
-          <h1>Log In</h1>
-          <form method="post" className='loginform'>
-            <div className='form-group'>
-              <input
-                className='forminput'
-                type='text'
-                name='email'
-                id='email'
-                autoComplete='off'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder='Your Email'
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                className='forminput'
-                type='text'
-                name='password'
-                id='password'
-                autoComplete='off'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder='Password'
-              />
-            </div>
-            <div className='form-group form-button'>
-              <input
-                type='submit'
-                name='signin'
-                id='signin'
-                className='signinbtn'
-                value='LOG IN'
-                onClick={loginuser}
-              />
-            </div>
-            <div className='loginfooter'>
-              <NavLink to="/signup" className='alreadyacc'>Create New Account</NavLink>
-              <NavLink to="/forgotpwd" className='alreadyacc'>Forgot Password?</NavLink>
-            </div>
-          </form>
-          <br />
+        <div className='loginslide'>
+          <div className='logincard'>
+            <h2 className='logintitle'>Sign in</h2>
+            <form method="post" className='loginform'>
+              <div className='form-group'>
+                <input
+                  className='forminput1'
+                  type='text'
+                  name='email'
+                  id='email'
+                  autoComplete='off'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder='Your Email'
+                />
+              </div>
+              <div className='form-group'>
+                <input
+                  className='forminput1'
+                  type='password'
+                  name='password'
+                  id='password'
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  autoComplete='off'
+                  placeholder='Passwd'
+                />
+              </div>
+              <NavLink to="/forgotpwd" className='alreadyacc'>Forgot your password?</NavLink>
+              <div className='form-group form-button'>
+                <input
+                  type='submit'
+                  name='signin'
+                  id='signin'
+                  className='signinbtn'
+                  value='SIGN IN'
+                  onClick={loginuser}
+                />
+              </div>
+            </form>
+            <br />
+          </div>
+          <div className='logincard2'>
+            <h2 className='logintitle'>Hello, Friend!</h2>
+            <p className='loginpara'>Enter your personal details and start journey with us</p>
+            <NavLink to="/signup" className='signup_redirect'>SIGN UP<GoArrowRight/></NavLink>
+            <br />
+          </div>
+          <div className='logintosignup'></div>
         </div>
       </div>
     </div>

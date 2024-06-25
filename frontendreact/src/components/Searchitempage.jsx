@@ -1,22 +1,22 @@
 import React, { useState } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { AiFillStar } from 'react-icons/ai';
-import { BsFillBagFill } from 'react-icons/bs';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Searchitempage = () => {
-
+  const [open, setOpen] = useState(false);
   const Navigate = useNavigate();
-
   const params = useParams();
   const expectedPrice = params.expectedPrice;
   console.log(expectedPrice);
-
+  // -----------------------------------------------------------------------
   const location = useLocation();
   const productdata = location.state;
   console.log(productdata);
 
   // -----------------------------------------------------------------------
   const AddFunction = async (e) => {
+    setOpen(true);
     console.log("hehhehe");
     e.preventDefault();
     const { url } = productdata;
@@ -37,6 +37,7 @@ const Searchitempage = () => {
     });
     console.log("ho gya add");
     if (res.ok) {
+      setOpen(false);
       window.alert('Item Added');
       console.log('Item Added');
     }
@@ -58,6 +59,7 @@ const Searchitempage = () => {
     setUser({ ...user, [name]: value });
   };
   const Itemdata = async (e) => {
+    setOpen(true);
     e.preventDefault();
     const { P_URL, ePrice } = user;
     const ProductURL = P_URL;
@@ -78,6 +80,7 @@ const Searchitempage = () => {
     const data = await res.json();
     console.log(data);
     if (res.ok) {
+      setOpen(false);
       window.alert('sent successfully');
       console.log('data sent');
       Navigate(`/searchitempage/${expectedPrice}`, { state: data });
@@ -122,6 +125,9 @@ const Searchitempage = () => {
             </div>
             <button type="search" className='addtotrack' onClick={AddFunction}>ADD TO TRACK</button>
           </div>
+          <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
           <div className='searchdetails'>
             <h1 className='searchtitle'>{productdata.name}</h1>
             <h1 className='currentpricetag'>Current Price</h1>

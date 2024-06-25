@@ -26,17 +26,6 @@ const Resetpassword = () => {
       console.log(data);
       window.alert(data.error.message);
     }
-    // Axios.post("http://localhost:5000/user/resetPassword/"+token, {
-    //   password,
-    // }).then(res => {
-    //   if (res.data.status) {
-    //     window.alert(res.data.message);
-    //     navigate('/login');
-    //   }
-    // }).catch(err => {
-    //   window.alert(err.response.data.message);
-    //   console.log(err);
-    // })
   };
   return (
     <div class="resetpwdcontainer">
@@ -52,15 +41,6 @@ const Resetpassword = () => {
             placeholder='New Password'
             required
           />
-          {/* <input
-            type="password"
-            autoComplete='off'
-            onChange={(e) => setPassword(e.target.value)}
-            className='forminput'
-            name="Password"
-            placeholder='Confirm Password'
-            required
-          /> */}
           <button type="Submit" className='resetbtn'>RESET</button>
           <NavLink to="/login" className='resettologin'>Go Back</NavLink>
         </form>

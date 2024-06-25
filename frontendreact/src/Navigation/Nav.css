@@ -3,23 +3,39 @@ nav {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  margin-left:17.7rem; 
+  margin-left: 17.7rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 20px 0px ;
-  height: 20vh;
-
-
-  
-  /* box-shadow: 8px 10px 10px rgba(0, 0, 0, 0.1); */
-  /* background-color: #f8f6ff; */
+  padding: 20px 0px 20px 0px;
+  /* height: 20vh; */
+  box-shadow: 0 5px 20px rgb(203, 203, 203,.5);
 }
-.navtitle{
+
+.email_section {
+  margin-left: 10px;
+  font-weight: bold;
+  color: rgb(0, 0, 63);
+}
+
+.hello {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 2rem;
+  transform: translateY(2px);
+}
+
+/* box-shadow: 8px 10px 10px rgba(0, 0, 0, 0.1); */
+/* background-color: #f8f6ff; */
+
+.navtitle {
   width: 95.5%;
   font-size: 20px;
   margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
 }
+
 .navforminput {
   padding: 12px 20px;
   border: 2px solid rgba(0, 0, 0, 0.082);
@@ -30,15 +46,18 @@ nav {
   width: 30rem;
   margin-left: 1em;
 }
+
 .nav-icons {
   width: 1.5rem;
   height: 1.5rem;
   margin-left: 2rem;
 }
-.home_form{
+
+.home_form {
   padding: 30px;
 }
-.searchbtn{
+
+.searchbtn {
   padding: 7px;
   transform: translateX(-105px);
   border-radius: 50px;
@@ -50,4 +69,3 @@ nav {
   color: white;
   /* box-shadow: 0 0 100px blueviolet; */
 }
-

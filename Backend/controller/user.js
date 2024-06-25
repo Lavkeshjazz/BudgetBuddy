@@ -270,7 +270,7 @@ async function fetchPrice(url) {
   const html = response.data;
 
   const parsedhtml = cheerio.load(html); //html parsing through cheerio
-  let product = ProductFactory.getProduct(url, parsedhtml) //Factory for getting product items
+  let product = ProductFactory.getProduct(url, parsedhtml, response) //Factory for getting product items
   product.url = url;//adding url to product object 
   const date = new Date()
   //Adding the product to product collection

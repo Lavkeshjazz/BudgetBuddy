@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import "./Nav.css";
+import { LuSun } from "react-icons/lu";
+
 const Nav = (props) => {
   const Navigate = useNavigate();
-  const [user, setUser] = useState({ProductURL: '',expectedPrice: null});
+  const [open, setOpen] = useState(false);
+  const [user, setUser] = useState({ ProductURL: '', expectedPrice: null });
   let name, value;
   const handleInputs = (e) => {
     name = e.target.name;
@@ -11,6 +16,7 @@ const Nav = (props) => {
     setUser({ ...user, [name]: value });
   };
   const Itemdata = async (e) => {
+    setOpen(true);
     e.preventDefault();
     const { ProductURL, expectedPrice } = user;
     console.log("hello item data bhej rha hu");
@@ -25,23 +31,28 @@ const Nav = (props) => {
         expectedPrice
       })
     });
-    const data = await res.json();
-    console.log(data);
-    if (res.ok) {
-      window.alert('sent successfully');
-      console.log('data sent');
-      Navigate(`/searchitempage/${expectedPrice}`, { state: data });
-    }
-    else if (res.status === 400) {
+    if (res) {
       const data = await res.json();
       console.log(data);
-      window.alert(data.error.message);
+
+      if (res.ok) {
+        console.log('data sent');
+        Navigate(`/searchitempage/${expectedPrice}`, { state: data });
+        setOpen(false);
+      }
+      else if (res.status === 400) {
+        const data = await res.json();
+        console.log(data);
+        window.alert(data.error.message);
+      }
     }
   };
   return (
     <nav>
       {props.email && (
-        <h2 className="navtitle">Welcome, {props.email}</h2>
+        <>
+          <h2 className="navtitle">Welcome, <div className='email_section'>{props.email}</div><LuSun className="hello" /></h2>
+        </>
       )}
       <h2 className="navtitle">SEARCH NEW PRODUCT</h2>
       <form className='home_form'>
@@ -65,7 +76,11 @@ const Nav = (props) => {
           onChange={handleInputs}
           placeholder='Enter Expected Price'
         />
+        <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
         <button type="search" className='searchbtn' onClick={Itemdata}>Search</button>
+
       </form>
     </nav>
   );

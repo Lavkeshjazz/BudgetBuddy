@@ -3,7 +3,6 @@ import Category from './Category';
 import Price from './Price';
 
 const Sidebar = (handleChange) => {
-
   return (
     <section className='Sidebar'>
       <div className='logo_container'>

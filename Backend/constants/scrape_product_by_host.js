@@ -2,7 +2,7 @@ const { flipkart, indiamart, amazon } = require("./tag_by_host")
 
 scrape_host = {
   ajio: (response) => {
-    let obj = JSON.parse(response('script').get()[5].children[0].data)
+    let obj = JSON.parse(response('script').get()[5].children[0].data);
     return {
       name: obj["name"],
       imageUrl: obj["image"],

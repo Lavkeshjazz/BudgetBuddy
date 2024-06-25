@@ -11,6 +11,7 @@ import { NavLink } from 'react-router-dom';
 
 function Homepage() {
   const userContext = useUserContext();
+  let order = "";
   useEffect(() => {
     fetch('http://localhost:5000/authorized', {
       credentials: 'include',
@@ -41,17 +42,13 @@ function Homepage() {
     fetchdata();
     // eslint-disable-next-line
   }, []);
+  console.log(products)
   const handleInputChange = (event) => {
     setQuery(event.target.value);
   };
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [query, setQuery] = useState("");
-
-  // ----------- Input Filter -----------
-  // const filteredItems = products.filter(
-  //   (product) => product.title.toLowerCase().indexOf(query.toLowerCase()) !== -1
-  // );
 
   // ----------- Radio Filtering -----------
   const handleChange = (event) => {
@@ -63,22 +60,19 @@ function Homepage() {
   };
   function filteredData(products, selected, query) {
     let filteredProducts = products;
-    // Filtering Input Items
-    // if (query) {
-    //   filteredProducts = filteredItems;
-    // }
-    // Applying selected filter
     if (selected) {
-      filteredProducts = filteredProducts.filter(
-        ({ category, color, company, price, name, site, tracking }) =>
-          category === selected ||
-          color === selected ||
-          company === selected ||
-          price === selected ||
-          name === selected ||
-          site === selected ||
-          tracking === selected
-      );
+      console.log(selected);
+      if (selected === "LtoH") {
+        filteredProducts = filteredProducts.sort((a, b) => a.price - b.price);
+      }
+      else if (selected === "HtoL") {
+        filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
+      }
+      else {
+        filteredProducts = filteredProducts.filter(
+          ({ productURL }) => productURL.search(selected) === 12
+        );
+      }
     }
     return filteredProducts.map(
       ({ imageUrl, name, star, reviews, prevPrice, price, site, productURL, expectedPrice }) => (
@@ -98,6 +92,7 @@ function Homepage() {
     );
   }
   const result = filteredData(products, selectedCategory, query);
+  console.log(order)
   return (
     <>
       {!username &&
