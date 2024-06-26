@@ -36,10 +36,12 @@
   /* box-shadow: 0 10px 30px rgba(161, 161, 161, 0.227); */
   transition: .2s;
 }
-
-  /* height: 11rem;
-  object-fit: contain; */
-
+.card-img {
+  height: 11rem;
+  object-fit: contain;
+  width: 100%;
+  margin-bottom: 0.9rem;
+}
 .card-title {
   margin-bottom: 0.3em;
   font-size: 18px;

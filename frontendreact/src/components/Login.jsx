@@ -8,7 +8,6 @@ const Login = () => {
   const navigate = useNavigate();
   const userContext = useUserContext();
   async function loginuser(e) {
-    console.log(email, password)
     e.preventDefault();
     const response = await fetch("http://localhost:5000/user/login", {
       method: 'POST',
@@ -55,7 +54,7 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
                   autoComplete='off'
-                  placeholder='Passwd'
+                  placeholder='Password'
                 />
               </div>
               <NavLink to="/forgotpwd" className='alreadyacc'>Forgot your password?</NavLink>

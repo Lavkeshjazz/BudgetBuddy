@@ -20,7 +20,7 @@ const Signup = () => {
   const PostData = async (e) => {
     e.preventDefault();
     const { firstName, lastname, phone_number, email, password, userType } = user;
-    console.log("hello");
+    console.log("hello from postdata");
     const res = await fetch('http://localhost:5000/user/', {
       method: 'POST',
       headers: {
