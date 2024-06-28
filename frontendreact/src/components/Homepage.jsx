@@ -7,17 +7,15 @@ import Sidebar from "../Sidebar/Sidebar";
 import Card from "./Card";
 import "../index.css";
 import { NavLink } from 'react-router-dom';
-// import products from "../db/data";
 
 function Homepage() {
   const userContext = useUserContext();
-  let order = "";
   useEffect(() => {
     fetch('http://localhost:5000/authorized', {
       credentials: 'include',
     }).then(response => {
       response.json().then(userInfo => {
-        userContext.login(userInfo);
+        userContext.login(userInfo.user_exist);
       })
     })
     // eslint-disable-next-line
@@ -26,6 +24,7 @@ function Homepage() {
   console.log(userContext.user);
   const [email, setEmail] = useState('');
   const [products, setProducts] = useState([]);
+  const [myproducts, setMyproducts] = useState([]);
   useEffect(() => {
     const fetchdata = async () => {
       let temp;
@@ -33,16 +32,17 @@ function Homepage() {
         credentials: 'include',
       });
       temp = await data.json();
-      console.log(temp);
-      console.log(temp.listTitle);
+      console.log(temp.listAllItems);
       setEmail(temp.listTitle);
-      setProducts(Object.values(temp.listItems));
-      console.log(temp);
+      if (temp.checkUser === true) {
+        setProducts(Object.values(temp.listAllItems));
+        setMyproducts(Object.values(temp.listItems));
+      }
+      else setProducts(Object.values(temp.listItems));
     };
     fetchdata();
     // eslint-disable-next-line
   }, []);
-  console.log(products)
   const handleInputChange = (event) => {
     setQuery(event.target.value);
   };
@@ -62,26 +62,27 @@ function Homepage() {
     let filteredProducts = products;
     if (selected) {
       console.log(selected);
-      if (selected === "LtoH") {
-        filteredProducts = filteredProducts.sort((a, b) => a.price - b.price);
-      }
-      else if (selected === "HtoL") {
-        filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
-      }
-      else {
-        filteredProducts = filteredProducts.filter(
-          ({ productURL }) => productURL.search(selected) === 12
-        );
+      console.log(filteredProducts)
+      if (selected !== "MyProds") {
+        if (selected === "LtoH") {
+          filteredProducts = filteredProducts.sort((a, b) => a.price - b.price);
+        }
+        else if (selected === "HtoL") {
+          filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
+        }
+        else {
+          filteredProducts = filteredProducts.filter(
+            ({ productURL }) => productURL.search(selected) === 12
+          );
+        }
       }
     }
     return filteredProducts.map(
-      ({ imageUrl, name, star, reviews, prevPrice, price, site, productURL, expectedPrice }) => (
+      ({ imageUrl, name, prevPrice, price, site, productURL, expectedPrice }) => (
         <Card
           key={Math.random()}
           img={imageUrl}
           title={name}
-          star={star}
-          reviews={reviews}
           prevPrice={prevPrice}
           newPrice={price}
           site={site}
@@ -91,8 +92,13 @@ function Homepage() {
       )
     );
   }
-  const result = filteredData(products, selectedCategory, query);
-  console.log(order)
+  let result = null;
+  if (selectedCategory === "MyProds") {
+    console.log(myproducts);
+    result = filteredData(myproducts, selectedCategory, query);
+  }
+  else result = filteredData(products, selectedCategory, query);
+
   return (
     <>
       {!username &&
@@ -105,7 +111,7 @@ function Homepage() {
         <div className="homepage">
           <Sidebar handleChange={handleChange} />
           <Navigation query={query} handleInputChange={handleInputChange} email={email} />
-          <Recommended handleClick={handleClick} />
+          <Recommended handleClick={handleClick} NumProds={myproducts.length} />
           <Products result={result} />
         </div>
       }

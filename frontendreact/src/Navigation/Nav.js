@@ -4,7 +4,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import "./Nav.css";
 import { LuSun } from "react-icons/lu";
-
+import swal from 'sweetalert';
 const Nav = (props) => {
   const Navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -34,7 +34,9 @@ const Nav = (props) => {
     const data = await res.json();
     console.log(data);
     if (res.ok) {
-      window.alert('sent successfully');
+      // window.alert('sent successfully');
+      swal("Item found","Click OK to proceed", "success");
+      setOpen(false);
       console.log('data sent');
       Navigate(`/searchitempage/${expectedPrice}`, { state: data });
     }

@@ -38,8 +38,7 @@ const Signup = () => {
     if (res.ok) {
       window.alert('Registration Successful');
       console.log('Registration Successful');
-      if (userType.toLowerCase() === "trader") history('/collections');
-      else history('/login');
+      history('/login');
     }
     else if (res.status === 400) {
       const data = await res.json();

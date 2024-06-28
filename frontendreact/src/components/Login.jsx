@@ -18,7 +18,7 @@ const Login = () => {
     if (response.ok) {
       window.alert("Login Successful");
       response.json().then(userInfo => {
-        userContext.login(userInfo);
+        userContext.login(userInfo.user_exist);
         navigate('/');
       })
     }
