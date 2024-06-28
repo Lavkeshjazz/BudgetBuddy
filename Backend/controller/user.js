@@ -138,13 +138,14 @@ async function yourproductlisting(database) {
 //AllYourProduct
 async function allproductlisiting() {
   let listAllProduct = [];
-  for (const index in await Product.find({}, { _id: 1 })) {
-    const y = await Product.find({});
-    let product = [];
-    product.url = y[index].url;
-    product.name = y[index].name;
-    product.price = y[index].price;
-    product.imageUrl = y[index].imageUrl;
+  const products=await Product.find({});
+  for (const index in products) {
+    let product = {};
+    const y = products[index];
+    product.productURL = y.url;
+    product.name = y.name;
+    product.price = y.price;
+    product.imageUrl = y.imageUrl;
     listAllProduct[index] = product;
   }
   return listAllProduct;

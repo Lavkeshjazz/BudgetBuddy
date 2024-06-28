@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import swal from 'sweetalert';
 
 const Searchitempage = () => {
   const [open, setOpen] = useState(false);
@@ -38,7 +39,8 @@ const Searchitempage = () => {
     console.log("ho gya add");
     if (res.ok) {
       setOpen(false);
-      window.alert('Item Added');
+      // window.alert('Item Added');
+      swal("Item Added!","click OK to continue", "success");
       console.log('Item Added');
     }
     else if (res.status === 400) {
@@ -81,7 +83,8 @@ const Searchitempage = () => {
     console.log(data);
     if (res.ok) {
       setOpen(false);
-      window.alert('sent successfully');
+      // window.alert('sent successfully');
+      swal("Item found!","click OK to continue", "success");
       console.log('data sent');
       Navigate(`/searchitempage/${expectedPrice}`, { state: data });
     }

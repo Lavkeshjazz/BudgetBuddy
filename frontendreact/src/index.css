@@ -38,9 +38,9 @@ body {
   height: 70px;
   width: 100vw;
   z-index: 101;
-  background-color: #040017e7;
+  background-color: #020025d4;
   /* background-image: linear-gradient(60deg,rgb(0, 0, 44), rgb(3, 0, 31)); */
-  backdrop-filter: blur(60px);
+  backdrop-filter: blur(25px);
   border-bottom: .5px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -54,14 +54,15 @@ body {
   padding: 5px;
   letter-spacing: 2px;
 }
-
+.leftnavlink{
+  text-decoration: none;
+}
 .leftnav {
   display: flex;
   cursor: pointer;
   color: white;
   text-decoration: none;
 }
-
 .buddy {
   height: 30px;
   display: flex;
@@ -133,6 +134,7 @@ body {
 
 .loginfirst {
   color: #4e4e4e;
+  background-color: #e0e7ff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -337,8 +339,9 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #f2f4ff;
-  background-image: linear-gradient(45deg, white, rgba(218, 218, 255, 0.394));
+  /* background-color: #f2f4ff; */
+  background-color: #e0e7ff;
+  /* background-image: linear-gradient(45deg, white, rgba(218, 218, 255, 0.394)); */
 }
 
 .loginform {
@@ -807,7 +810,7 @@ body {
 
 .magnifier {
   /* padding: 50px; */
-  width: 700px;
+  width: 300px;
   /* scale: 1.2; */
   margin-right: 90px;
   margin-bottom: 30px;

@@ -12,7 +12,7 @@ const Display = () => {
       <div className='itemsearch'>
         <h2>{title}</h2>
         <h3>₹{newPrice}</h3>
-        <h4>₹{expectedPrice}</h4>
+        {/* <h4>₹{expectedPrice}</h4> */}
         <div className='cardbox'>
           <div className='magnifier'>
             <ReactImageMagnify {...{

@@ -20,7 +20,7 @@ const Signup = () => {
   const PostData = async (e) => {
     e.preventDefault();
     const { firstName, lastname, phone_number, email, password, userType } = user;
-    console.log("hello");
+    console.log("hello from postdata");
     const res = await fetch('http://localhost:5000/user/', {
       method: 'POST',
       headers: {
@@ -38,8 +38,7 @@ const Signup = () => {
     if (res.ok) {
       window.alert('Registration Successful');
       console.log('Registration Successful');
-      if (userType.toLowerCase() === "trader") history('/collections');
-      else history('/login');
+      history('/login');
     }
     else if (res.status === 400) {
       const data = await res.json();

@@ -10,7 +10,7 @@ const Navbar = () => {
       credentials: 'include',
     }).then((response) => {
       response.json().then(user => {
-        userContext.login(user);
+        userContext.login(user.user_exist);
       })
     })
     // eslint-disable-next-line
@@ -29,7 +29,7 @@ const Navbar = () => {
   return (
     <div className='navbar_container'>
       <div className='navbar'>
-        <NavLink to="/">
+        <NavLink to="/" className="leftnavlink">
           <div className='leftnav'>
             <div className='navlogo'>BUDGET</div><div className='buddy'>BUDDY</div>
           </div>
