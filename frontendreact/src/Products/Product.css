@@ -86,3 +86,34 @@
 .bag-icon {
   color: #535353;
 }
+
+@media (max-width: 1350px) {
+  .card-container {
+    padding:30px 0 0 16em;
+    margin: 0;
+  }
+  .card{
+    height: 18em;
+    width: 15em;
+    margin: 10px 40px 90px 30px;
+    padding: 20px;
+  }
+  .card-img {
+    height: 7rem;
+    margin-bottom: 0;
+  }
+  .card-title{
+    font-size: 14px;
+    height: 53px;
+  }
+  .bag-icon{
+    height: 10px;
+  }
+  .rating-star{
+    height: 12px;
+  } 
+  .price{
+    font-size: 12px;
+    width: 5rem;
+  }
+}

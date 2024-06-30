@@ -17,3 +17,14 @@
   box-shadow: 0 10px 20px rgb(189, 189, 189,0.7);
   transition: .2s;
 }
+@media (max-width: 1350px) {
+  .recommended-flex {
+    margin-left: 12em;
+  }
+  .recommended-flex button{
+    margin-left: 20px;
+    padding: 9px;
+    width: 7rem;
+    font-size: 12px;
+  }
+}
