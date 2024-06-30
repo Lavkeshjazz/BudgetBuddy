@@ -19,15 +19,16 @@ function Sites({ handleChange }) {
           aria-labelledby="demo-controlled-radio-buttons-group"
           name="controlled-radio-buttons-group"
           value={value}
+          className="siteinputradio"
           onChange={(e) => {
             handleChange1(e);
             handleChange(e);
           }}
         > 
-          <FormControlLabel value="" control={<Radio />} label="All" className="form-control"/>
-          <FormControlLabel value="flipkart" control={<Radio />} label="Flipkart" className="form-control"/>
-          <FormControlLabel value="amazon" control={<Radio />} label="Amazon" className="form-control"/>
-          <FormControlLabel value="indiamart" control={<Radio />} label="Indiamart" className="form-control"/>
+          <FormControlLabel value="" className="siteinput" control={<Radio className="siteinput"/>} label="All" />
+          <FormControlLabel value="flipkart" control={<Radio />} label="Flipkart" className="siteinput"/>
+          <FormControlLabel value="amazon" control={<Radio />} label="Amazon" className="siteinput"/>
+          <FormControlLabel value="indiamart" control={<Radio />} label="Indiamart" className="siteinput"/>
         </RadioGroup>
       </FormControl>
     </div>

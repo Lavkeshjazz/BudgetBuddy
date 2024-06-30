@@ -17,3 +17,11 @@
 .logo-container h1 {
   margin-top: 1.3rem;
 }
+@media (max-width: 1350px) {
+  .sidebar {
+    margin-top: 0;
+  }  
+  .logo-container {
+    font-size: 10px;
+  }
+} 

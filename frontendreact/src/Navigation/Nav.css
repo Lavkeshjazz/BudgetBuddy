@@ -3,11 +3,10 @@ nav {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  margin-left: 17.7rem;
+  padding:  20px 0 0 17.7rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 20px 0px 20px 0px;
   /* height: 20vh; */
   box-shadow: 0 5px 20px rgb(203, 203, 203,.5);
 }
@@ -67,4 +66,34 @@ nav {
   cursor: pointer;
   color: white;
   /* box-shadow: 0 0 100px blueviolet; */
+}
+
+@media (max-width: 1350px) {
+  .navforminput {
+    padding: 10px 20px;
+    border: 2px solid rgba(0, 0, 0, 0.082);
+    background: #f7f6f6;
+    outline: none;
+    border-radius: 50px;
+    height: 50px;
+    width: 20rem;
+    margin-left: 1em;
+    font-size: 10px;
+  }
+  nav{
+    padding: 0 0 0 12em;
+  }
+  .navtitle{
+    font-size: 14px;
+    margin: 10px 0 0 0;
+  }
+  .navforminput{
+    height: 40px;
+  }
+  .searchbtn{
+    font-size: 10px;
+    height: 30px;
+    width: 9em;
+    transform: translateX(-96px);
+  }
 }
