@@ -360,8 +360,9 @@ body {
   background-color: white;
 } */
 .logintitle {
-  font-size: 35px;
+  font-size: 45px;
   font-weight: 900;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .signinbtn {
@@ -369,7 +370,7 @@ body {
   margin-bottom: 30px;
   height: 40px;
   width: 12em;
-  font-weight: BOLD;
+  font-weight: 900;
   background-color: #0c0023;
   border: none;
   display: flex;
@@ -379,6 +380,11 @@ body {
   color: white;
   cursor: pointer;
   transition: .5s;
+}
+
+.signinbtn:hover {
+  background-color: #33b683;
+  border: solid #33b683;
 }
 
 .loginbtn:hover {
@@ -554,7 +560,7 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #013cff;
-  background-image: linear-gradient(60deg, #12004d 100%, #050016 0%);
+  background-image: linear-gradient(60deg, #5b309d 100%, #050016 0%);
   transform: translateY(31px);
   border-radius: 10px;
   box-shadow: 0 8px 20px rgb(151, 151, 151);
@@ -595,6 +601,7 @@ body {
 .signin_redirect {
   text-decoration: none;
   font-size: 15px;
+  font-weight:900;
   margin-top: 50px;
   height: 40px;
   width: 11em;
@@ -608,10 +615,19 @@ body {
   transition: .5s;
 }
 
+.signin_redirect:hover {
+  background-color: #33b683;
+  border: solid #33b683;
+}
+
+
 .signintext {
   margin-top: 30px;
+  font-size: 18px;
   color: rgb(226, 226, 226);
-  width: 80%;
+  width: 90%;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  text-align: justify;
 }
 
 .forminput {
@@ -640,6 +656,15 @@ body {
   width: 20rem;
   height: 45px;
   padding: 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+  border: none;
+  background-color: rgba(220, 220, 220, 0.8);
+}
+
+.forminput3 {
+  width: 20rem;
+  height: 45px;
   border-radius: 5px;
   margin-top: 15px;
   border: none;
@@ -1134,7 +1159,7 @@ body {
     margin-top: 10px;
   }
   .signinbtn{
-    font-size: 10px;
+    font-size: 15px;
     height: 30px;
     width: 6rem;
     margin-top: 10px;
@@ -1162,6 +1187,14 @@ body {
     margin-top: 10px;
     width: 20em;
   }
+ 
+  .forminput3{
+    height: 0;
+    font-size: 10px;
+    margin-top: 10px;
+    width: 20em;
+  }
+
   .signupform{
     font-size: 12px;
     padding-top: 60px;
@@ -1286,7 +1319,19 @@ body {
   .forminput2{
     margin-top: 20px;
   }
+
+  .forminput3{
+    margin-top: 20px;
+  }
+  
   #signup{
     margin-top: 40px;
   }
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
 }

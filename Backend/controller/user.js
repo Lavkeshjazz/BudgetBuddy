@@ -276,6 +276,7 @@ async function fetchPrice(url) {
   const date = new Date()
   //Adding the product to product collection
   const doc = await Product.findOne({ url })
+  console.log(doc);
   if (!doc) {
     product.priceHistory = []
     product.priceHistory.push({
