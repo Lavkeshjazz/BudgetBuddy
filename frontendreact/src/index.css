@@ -280,8 +280,7 @@ footer {
 }
 
 .input {
-  height: 20vh;
-  padding: 3em;
+  height: 18vh;
   display: flex;
   align-items: center;
   justify-content: center;
