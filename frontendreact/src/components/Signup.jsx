@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { GoArrowLeft } from "react-icons/go";
+import Swal from 'sweetalert2';
+import Navbar from "./Navbar";
+
 const Signup = () => {
   const history = useNavigate();
   const [user, setUser] = useState({
@@ -102,14 +105,22 @@ const Signup = () => {
       })
     });
     if (res.ok) {
-      window.alert('Registration Successful');
-      console.log('Registration Successful');
-      history('/login');
-    }
-    else if (res.status === 400) {
+      Swal.fire({
+        title: "Good job!",
+        text: "Registration Successful!",
+        icon: "success",
+        confirmButtonText: "Proceed",
+      }).then(() => {
+        history('/login');
+      });
+    } else if (res.status === 400) {
       const data = await res.json();
-      console.log(data);
-      window.alert(data.error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: data.error.message,
+        confirmButtonText: "Try Again",
+      });
     }
   };
 
@@ -121,6 +132,7 @@ const Signup = () => {
 
   return (
     <div className='signup'>
+      <Navbar name="signin" id="loginbtn"/>
       <div className='signuppage'>
         <div className='signpuslide'>
           <div className='signupform2'>
