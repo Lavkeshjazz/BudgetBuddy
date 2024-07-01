@@ -195,6 +195,7 @@ async function get_products(req, res) {
     // console.log(req.user);
     const result = await User.findOne({ email: req.user.email })
     let listAllProduct = [];
+   
     let flag = false;
     if (result.userType == 'user') {
       listYourProduct = await yourproductlisting(result.itemsAdded)
