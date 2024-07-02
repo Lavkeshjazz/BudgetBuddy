@@ -1,21 +1,53 @@
-import { BsFillBagFill } from "react-icons/bs";
+
 import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
+import swal from "sweetalert";
 
-const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL }) => {
+const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL ,email}) => {
   const data = {
-    img, title, newPrice, expectedPrice, productURL
+    img, title, newPrice, expectedPrice, productURL,email
   }
   const Navigate = useNavigate();
   const sendtodisplay = () => {
     Navigate('/display', { state: data });
   }
+
+  // --------------------------------------------------------------
+  const del_function = async (e) => {
+    e.preventDefault();
+    const deleteItemId=productURL;
+    console.log("Deleting item...");
+    const res = await fetch('http://localhost:5000/delete', {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        deleteItemId,
+        email
+      })
+    });
+    const data = await res.json();
+    console.log(data);
+    if (res.ok) {
+      swal("Item Deleted","Refresh page to see changes", "success");
+      console.log('data to deleted successfully');
+      console.log(data.message);
+    }
+    else if (res.status === 400) {
+      console.log(data);
+      window.alert(data.error.message);
+    }
+  };
+  // --------------------------------------------------------------
   return (
-    <div onClick={sendtodisplay}>
+    <div>
       <section className="card">
-        <img src={img} alt={title} className="card-img" />
+        <img src={img} alt={title} className="card-img" onClick={sendtodisplay}/>
         <div className="card-details">
-          <h3 className="card-title">{title}</h3>
+          <h3 className="card-title" onClick={sendtodisplay}>{title}</h3>
           <section className="card-reviews">
             {Array.from({ length: 4 }, () => <AiFillStar className="rating-star" />)}
             <span className="total-reviews">{reviews}</span>
@@ -24,15 +56,15 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
             <div className="price">
               ₹{newPrice}
             </div>
-            <div className="bag">
+            <div className="bag" role="img" alt="Delete">
               {site}
-              <BsFillBagFill className="bag-icon" />
+              <MdDelete className="trashicon" onClick={del_function}/>
+              <h6 className="hovertext">Remove</h6>
             </div>
           </section>
         </div>
       </section>
     </div>
-    // </Link>
   );
 };
 

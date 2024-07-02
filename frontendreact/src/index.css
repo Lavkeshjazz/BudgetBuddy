@@ -38,7 +38,7 @@ body {
   height: 70px;
   width: 100vw;
   z-index: 101;
-  background-color: #020025d4;
+  background-color: #000000;
   /* background-image: linear-gradient(60deg,rgb(0, 0, 44), rgb(3, 0, 31)); */
   backdrop-filter: blur(25px);
   border-bottom: .5px solid rgba(255, 255, 255, 0.1);
@@ -1080,7 +1080,9 @@ body {
 .form-control{
   font-family: 'Courier New', Courier, monospace;
 }
-
+.css-ahj2mt-MuiTypography-root {
+  font-family: "Reddit Sans", sans-serif !important;
+}
 @media (max-width: 1350px) {
   .navbar{
     height: 55px;

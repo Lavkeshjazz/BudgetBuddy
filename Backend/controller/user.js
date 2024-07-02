@@ -79,7 +79,7 @@ async function deleteDatabase(req, res) {
       listAllItems: listAllProduct,
       checkUser: flag
     }
-    res.render("searchpage", products)
+    res.status(200).json({message:"success", products: products });
 
   } catch (err) {
     console.log(err);
