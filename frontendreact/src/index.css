@@ -1277,7 +1277,7 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 9px 9px 10px 10px;
     padding-top: 30px;
   }
   .signupform2{
@@ -1288,5 +1288,66 @@ body {
   }
   #signup{
     margin-top: 40px;
+  }
+}
+
+@media (max-width: 425px) {
+  .landingdetails{
+    width: 90%;
+    font-size: 12px;
+  }
+  .landingpage{
+    height: 100vh;
+  }
+  .navlogo{
+    margin: 0;
+  }
+  .landingtitle{
+    font-size: 30px;
+  }
+  .blur1{
+    height: 150px;
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.332);
+  }
+  .landingbtn{
+    box-shadow: 0 10px 40px #03ffea3c;
+  }
+  .navlogo{
+    display: none;
+  }
+  .navbar{
+    align-items: center;
+    justify-content: center;
+  }
+  .buddy{
+    display: none;
+  }
+  .rightitem{
+    margin-right: 20px;
+  }
+  #loginbtn{
+    margin: 0;
+    padding: 12px 0 12px 0;
+    background-color: #7300ff;
+    border: 1px solid white;
+    border-radius: 0;
+  }
+  #loginbtn a{
+    color: #ffffff;
+  }
+  .signpuslide{
+    width: 80%;
+    box-shadow: none;
+  }
+  .loginslide{
+    width: 80%;
+    box-shadow: none;
+  }
+  .logincard2{
+    padding-top: 30px;
+  }
+  .logincard{
+    border-radius: 9px 9px 0 0;
   }
 }

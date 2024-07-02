@@ -119,14 +119,9 @@ async function addUrlinDatabase(req, res) {
 async function yourproductlisting(database) {
   let listYourProduct = [];
   for (var index in database) {
-    console.log("umaaaaa");
     const x = database[index].productURL;
-    console.log(x);
-
     const y = await Product.findOne({ url: x });
     let product = JSON.parse(JSON.stringify(database[index]));
-    console.log("oaaaaaaaaa");
-    console.log(y);
     product.name = y.name;
     product.price = y.price;
     product.imageUrl = y.imageUrl;
@@ -190,7 +185,6 @@ async function add_new_data_in_existing_database(req, res) {
 }
 //get all products
 async function get_products(req, res) {
-  console.log("inside get products11111111111111111111");
   try {
     // console.log(req.user);
     const result = await User.findOne({ email: req.user.email })
@@ -210,14 +204,14 @@ async function get_products(req, res) {
       listAllItems: listAllProduct,
       checkUser: flag
     }
-    console.log(products);
-    console.log("yoyoyyoyo")
+    // console.log(products);
+    // console.log("yoyoyyoyo")
+    console.log("products fetched succesfully");
     return res.status(200).json(products);
   }
   catch (err) {
     console.log(err);
-    return res.status(400).json({ message: "errrrrrrrrrroooooor" });
-
+    return res.status(400).json({ message: "error in fetching products" });
   }
 }
 async function get_curItem(req, res) {

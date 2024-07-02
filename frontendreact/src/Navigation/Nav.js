@@ -8,7 +8,7 @@ import swal from 'sweetalert';
 const Nav = (props) => {
   const Navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState({ ProductURL: '', expectedPrice: null });
+  const [user, setUser] = useState({ ProductURL: '', expectedPrice: undefined });
   let name, value;
   const handleInputs = (e) => {
     name = e.target.name;
