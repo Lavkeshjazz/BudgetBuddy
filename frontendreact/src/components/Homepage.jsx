@@ -77,8 +77,9 @@ function Homepage() {
         }
       }
     }
+    console.log(email)
     return filteredProducts.map(
-      ({ imageUrl, name, prevPrice, price, site, productURL, expectedPrice }) => (
+      ({ imageUrl, name, prevPrice, price, site, productURL, expectedPrice}) => (
         <Card
           key={Math.random()}
           img={imageUrl}
@@ -88,6 +89,7 @@ function Homepage() {
           site={site}
           expectedPrice={expectedPrice}
           productURL={productURL}
+          email={email}
         />
       )
     );

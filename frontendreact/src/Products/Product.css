@@ -23,28 +23,30 @@
   height: 25em;
   width: 20em;
   margin: 0px 80px 90px 40px;
-  /* border: 1px solid #d6d6d6; */
-  /* border-bottom: 20px solid #848484; */
+  cursor: default;
   box-shadow: 2px 5px 15px rgba(126, 126, 126, 0.4);
   padding: 30px;
-  cursor: pointer;
   transition: .2s;
   background-color: white;
 }
 .card:hover{
   /* filter: brightness(95%);  */
-  scale: 1.01;
+  /* scale: 1.01; */
   box-shadow: 2px 5px 15px rgba(126, 126, 126, 0.8);
   transition: .2s;
+  transform: translateY(-5px);
 }
 .card-img {
   height: 11rem;
   object-fit: contain;
   width: 100%;
   margin-bottom: 0.5rem;
+  cursor: pointer;
 }
 .card-title {
   /* margin-bottom: 0.3em; */
+  color: rgb(34, 34, 34);
+  cursor: pointer;
   font-size: 18px;
   height: 70px;
   display: -webkit-box;
@@ -52,7 +54,9 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
+.card-title:hover{
+  color: #000000;
+}
 .card-reviews {
   margin-top: 10px;
   margin-bottom: 1em;
@@ -82,9 +86,39 @@
   border: 2px solid #e2d7ff ;
   padding: 7px;
 }
-
-.bag-icon {
+.bag{
+  width :4em;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.trashicon {
   color: #535353;
+  scale: 1.6;
+  position: fixed;
+  /* transform: translateX(3.2em); */
+}
+.hovertext{
+  display: none;
+  background-color: rgb(163, 163, 163);
+  color: white;
+  width: 4.6em;
+  text-align: center;
+  font-size: 13px;
+  border: 2px solid white;
+  font-weight: 100;
+  padding: 4px;
+  transform: translate(10px,30px);
+  transition: 1s;
+}
+.trashicon:hover{
+  color: rgb(46, 0, 0);
+}
+.trashicon:hover + .hovertext{
+  transition: 1s;
+  display: block;
 }
 
 @media (max-width: 1350px) {

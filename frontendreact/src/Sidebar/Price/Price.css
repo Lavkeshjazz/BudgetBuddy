@@ -1,9 +1,13 @@
 .price-title {
   margin-top: 20px;
+  font-family: "Reddit Sans", sans-serif;
 }
 
 .ml {
   margin-left: 20px;
+}
+#demo-simple-select-filled-label{
+  font-family: "Reddit Sans", sans-serif;
 }
 @media (max-width: 1350px) {
   .ml {
