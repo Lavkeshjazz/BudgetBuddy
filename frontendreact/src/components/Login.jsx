@@ -6,8 +6,8 @@ import Swal from 'sweetalert2';
 import Navbar from './Navbar';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("")
   const navigate = useNavigate();
   const userContext = useUserContext();
 
