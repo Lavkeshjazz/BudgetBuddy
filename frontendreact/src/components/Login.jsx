@@ -3,8 +3,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useUserContext } from "./userContex";
 import { GoArrowRight } from "react-icons/go";
 const Login = () => {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("")
   const navigate = useNavigate();
   const userContext = useUserContext();
   async function loginuser(e) {

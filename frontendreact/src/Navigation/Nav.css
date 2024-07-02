@@ -97,3 +97,11 @@ nav {
     transform: translateX(-96px);
   }
 }
+@media (max-width: 425px){
+  nav{
+    padding: 0;
+  }
+  .searchbtn{
+    transform: translate(0);
+  }
+}
