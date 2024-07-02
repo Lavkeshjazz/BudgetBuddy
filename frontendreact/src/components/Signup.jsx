@@ -66,8 +66,13 @@ const Signup = () => {
     } else if (res.status === 400) {
       setOpen(false);
       const data = await res.json();
-      console.log(data);
-      window.alert(data.error.message);
+      Swal.fire({
+        icon: "error",
+        title: data.error.code,
+        text: data.error.message,
+        confirmButtonText: "Try Again",
+      });
+
     }
   };
   return (

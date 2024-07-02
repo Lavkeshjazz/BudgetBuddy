@@ -285,6 +285,10 @@ async function fetchPrice(url) {
         return cache;
     }
   const userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
+
+  //console.log(`I have reached here ${url}`);
+
+  console.log(url);
   const response = await axios.get(url, {
     headers: {
       "User-Agent": userAgent,
