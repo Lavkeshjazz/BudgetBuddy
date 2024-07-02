@@ -33,8 +33,8 @@ const Navbar = (props) => {
           <img src="/BUDGET BUDDY.png" alt="Budget Buddy Logo" style={{ width: '220px', height: '70px', paddingTop: '5px', filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5))'}} />
         </NavLink>
         <ul className="rightnav">
-          <li className="rightitem"><NavLink to="/">Home</NavLink></li>
-          <li className="rightitem"><NavLink to="/collections">Collections</NavLink></li>
+          <li id={props.name === "home" ? props.id : ""} className="rightitem"><NavLink to="/">Home</NavLink></li>
+          <li id={props.name === "collection" ? props.id : ""} className="rightitem"><NavLink to="/collections">Collections</NavLink></li>
           {uid && (
             <li id='loginbtn' className="rightitem">
               <NavLink onClick={logout}>Logout</NavLink>

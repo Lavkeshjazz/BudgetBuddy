@@ -19,7 +19,7 @@ const Landingpage = () => {
   const username = userContext.user;
   return (
     <div className='landing'>
-      <Navbar name="login" id="loginbtn"/>
+      <Navbar name="home" id="loginbtn"/>
       <div className='landingpage'>
         <div className='blur1'></div>
         <h1 className='landingtitle'><span className='highlight'>Track</span>,<span className='highlight'> Compare</span>,<span className='highlight'> Save</span> to Unlock Best Deals.</h1>

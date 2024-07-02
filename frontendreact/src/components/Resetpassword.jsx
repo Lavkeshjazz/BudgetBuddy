@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Resetpassword = () => {
   const [password, setPassword] = useState("");
@@ -17,14 +18,23 @@ const Resetpassword = () => {
       })
     });
     if (res.ok) {
-      window.alert('Password Changed');
-      console.log('Password Changed');
-      navigate('/login');
+      Swal.fire({
+        title: "Password Changed!",
+        icon: "success",
+        confirmButtonText: "Proceed",
+      }).then(() => {
+        navigate('/login');
+        });
     }
     else if (res.status === 400) {
-      const data = await res.json();
-      console.log(data);
-      window.alert(data.error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text:  "Somethin Went Wrong",
+        confirmButtonText: "Sign Up",
+      }).then(()=>{
+        navigate('/forgotpwd');
+      });
     }
   };
   return (

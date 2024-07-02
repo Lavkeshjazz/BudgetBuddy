@@ -19,6 +19,8 @@ const Login = () => {
     name=e.target.name;
     value=e.target.value;
     if(name==='email'){
+      value = value.toLowerCase();
+      setEmail(value); // Update state with lowercase email
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if(!regex.test(value)){
         setErrors({...errors,email: "*Invalid Email Format"})

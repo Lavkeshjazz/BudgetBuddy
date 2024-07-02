@@ -131,6 +131,7 @@ body {
 .homepage {
   padding-top: 60px;
   height: 110vh;
+  background-color: #3b1277;
 }
 
 .loginfirst {
@@ -580,15 +581,21 @@ footer {
 
 .resetcard {
   padding: 30px;
+  padding-top: 100px;
   height: 30em;
   display: flex;
   align-items: center;
   flex-direction: column;
   border-radius: 50px;
   background: #e0e7ff;
-  box-shadow: 20px 20px 60px #bec4d9,
-    -20px -20px 60px #ffffff;
+  box-shadow: 1px 1px 30px #c1b2d6,
+    -1px -1px 30px #3b1277;
   animation: loginload 1s;
+}
+
+.resetcard h2{
+  font-size: 40px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .resetform {
@@ -597,7 +604,6 @@ footer {
   align-items: center;
   justify-content: center;
   height: 100%;
-  margin-top: 30px;
 }
 
 .resetbtn {
@@ -609,10 +615,14 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 3px;
+  border-radius: 50px;
   color: white;
   cursor: pointer;
   transition: .5s;
+}
+.resetbtn:hover {
+  background-color: #33b683;
+  border: solid #33b683;
 }
 
 .resettologin {
@@ -1309,7 +1319,7 @@ footer {
     width: 6rem;
   }
   .resetcard{
-    height: 20em;
+    height: 200em;
   }
   .resetcard h2{
     font-size: 18px;
@@ -1486,4 +1496,25 @@ footer {
   font-size: 12px;
   margin-top: 5px;
   display: block;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

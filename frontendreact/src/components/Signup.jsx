@@ -117,7 +117,7 @@ const Signup = () => {
       const data = await res.json();
       Swal.fire({
         icon: "error",
-        title: "Oops...",
+        title: data.error.code,
         text: data.error.message,
         confirmButtonText: "Try Again",
       });

@@ -199,6 +199,8 @@ async function get_products(req, res) {
       listAllProduct = await allproductlisiting();
     }
     let products = {
+      listName1: result.firstName,
+      listName2: result.lastName,
       listTitle: result.email,
       listItems: listYourProduct,
       listAllItems: listAllProduct,
@@ -246,7 +248,7 @@ async function fetchPrice(url) {
   const userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
 
   //console.log(`I have reached here ${url}`);
-
+  
   console.log(url);
   const response = await axios.get(url, {
     headers: {
