@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useUserContext } from "./userContex";
+import { useUserContext } from './userContex';
 import { GoArrowRight } from "react-icons/go";
 import Swal from 'sweetalert2';
 import Navbar from './Navbar';
@@ -44,7 +44,10 @@ const Login = () => {
         icon: "success",
         confirmButtonText: "Proceed",
       }).then(() => {
+        response.json().then(userInfo => {
+        userContext.login(userInfo.user_exist);
         navigate('/');
+        });
       });
     } else{
       const data = await response.json();
