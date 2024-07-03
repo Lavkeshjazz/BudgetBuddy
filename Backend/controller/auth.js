@@ -63,11 +63,41 @@ async function handleUserSignup(req, res) {
                 password,
                 userType
             });
+            console.log("user type:", userType);
+            return res.status(200).json({
+                user
+            })
         }
-        console.log("user type:", userType);
-        return res.status(200).json({
-            user
-        })
+        else if(check_phonenumber && !check_email){
+            return res.status(400).json({
+                status: "error",
+                statusCode: 400,
+                error: {
+                    code: "Phone number already registered",
+                    message: "Please try again with another phone number.",
+                },
+            })  
+        }
+        else if(!check_phonenumber && check_email){
+            return res.status(400).json({
+                status: "error",
+                statusCode: 400,
+                error: {
+                    code: "Email already registered",
+                    message: "Please try again with another email.",
+                },
+            })  
+        }
+        else{
+            return res.status(400).json({
+                status: "error",
+                statusCode: 400,
+                error: {
+                    code: "Email and Phone number already registered",
+                    message: "Please try again with another email and phone number.",
+                },
+            })  
+        }
     } catch (error) {
         return res.status(400).json({
             status: "error",
@@ -162,6 +192,8 @@ async function handleUserLogin(req, res) {
 const secret = "Lavkesh@123";
 async function handleUserAuth(req, res) {
     const uid = req.cookies.uid;
+    console.log("uid=");
+    console.log(uid);
     if (uid) {
         const decoded=jwt.verify(uid,secret);
         console.log(decoded)

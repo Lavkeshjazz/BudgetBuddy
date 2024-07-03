@@ -7,22 +7,27 @@ import Sidebar from "../Sidebar/Sidebar";
 import Card from "./Card";
 import "../index.css";
 import { NavLink } from 'react-router-dom';
+import Navbar from "./Navbar";
 
 function Homepage() {
-  const userContext = useUserContext();
-  useEffect(() => {
-    fetch('http://localhost:5000/authorized', {
-      credentials: 'include',
-    }).then(response => {
-      response.json().then(userInfo => {
-        userContext.login(userInfo.user_exist);
-      })
-    })
-    // eslint-disable-next-line
-  }, []);
-  const username = userContext.user;
-  console.log(userContext.user);
+  // const userContext = useUserContext();
+  // useEffect(() => {
+  //   fetch('http://localhost:5000/authorized', {
+  //     credentials: 'include',
+  //   }).then(response => {
+  //     response.json().then(userInfo => {
+  //       userContext.login(userInfo.user_exist);
+  //     })
+  //   })
+  //   // eslint-disable-next-line
+  // }, []);
+  // const username = userContext.user;
+  // console.log("Username=");
+  // console.log(userContext.user);
+  const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
+  const [firstName, setfirstName] = useState('');
+  const [lastName, setlastName] = useState('');
   const [products, setProducts] = useState([]);
   const [myproducts, setMyproducts] = useState([]);
   useEffect(() => {
@@ -34,11 +39,14 @@ function Homepage() {
       temp = await data.json();
       console.log(temp.listAllItems);
       setEmail(temp.listTitle);
+      setfirstName(temp.listName1);
+      setlastName(temp.listName2);
       if (temp.checkUser === true) {
         setProducts(Object.values(temp.listAllItems));
         setMyproducts(Object.values(temp.listItems));
       }
       else setProducts(Object.values(temp.listItems));
+      setLoading(false);
     };
     fetchdata();
     // eslint-disable-next-line
@@ -94,31 +102,40 @@ function Homepage() {
       )
     );
   }
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <Navbar name="login" id="loginbtn"/>
+        <div className="loader"></div>
+      </div>
+    )
+  }
   let result = null;
   if (selectedCategory === "MyProds") {
     console.log(myproducts);
     result = filteredData(myproducts, selectedCategory, query);
   }
   else result = filteredData(products, selectedCategory, query);
-
+  if(email){
   return (
-    <>
-      {!username &&
+       <div>
+      <Navbar name="collection" id="loginbtn"/>
+        <div className="homepage">
+          <Sidebar handleChange={handleChange} />
+          <Navigation query={query} handleInputChange={handleInputChange} firstName={firstName} lastName={lastName} email={email} />
+          <Recommended handleClick={handleClick} NumProds={myproducts.length} />
+          <Products result={result} />
+        </div>
+        </div>
+    )}
+    else{
+      return (
         <div className="loginfirst">
           <h1>Please Login First</h1>
           <NavLink to='http://localhost:3000/login'><button className='landingbtn'>Log In</button></NavLink>
         </div>
+      )
       }
-      {username &&
-        <div className="homepage">
-          <Sidebar handleChange={handleChange} />
-          <Navigation query={query} handleInputChange={handleInputChange} email={email} />
-          <Recommended handleClick={handleClick} NumProds={myproducts.length} />
-          <Products result={result} />
-        </div>
-      }
-    </>
-  );
 }
 export default Homepage;
 

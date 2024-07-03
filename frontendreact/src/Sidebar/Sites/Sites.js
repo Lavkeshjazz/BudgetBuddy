@@ -14,6 +14,7 @@ function Sites({ handleChange }) {
   return (
     <div className="sites_container">
       <h2 className="sidebar-title">Sites</h2>
+      <div className="solid-line1"></div>
       <FormControl>
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"

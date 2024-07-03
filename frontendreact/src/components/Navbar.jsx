@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useUserContext } from "./userContex";
 import { NavLink, useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = (props) => {
   const Navigate = useNavigate();
   const userContext = useUserContext();
   useEffect(() => {
@@ -30,13 +30,11 @@ const Navbar = () => {
     <div className='navbar_container'>
       <div className='navbar'>
         <NavLink to="/" className="leftnavlink">
-          <div className='leftnav'>
-            <div className='navlogo'>BUDGET</div><div className='buddy'>BUDDY</div>
-          </div>
+          <img src="/BUDGET BUDDY.png" alt="Budget Buddy Logo" style={{ width: '220px', height: '70px', paddingTop: '5px', filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5))'}} />
         </NavLink>
         <ul className="rightnav">
-          <li className="rightitem"><NavLink to="/">Home</NavLink></li>
-          <li className="rightitem"><NavLink to="/collections">Collections</NavLink></li>
+          <li id={props.name === "home" ? props.id : ""} className="rightitem"><NavLink to="/">Home</NavLink></li>
+          <li id={props.name === "collection" ? props.id : ""} className="rightitem"><NavLink to="/collections">Collections</NavLink></li>
           {uid && (
             <li id='loginbtn' className="rightitem">
               <NavLink onClick={logout}>Logout</NavLink>
@@ -44,8 +42,8 @@ const Navbar = () => {
           )}
           {!uid && (
             <>
-              <li className="rightitem"><NavLink to="/signup">Sign Up</NavLink></li>
-              <li id='loginbtn' className="rightitem"><NavLink to="/login">Log In</NavLink></li>
+              <li id={props.name === "signin" ? props.id : ""} className="rightitem"><NavLink to="/signup">Sign Up</NavLink></li>
+              <li id={props.name === "login" ? props.id : ""} className="rightitem"><NavLink to="/login">Sign In</NavLink></li>
             </>
           )}
         </ul>

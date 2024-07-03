@@ -18,7 +18,7 @@ const AllRoutes = () => {
   return (
     <UserContextProvider>
       <BrowserRouter>
-        <Navbar />
+        {/* <Navbar /> */}
         <Routes>
           <Route path='/' element={<Landingpage />} />
           <Route path='/collections' element={<Homepage />} />

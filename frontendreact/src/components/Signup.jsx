@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { GoArrowLeft } from "react-icons/go";
+import Swal from 'sweetalert2';
+import Navbar from "./Navbar";
+
 const Signup = () => {
   const history = useNavigate();
   const [user, setUser] = useState({
@@ -11,12 +14,78 @@ const Signup = () => {
     password: '',
     userType: ''
   });
+
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastname: '',
+    phone_number: '',
+    email: '',
+    password: '',
+  })
+
   let name, value;
+
   const handleInputs = (e) => {
+    //It is taking input as key value pair
+    //here key is name like firstname,lastname,email
+    //here value is it's value
     name = e.target.name;
     value = e.target.value;
+    if(name === 'firstName' || name==='lastname'){
+      const regex = /^[a-zA-Z]*$/;
+      if(!regex.test(value)){
+        setErrors({...errors,[name]: "*Only Alphabetical letters are allowed."})
+      }
+      else{
+        setErrors({...errors, [name]: ''})
+      }
+    }
+    else if(name==='phone_number'){
+      const regex=/^[0-9]*$/;
+      if(!regex.test(value)){
+        setErrors({...errors,phone_number: "*Only Numberic digits are allowed."})
+      }
+      if(value.length !== 10){
+        setErrors({...errors,phone_number: "*The length of Phone number should only be 10"})
+      }
+      else{
+        setErrors({...errors,phone_number: ''});
+      }
+    }
+    else if(name==='email'){
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!regex.test(value)){
+        setErrors({...errors,email: "*Invalid Email Format"})
+      }
+      else{
+        setErrors({...errors,email:''})
+      }
+    }
+    else if(name==='password'){
+      if(value.length<8){
+        setErrors({...errors,password:"*Too Weak Level Password"})
+      }
+      else if(value.length>=8 && value.length<13){
+        setErrors({...errors,password:"*Medium Level Password"})
+      }
+      else{
+        setErrors({...errors,password:''});
+      }
+    }
+    else if (name === 'userType') {
+      if (value === '') {
+        setErrors({...errors, userType: "*Please select a user type."});
+      } else {
+        setErrors({...errors, userType: ''});
+      }
+    }
     setUser({ ...user, [name]: value });
   };
+
+  const handleUserTypeChange = (e) => {
+    setUser({ ...user, userType: e.target.value });
+  };
+
   const PostData = async (e) => {
     e.preventDefault();
     const { firstName, lastname, phone_number, email, password, userType } = user;
@@ -36,27 +105,44 @@ const Signup = () => {
       })
     });
     if (res.ok) {
-      window.alert('Registration Successful');
-      console.log('Registration Successful');
-      history('/login');
-    }
-    else if (res.status === 400) {
+      Swal.fire({
+        title: "Good job!",
+        text: "Registration Successful!",
+        icon: "success",
+        confirmButtonText: "Proceed",
+      }).then(() => {
+        history('/login');
+      });
+    } else if (res.status === 400) {
       const data = await res.json();
-      console.log(data);
-      window.alert(data.error.message);
+      Swal.fire({
+        icon: "error",
+        title: data.error.code,
+        text: data.error.message,
+        confirmButtonText: "Try Again",
+      });
     }
   };
+
+  // Check if there are any errors
+  const isDisabled = Object.values(errors).some(error => error !== '') || Object.values(user).some(value => value === '');
+
+  // Enable button only if there are no errors and userType is selected
+  const buttonDisabled = isDisabled || user.userType === '';
+
   return (
     <div className='signup'>
+      <Navbar name="signin" id="loginbtn"/>
       <div className='signuppage'>
         <div className='signpuslide'>
           <div className='signupform2'>
             <h1 className='logintitle'>Welcome Back!</h1>
-            <p className='signintext'>To keep connected with us please login with your personal info</p>
+            <p className='signintext'>If you already have an account, please log in to access your price tracking dashboard and get the latest updates on your favorite products.</p>
             <NavLink to='http://localhost:3000/login' className='signin_redirect'><GoArrowLeft />SIGN IN</NavLink>
           </div>
           <form className='signupform' id='register-form'>
-            <h1 className='logintitle'>Sign Up</h1>
+          <h1 className='logintitle' style={{ textShadow: 'none' }}>Sign Up</h1>
+          <div className='form-group'>
             <input
               className='forminput2'
               type='text'
@@ -67,6 +153,8 @@ const Signup = () => {
               onChange={handleInputs}
               placeholder='First Name'
             />
+            {errors.firstName && <span className='error'>{errors.firstName}</span>}
+            </div>
 
             <div className='form-group'>
               <input
@@ -79,6 +167,7 @@ const Signup = () => {
                 onChange={handleInputs}
                 placeholder='Last Name'
               />
+              {errors.lastname && <span className='error'>{errors.lastname}</span>}
             </div>
 
             <div className='form-group'>
@@ -92,6 +181,7 @@ const Signup = () => {
                 onChange={handleInputs}
                 placeholder='Phone'
               />
+              {errors.phone_number && <span className='error'>{errors.phone_number}</span>}
             </div>
 
             <div className='form-group'>
@@ -105,6 +195,7 @@ const Signup = () => {
                 onChange={handleInputs}
                 placeholder='Email'
               />
+              {errors.email && <span className='error'>{errors.email}</span>}
             </div>
 
             <div className='form-group'>
@@ -118,19 +209,24 @@ const Signup = () => {
                 onChange={handleInputs}
                 placeholder='Password'
               />
+              {errors.password && <span className='error'>{errors.password}</span>}
             </div>
 
             <div className='form-group'>
-              <input
-                className='forminput2'
-                type='text'
+
+              <select
+                className='forminput3'
                 name='userType'
                 id='userType'
-                autoComplete='off'
                 value={user.userType}
-                onChange={handleInputs}
-                placeholder='User / Trader'
-              />
+                onChange={handleUserTypeChange}
+                placeholder='User Type:'
+              >
+                <option value=''>Select User Type</option>
+                <option value='user'>User</option>
+                <option value='trader'>Trader</option>
+              </select>
+              {errors.userType && <span className='error'>{errors.userType}</span>}
             </div>
 
             <div className='form-group form-button'>
@@ -141,6 +237,7 @@ const Signup = () => {
                 className='signinbtn'
                 value='REGISTER'
                 onClick={PostData}
+                disabled={buttonDisabled}
               />
             </div>
           </form>
