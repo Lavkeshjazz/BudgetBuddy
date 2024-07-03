@@ -17,6 +17,7 @@ const Sidebar = ({ handleChange }) => {
         <div className="solid-line2"></div>
         <Demand handleChange={handleChange} />
         <div className="solid-line2"></div>
+
       </section>
     </>
   );

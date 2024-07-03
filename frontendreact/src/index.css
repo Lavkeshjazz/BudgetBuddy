@@ -1585,3 +1585,26 @@ footer {
   100% { transform: rotate(360deg); }
 
 }
+
+.sites_container {
+  width: 270px; /* Adjust width as needed */
+  border: 2px solid #afafaf;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.solid-line1 {
+  width: 95%; /* Adjust width as needed */
+  height: 2px;
+  background-color: #afafaf; /* Color of the solid line */
+  margin-bottom: 10px; /* Adjust margin bottom to create space */
+  margin-top: 5%;
+}
+
+.solid-line3 {
+  width: 95%; /* Adjust width as needed */
+  height: 2px;
+  background-color: #afafaf; /* Color of the solid line */
+  margin-bottom: 10px; /* Adjust margin bottom to create space */
+  margin-top: 5%;
+}
