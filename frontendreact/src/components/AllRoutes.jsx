@@ -10,6 +10,7 @@ import Searchitempage from './Searchitempage';
 import Display from './Display';
 import Navbar from "./Navbar";
 import { UserContextProvider } from './userContex';
+import Navigation from "../Navigation/Nav";
 // import Forget from './Forget';
 // import Forget2 from './Forget2';
 // import Logout from './Logout';
@@ -21,6 +22,7 @@ const AllRoutes = () => {
         <Navbar />
         <Routes>
           <Route path='/' element={<Landingpage />} />
+          <Route path='/search' element={<Navigation/>} />
           <Route path='/collections' element={<Homepage />} />
           <Route path='/Login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />

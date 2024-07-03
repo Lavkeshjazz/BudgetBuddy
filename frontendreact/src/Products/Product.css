@@ -5,13 +5,14 @@
   margin-top: 3em;
 }
 .card-container {
-  /* background-color: rgba(235, 235, 235, 0.5); */
+  background-color: #e0deff80;
   display: flex;
   flex-wrap: wrap;
   margin-left: 17rem;
   padding-left: 10rem;
   padding-top: 3rem;
   z-index: -2;
+  min-height: 100vh;
 }
 .carditem{
   color: black;
@@ -22,7 +23,7 @@
   border-radius: 20px;
   height: 25em;
   width: 20em;
-  margin: 0px 80px 90px 40px;
+  margin: 50px 80px 80px 40px;
   cursor: default;
   box-shadow: 2px 5px 15px rgba(126, 126, 126, 0.4);
   padding: 30px;

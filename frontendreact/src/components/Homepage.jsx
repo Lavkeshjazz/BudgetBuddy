@@ -112,7 +112,7 @@ function Homepage() {
       {username &&
         <div className="homepage">
           <Sidebar handleChange={handleChange} />
-          <Navigation query={query} handleInputChange={handleInputChange} email={email} />
+          {/* <Navigation query={query} handleInputChange={handleInputChange} email={email} /> */}
           <Recommended handleClick={handleClick} NumProds={myproducts.length} />
           <Products result={result} />
         </div>

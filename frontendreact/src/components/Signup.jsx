@@ -129,7 +129,7 @@ const Signup = () => {
                 autoComplete='off'
                 value={user.userType}
                 onChange={handleInputs}
-                placeholder='User / Trader'
+                placeholder='user / trader'
               />
             </div>
 

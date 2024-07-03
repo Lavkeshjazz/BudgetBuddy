@@ -36,6 +36,7 @@ const Navbar = () => {
         </NavLink>
         <ul className="rightnav">
           <li className="rightitem"><NavLink to="/">Home</NavLink></li>
+          <li className="rightitem"><NavLink to="/search">Search</NavLink></li>
           <li className="rightitem"><NavLink to="/collections">Collections</NavLink></li>
           {uid && (
             <li id='loginbtn' className="rightitem">

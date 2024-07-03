@@ -1,14 +1,24 @@
 .price-title {
   margin-top: 20px;
   font-family: "Reddit Sans", sans-serif;
+  color: white ;
 }
 
 .ml {
-  margin-left: 20px;
+  color: white ;
+  margin-top: 30px;
+  background-color: rgba(255, 255, 255, 0.154);
+  border-top: 2px solid rgba(255, 255, 255, 0.411);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.411);
 }
 #demo-simple-select-filled-label{
   font-family: "Reddit Sans", sans-serif;
+  color: white ;
 }
+#demo-simple-select-filled{
+  background-color: rgba(236, 236, 236, 0.33);
+  color: white;
+}      
 @media (max-width: 1350px) {
   .ml {
     width: 11em;
