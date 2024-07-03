@@ -8,13 +8,13 @@ nav {
   align-items: center;
   justify-content: space-around;
   /* height: 20vh; */
-  box-shadow: 0 5px 20px rgb(203, 203, 203,.5);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
 }
 
 .email_section {
   margin-left: 10px;
   font-weight: bold;
-  color: rgb(0, 0, 63);
+  color: #33b683;
 }
 
 .hello {
@@ -29,10 +29,21 @@ nav {
 
 .navtitle {
   width: 95.5%;
-  font-size: 20px;
+  font-size: 30px;
   margin-top: 10px;
   margin-bottom: 10px;
   display: flex;
+  color: #3b1277;
+}
+
+.navtitle1 {
+  width: 95.5%;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  color: #3b1277;
 }
 
 .navforminput {
@@ -44,6 +55,7 @@ nav {
   height: 50px;
   width: 30rem;
   margin-left: 1em;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
 }
 .nav-icons {
   width: 1.5rem;
@@ -53,6 +65,7 @@ nav {
 
 .home_form {
   padding: 30px;
+  margin-left: 50px;
 }
 
 .searchbtn {
@@ -60,7 +73,7 @@ nav {
   transform: translateX(-105px);
   border-radius: 50px;
   border: none;
-  background-color: rgb(0, 0, 34);
+  background-color: #33b683;
   height: 40px;
   width: 100px;
   cursor: pointer;
@@ -105,4 +118,37 @@ nav {
     transform: translate(0);
   }
 
+}
+
+
+.navtitle {
+  align-items: baseline; /* Aligns baseline of elements */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navtitle1 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navtitle h2 {
+  font-size: 30px; /* Adjust the font size for "Welcome" */
+  margin-right: 10px; /* Adds space between "Welcome" and email */
+}
+
+.email_section {
+  font-size: 40px; /* Adjust the font size for email */
+  font-weight: bold; /* Optional: Adds bold styling */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navdiv{
+  background-color: #ffffff;
+}
+
+.error1 {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+  margin-left: 48%;
 }

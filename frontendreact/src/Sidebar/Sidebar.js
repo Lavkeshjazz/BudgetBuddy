@@ -6,11 +6,13 @@ const Sidebar = ({ handleChange }) => {
     <>
       <section className="sidebar">
         <div className="logo-container">
-          {/* <h1>🛒</h1> */}
-          MENU
+         <h1>Filters</h1>
         </div>
+        <div className="solid-line"></div>
         <Sites handleChange={handleChange} />
+        <div className="solid-line2"></div>
         <Price handleChange={handleChange} />
+        <div className="solid-line2"></div>
       </section>
     </>
   );
