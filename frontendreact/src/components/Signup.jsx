@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { GoArrowLeft } from "react-icons/go";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 const Signup = () => {
+  const [open, setOpen] = useState(false);
+
   const history = useNavigate();
   const [user, setUser] = useState({
     firstName: '',
@@ -17,33 +22,85 @@ const Signup = () => {
     value = e.target.value;
     setUser({ ...user, [name]: value });
   };
-  const PostData = async (e) => {
-    e.preventDefault();
-    const { firstName, lastname, phone_number, email, password, userType } = user;
-    console.log("hello from postdata");
-    const res = await fetch('http://localhost:5000/user/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName,
-        lastName: lastname,
-        phone_number,
-        email,
-        password,
-        userType
-      })
-    });
-    if (res.ok) {
-      window.alert('Registration Successful');
-      console.log('Registration Successful');
-      history('/login');
+  // const PostData = async (e) => {
+  //   e.preventDefault();
+  //   const { firstName, lastname, phone_number, email, password, userType } = user;
+  //   console.log("hello from postdata");
+  //   const res = await fetch('http://localhost:5000/user/', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       firstName,
+  //       lastName: lastname,
+  //       phone_number,
+  //       email,
+  //       password,
+  //       userType
+  //     })
+  //   });
+  //   if (res.ok) {
+  //     window.alert('Registration Successful');
+  //     console.log('Registration Successful');
+  //     history('/login');
+  //   }
+  //   else if (res.status === 400) {
+  //     const data = await res.json();
+  //     console.log(data);
+  //     window.alert(data.error.message);
+  //   }
+  // };
+  const redirectToOtpPage = async (e) => {
+    setOpen(true);
+    const { userType, email } = user;
+    if (userType === 'trader') {
+      // ---------------------------------------------------------------
+      e.preventDefault();
+      const response = await fetch("http://localhost:5000/trader/mail", {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      });
+      if (response.ok) {
+        setOpen(false);
+        window.alert("OTP Sent to Your Email for two step verification");
+        history('/otpVerify', { state: user });
+      }
+      else {
+        alert('Please fill the details correctly.');
+      }
+      // ---------------------------------------------------------------
     }
-    else if (res.status === 400) {
-      const data = await res.json();
-      console.log(data);
-      window.alert(data.error.message);
+    else {
+      e.preventDefault();
+      const { firstName, lastname, phone_number, email, password, userType } = user;
+      console.log("hello from postdata");
+      const res = await fetch('http://localhost:5000/user/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName: lastname,
+          phone_number,
+          email,
+          password,
+          userType
+        })
+      });
+      if (res.ok) {
+        window.alert('Registration Successful');
+        console.log('Registration Successful');
+        history('/login');
+      }
+      else if (res.status === 400) {
+        const data = await res.json();
+        console.log(data);
+        window.alert(data.error.message);
+      }
     }
   };
   return (
@@ -134,13 +191,16 @@ const Signup = () => {
             </div>
 
             <div className='form-group form-button'>
+              <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
+                <CircularProgress color="inherit" />
+              </Backdrop>
               <input
                 type='submit'
                 name='signup'
                 id='signup'
                 className='signinbtn'
                 value='REGISTER'
-                onClick={PostData}
+                onClick={redirectToOtpPage}
               />
             </div>
           </form>
