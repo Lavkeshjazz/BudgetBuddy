@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import { GoArrowLeft } from "react-icons/go";
 
 const Forgotpassword = () => {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ const Forgotpassword = () => {
   return (
     <div class="resetpwdcontainer">
       <div className='resetcard'>
-        <h2>Password Reset</h2>
+        <h2>PASSWORD RESET</h2>
         <form className='resetform' id="password-reset-form" method="post" onSubmit={submitForm}>
           <input
             type="email"
@@ -36,7 +37,7 @@ const Forgotpassword = () => {
             required
           />
           <button type="submit" className='resetbtn'>SEND</button>
-          <NavLink to="/login" className='resettologin'>Go Back</NavLink>
+          <NavLink to="/login" className='resettologin'><GoArrowLeft className='backarrow' />Go Back</NavLink>
         </form>
       </div>
     </div>

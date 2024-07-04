@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { GoArrowLeft } from "react-icons/go";
 
 const Resetpassword = () => {
   const [password, setPassword] = useState("");
@@ -30,7 +31,7 @@ const Resetpassword = () => {
   return (
     <div class="resetpwdcontainer">
       <div className='resetcard'>
-        <h2>Reset Your Password</h2>
+        <h2>RESET YOUR PASSWORD</h2>
         <form className='resetform' onSubmit={submitForm}>
           <input
             type="password"
@@ -42,7 +43,7 @@ const Resetpassword = () => {
             required
           />
           <button type="Submit" className='resetbtn'>RESET</button>
-          <NavLink to="/login" className='resettologin'>Go Back</NavLink>
+          <NavLink to="/login" className='resettologin'><GoArrowLeft />Go Back</NavLink>
         </form>
       </div>
     </div>

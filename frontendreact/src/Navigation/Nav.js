@@ -4,7 +4,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import "./Nav.css";
 import { LuSun } from "react-icons/lu";
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
 const Nav = () => {
   const Navigate = useNavigate();
@@ -62,47 +62,47 @@ const Nav = () => {
   }, []);
   return (
     <>
-      {!email &&
+      {/* {!email &&
         <div className="loginfirst">
           <h1>Please Login First</h1>
           <NavLink to='http://localhost:3000/login'><button className='landingbtn'>Log In</button></NavLink>
         </div>
-      }
-      {email &&
-        <nav>
-          <h2 className="navtitle">Welcome, <div className='email_section'>{email}</div><LuSun className="hello" /></h2>
-          <div className='formcontainer'>
-            <h2 className="navtitle">SEARCH NEW PRODUCT</h2>
-            <form className='home_form'>
-              <input
-                className='navforminput'
-                type='text'
-                name='ProductURL'
-                id='ProductURL'
-                autoComplete='off'
-                value={user.ProductURL}
-                onChange={handleInputs}
-                placeholder='Paste Product Link'
-              />
-              <input
-                className='navforminput'
-                type='text'
-                name='expectedPrice'
-                id='expectedPrice'
-                autoComplete='off'
-                value={user.expectedPrice}
-                onChange={handleInputs}
-                placeholder='Enter Expected Price'
-              />
-              <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
-                <CircularProgress color="inherit" />
-              </Backdrop>
-              <button type="search" className='searchbtn' onClick={Itemdata}>Search</button>
+      } */}
+      {/* {email && */}
+      <nav>
+        <h2 className="navtitle">Welcome, <div className='email_section'>{email}</div><LuSun className="hello" /></h2>
+        <div className='formcontainer'>
+          <h2 className="navtitle">SEARCH NEW PRODUCT</h2>
+          <form className='home_form'>
+            <input
+              className='navforminput'
+              type='text'
+              name='ProductURL'
+              id='ProductURL'
+              autoComplete='off'
+              value={user.ProductURL}
+              onChange={handleInputs}
+              placeholder='Paste Product Link'
+            />
+            <input
+              className='navforminput'
+              type='text'
+              name='expectedPrice'
+              id='expectedPrice'
+              autoComplete='off'
+              value={user.expectedPrice}
+              onChange={handleInputs}
+              placeholder='Enter Expected Price'
+            />
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
+              <CircularProgress color="inherit" />
+            </Backdrop>
+            <button type="search" className='searchbtn' onClick={Itemdata}>Search</button>
 
-            </form>
-          </div>
-        </nav>
-      }
+          </form>
+        </div>
+      </nav>
+      {/* } */}
     </>
   );
 };
