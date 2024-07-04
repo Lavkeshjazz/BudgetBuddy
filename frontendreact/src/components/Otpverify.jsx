@@ -21,6 +21,7 @@ const Otpverify = () => {
       credentials: 'include',
     });
     if (response.ok) {
+      window.alert("Otp Matched Successful");
       e.preventDefault();
       const { firstName, lastname, phone_number, email, password, userType } = signupdata;
       console.log("hello from postdata");
@@ -71,6 +72,7 @@ const Otpverify = () => {
   return (
     <div>
     <Navbar1 name="signin" id="loginbtn"/>
+
     <div className='otpverifypage'>
       <div className='otpcard'>
         <h1 className='otptitle'>Two Step Verification</h1>

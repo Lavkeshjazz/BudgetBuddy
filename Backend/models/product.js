@@ -60,6 +60,7 @@ productSchema.methods.updatePriceStats = function () {
 productSchema.pre("save", function(){
     this.counter = this.counter+1;
 })
+
 const Products = mongoose.model('Products',productSchema)
 module.exports = Products;
 

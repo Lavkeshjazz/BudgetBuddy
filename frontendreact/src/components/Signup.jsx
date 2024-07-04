@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { GoArrowLeft } from "react-icons/go";
 import Swal from 'sweetalert2';
-import Navbar1 from "./Navbar1";
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
+import Navbar from "./Navbar";
 
 const Signup = () => {
   const [open, setOpen] = useState(false);
@@ -34,8 +32,61 @@ const Signup = () => {
     //here value is it's value
     name = e.target.name;
     value = e.target.value;
+    if(name === 'firstName' || name==='lastname'){
+      const regex = /^[a-zA-Z]*$/;
+      if(!regex.test(value)){
+        setErrors({...errors,[name]: "*Only Alphabetical letters are allowed."})
+      }
+      else{
+        setErrors({...errors, [name]: ''})
+      }
+    }
+    else if(name==='phone_number'){
+      const regex=/^[0-9]*$/;
+      if(!regex.test(value)){
+        setErrors({...errors,phone_number: "*Only Numberic digits are allowed."})
+      }
+      if(value.length !== 10){
+        setErrors({...errors,phone_number: "*The length of Phone number should only be 10"})
+      }
+      else{
+        setErrors({...errors,phone_number: ''});
+      }
+    }
+    else if(name==='email'){
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!regex.test(value)){
+        setErrors({...errors,email: "*Invalid Email Format"})
+      }
+      else{
+        setErrors({...errors,email:''})
+      }
+    }
+    else if(name==='password'){
+      if(value.length<8){
+        setErrors({...errors,password:"*Too Weak Level Password"})
+      }
+      else if(value.length>=8 && value.length<13){
+        setErrors({...errors,password:"*Medium Level Password"})
+      }
+      else{
+        setErrors({...errors,password:''});
+      }
+    }
+    else if (name === 'userType') {
+      if (value === '') {
+        setErrors({...errors, userType: "*Please select a user type."});
+      } else {
+        setErrors({...errors, userType: ''});
+      }
+    }
     setUser({ ...user, [name]: value });
   };
+
+  const handleUserTypeChange = (e) => {
+    setUser({ ...user, userType: e.target.value });
+  };
+
   const PostData = async (e) => {
     e.preventDefault();
     const { firstName, lastname, phone_number, email, password, userType } = user;
@@ -73,6 +124,7 @@ const Signup = () => {
         confirmButtonText: "Try Again",
       });
 
+    }
     }
   };
   return (
@@ -164,9 +216,14 @@ const Signup = () => {
                 name='userType'
                 id='userType'
                 value={user.userType}
-                onChange={handleInputs}
-                placeholder='User / Trader'
-              />
+                onChange={handleUserTypeChange}
+                placeholder='User Type:'
+              >
+                <option value=''>Select User Type</option>
+                <option value='user'>User</option>
+                <option value='trader'>Trader</option>
+              </select>
+              {errors.userType && <span className='error'>{errors.userType}</span>}
             </div>
 
             <div className='form-group form-button'>
@@ -180,6 +237,7 @@ const Signup = () => {
                 className='signinbtn'
                 value='REGISTER'
                 onClick={PostData}
+                disabled={buttonDisabled}
               />
             </div>
           </form>

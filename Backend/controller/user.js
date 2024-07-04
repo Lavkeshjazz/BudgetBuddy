@@ -309,13 +309,34 @@ async function fetchPrice(url) {
   const parsedhtml = cheerio.load(html); //html parsing through cheerio
   let product = ProductFactory.getProduct(url, parsedhtml, response) //Factory for getting product items
   product.url = url;//adding url to product object 
-  product.priceHistory = []
-  product.priceHistory.push({
-    price: product.price,
-    date: date
-  })
-    const productI =await  Product.create(product)
-    return productI;
+  const date = new Date()
+  //Adding the product to product collection
+  const doc = await Product.findOne({ url })
+  console.log(doc);
+  if (!doc) {
+    product.priceHistory = []
+    product.priceHistory.push({
+      price: product.price,
+      date: date
+    })
+    Product.create(product)
+  }
+  else {
+    let dbDate=doc.priceHistory[doc.priceHistory.length-1].date.getDay();
+    if (dbDate!==date.getDay()) {
+      doc.priceHistory.push({
+        price: product.price,
+        date: date
+      })
+      doc.price = product.price
+      doc.save();
+      // Update price statistics
+      doc.updatePriceStats();
+      doc.save(); // Save again to persist updated statistics
+    }
+  }
+  // return product.price;
+  return product;
 }
 
 async function sendmail() {
