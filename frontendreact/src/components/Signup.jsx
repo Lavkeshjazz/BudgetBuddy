@@ -3,8 +3,11 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { GoArrowLeft } from "react-icons/go";
 import Swal from 'sweetalert2';
 import Navbar from "./Navbar";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Signup = () => {
+  const [open, setOpen] = useState(false);
   const history = useNavigate();
   const [user, setUser] = useState({
     firstName: '',
@@ -31,6 +34,7 @@ const Signup = () => {
     //here value is it's value
     name = e.target.name;
     value = e.target.value;
+    
     if(name === 'firstName' || name==='lastname'){
       const regex = /^[a-zA-Z]*$/;
       if(!regex.test(value)){
@@ -81,29 +85,48 @@ const Signup = () => {
     }
     setUser({ ...user, [name]: value });
   };
+  
 
-  const handleUserTypeChange = (e) => {
-    setUser({ ...user, userType: e.target.value });
-  };
+  
 
-  const PostData = async (e) => {
-    e.preventDefault();
-    const { firstName, lastname, phone_number, email, password, userType } = user;
-    console.log("hello from postdata");
-    const res = await fetch('http://localhost:5000/user/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName,
-        lastName: lastname,
-        phone_number,
-        email,
-        password,
-        userType
-      })
-    });
+  const redirectToOtpPage = async (e) => {
+    setOpen(true);
+    const { userType, email } = user;
+    if (userType === 'trader') {
+      e.preventDefault();
+      const response = await fetch("http://localhost:5000/trader/mail", {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      });
+      if (response.ok) {
+        setOpen(false);
+        window.alert("OTP Sent to Your Email for two step verification");
+        history('/otpVerify', { state: user });
+      }
+      else {
+        alert('Please fill the details correctly.');
+      }
+    }
+    else {
+      e.preventDefault();
+      const { firstName, lastname, phone_number, email, password, userType } = user;
+      console.log("hello from postdata");
+      const res = await fetch('http://localhost:5000/user/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName: lastname,
+          phone_number,
+          email,
+          password,
+          userType
+        })
+      });
     if (res.ok) {
       Swal.fire({
         title: "Good job!",
@@ -121,6 +144,7 @@ const Signup = () => {
         text: data.error.message,
         confirmButtonText: "Try Again",
       });
+    }
     }
   };
 
@@ -219,7 +243,7 @@ const Signup = () => {
                 name='userType'
                 id='userType'
                 value={user.userType}
-                onChange={handleUserTypeChange}
+                onChange={handleInputs}
                 placeholder='User Type:'
               >
                 <option value=''>Select User Type</option>
@@ -230,13 +254,16 @@ const Signup = () => {
             </div>
 
             <div className='form-group form-button'>
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
+            <CircularProgress color="inherit" />
+            </Backdrop>
               <input
                 type='submit'
                 name='signup'
                 id='signup'
                 className='signinbtn'
                 value='REGISTER'
-                onClick={PostData}
+                onClick={redirectToOtpPage}
                 disabled={buttonDisabled}
               />
             </div>
@@ -244,7 +271,7 @@ const Signup = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Signup;

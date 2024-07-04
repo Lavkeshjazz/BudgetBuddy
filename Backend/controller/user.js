@@ -125,6 +125,9 @@ async function yourproductlisting(database) {
     product.name = y.name;
     product.price = y.price;
     product.imageUrl = y.imageUrl;
+    product.averageprice = y.averageprice;
+    product.lowestprice = y.lowestprice;
+    product.highestprice = y.highestprice;
     product.expectedPrice = database[index].expectedPrice;
     listYourProduct[index] = product;
   }
@@ -141,6 +144,9 @@ async function allproductlisiting() {
     product.name = y.name;
     product.price = y.price;
     product.imageUrl = y.imageUrl;
+    product.averageprice = y.averageprice;
+    product.lowestprice = y.lowestprice;
+    product.highestprice = y.highestprice;
     listAllProduct[index] = product;
   }
   return listAllProduct;
@@ -290,6 +296,9 @@ async function fetchPrice(url) {
       })
       doc.price = product.price
       doc.save();
+      // Update price statistics
+      doc.updatePriceStats();
+      doc.save(); // Save again to persist updated statistics
     }
   }
   // return product.price;

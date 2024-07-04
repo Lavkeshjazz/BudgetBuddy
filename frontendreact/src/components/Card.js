@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import swal from "sweetalert";
 
-const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL ,email}) => {
+const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL ,email, lowestprice, averageprice, highestprice}) => {
   const data = {
-    img, title, newPrice, expectedPrice, productURL,email
+    img, title, newPrice, expectedPrice, productURL,email, lowestprice,averageprice,highestprice
   }
   const Navigate = useNavigate();
   const sendtodisplay = () => {

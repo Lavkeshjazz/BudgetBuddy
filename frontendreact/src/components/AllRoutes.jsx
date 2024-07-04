@@ -10,6 +10,8 @@ import Searchitempage from './Searchitempage';
 import Display from './Display';
 import Navbar from "./Navbar";
 import { UserContextProvider } from './userContex';
+import Navigation from "../Navigation/Nav";
+import Otpverify from './Otpverify';
 // import Forget from './Forget';
 // import Forget2 from './Forget2';
 // import Logout from './Logout';
@@ -28,6 +30,7 @@ const AllRoutes = () => {
           <Route path='/user/resetPassword/:token' element={<Resetpassword />} />
           <Route path='/searchitempage/:expectedPrice' element={<Searchitempage />} />
           <Route path='/display' element={<Display />} />
+          <Route path='/otpVerify' element={<Otpverify />} />
           {/* <Route path='/logout' element={<Logout />} /> */}
           {/* <Route path='/forget' element={<Forget />} /> */}
           {/* <Route path='/forget2' element={<Forget2 />} /> */}
