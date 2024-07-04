@@ -3,6 +3,8 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import swal from 'sweetalert';
+import Navbar from './Navbar';
+import Swal from 'sweetalert2';
 
 const Searchitempage = () => {
   const [open, setOpen] = useState(false);
@@ -39,11 +41,15 @@ const Searchitempage = () => {
     console.log("ho gya add");
     if (res.ok) {
       setOpen(false);
-      // window.alert('Item Added');
-      swal("Item Added!","click OK to continue", "success");
-      console.log('Item Added');
-    }
-    else if (res.status === 400) {
+      Swal.fire({
+        title: "Item Added!",
+        icon: "success",
+        text: "Click OK to continue",
+        confirmButtonText: "OK",
+      }).then(() => {
+        Navigate('/collections');
+        });
+    } else if (res.status === 400) {
       const data = await res.json();
       console.log(data);
       window.alert(data.error.message);
@@ -96,6 +102,8 @@ const Searchitempage = () => {
   };
   // -----------------------------------------------------------------------
   return (
+    <div>
+      <Navbar name="login" id="loginbtn"/>
     <div className='search'>
       <div className='searchpage'>
         <div className='searchanother'>
@@ -134,12 +142,13 @@ const Searchitempage = () => {
           <div className='searchdetails'>
             <h1 className='searchtitle'>{productdata.name}</h1>
             <h1 className='currentpricetag'>Current Price</h1>
-            <h1 className='currentprice'>₹{productdata.price}</h1>
+            <h1 className='currentprice'>₹ {productdata.price}</h1>
             <h1 className='expectedpricetag'>Expected Price</h1>
-            <h1 className='expectedprice'>₹{expectedPrice}</h1>
+            <h1 className='expectedprice'>₹ {expectedPrice}</h1>
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

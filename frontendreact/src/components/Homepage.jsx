@@ -54,7 +54,8 @@ function Homepage() {
   const handleInputChange = (event) => {
     setQuery(event.target.value);
   };
-
+  console.log("Setproduct=")
+  console.log(products);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [query, setQuery] = useState("");
 
@@ -87,7 +88,7 @@ function Homepage() {
     }
     console.log(email)
     return filteredProducts.map(
-      ({ imageUrl, name, prevPrice, price, site, productURL, expectedPrice}) => (
+      ({ imageUrl, name, prevPrice, price, site, productURL, expectedPrice, lowestprice, highestprice,averageprice}) => (
         <Card
           key={Math.random()}
           img={imageUrl}
@@ -96,6 +97,9 @@ function Homepage() {
           newPrice={price}
           site={site}
           expectedPrice={expectedPrice}
+          lowestprice={lowestprice}
+          averageprice={averageprice}
+          highestprice={highestprice}
           productURL={productURL}
           email={email}
         />
