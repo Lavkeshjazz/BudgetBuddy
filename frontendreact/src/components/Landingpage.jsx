@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
 import { useUserContext } from "./userContex";
 import Navbar from './Navbar';
+import Navbar1 from './Navbar1';
 
 const Landingpage = () => {
   const userContext = useUserContext();
@@ -19,7 +20,8 @@ const Landingpage = () => {
   const username = userContext.user;
   return (
     <div className='landing'>
-      <Navbar name="home" id="loginbtn"/>
+      {!username && <Navbar1 name="home" id="loginbtn"/>}
+      {username && <Navbar name="home" id="loginbtn"/>}
       <div className='landingpage'>
         <div className='blur1'></div>
         <h1 className='landingtitle'><span className='highlight'>Track</span>,<span className='highlight'> Compare</span>,<span className='highlight'> Save</span> to Unlock Best Deals.</h1>

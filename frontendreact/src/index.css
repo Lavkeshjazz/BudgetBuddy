@@ -940,7 +940,7 @@ footer {
 .gobackbtn {
   /* position: fixed; */
   /* transform: translate(90px,24em); */
-  background-color: hsla(247, 100%, 12%, 0.599);
+  background-color: #33b683;
   padding: 15px;
   color: white;
   border-radius: 50px;
@@ -948,11 +948,6 @@ footer {
   width: 100px;
   cursor: pointer;
   margin-bottom: 20px;
-  transition: .5s;
-}
-
-.gobackbtn:hover {
-  background-color: #413c63;
   transition: .5s;
 }
 
@@ -1098,6 +1093,15 @@ footer {
   border-bottom: 1px solid rgb(149, 149, 149);
 }
 
+.searchtitle2 {
+  font-size: 30px;
+  font-weight: 100;
+}
+
+.graph1{
+  padding-bottom: 15px;
+}
+
 .itemrating {
   color: orange;
   font-size: 25px;
@@ -1119,8 +1123,25 @@ footer {
 }
 
 .currentpricetag1 {
-  font-size: 25px;
+  font-size: 30px;
   margin-bottom: 1em;
+  color: #33b683;
+}
+
+.currentpricetag2 {
+  font-size: 25px;
+  margin-top: 40%;
+}
+
+.currentpricetag3 {
+  font-size: 25px;
+  margin-top: 5%;
+}
+
+.currentpricetag4 {
+  font-size: 25px;
+  margin-top: 5%;
+
 }
 
 .currentprice {
@@ -1588,7 +1609,7 @@ footer {
 }
 
 .otpverifypage{
-  background-color: #040017;
+  background-color: #e0e7ff;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -1597,7 +1618,7 @@ footer {
 }
 
 .otpcard{
-  background-color: #ffffff;
+  background-color: #e0e7ff;
   padding: 30px;
   height: 33em;
   width: 40%;
@@ -1605,8 +1626,10 @@ footer {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 100px;
   animation: otpcardload 2s;
+  box-shadow: 1px 1px 30px #c1b2d6,
+  -1px -1px 30px #3b1277;
 }
 @keyframes otpcardload {
   0% {
@@ -1618,13 +1641,14 @@ footer {
 }
 
 .otptitle{
-  font-size: 30px;
   font-weight: 600;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px 0 10px 0;
+  font-size: 40px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .otpdesc{
@@ -1632,6 +1656,8 @@ footer {
   color: #5e5e5e;
   text-align: center;
   padding: 20px 0 20px 0;
+  font-size: 15pt;
+  font-weight: bold;
 }
 .otpdesc2{
   width: 100%;
@@ -1645,6 +1671,9 @@ footer {
   width: 100%;
   text-align: center;
   padding: 20px 0 20px 0;
+  font-size: 14pt;
+  color: #3b1277;
+  font-weight: bold;
 }
 
 .otpinput{
@@ -1657,8 +1686,8 @@ footer {
 
 .otpinput input{
   border: none;
-  color: rgb(0, 0, 0);
-  background-color: rgb(221, 233, 255);
+  color: #33b683;
+  background-color: rgb(255, 255, 255);
   font-size: 50px;
   font-weight: 600;
   width: 100%;
@@ -1669,7 +1698,7 @@ footer {
 .otpinput span{
   font-size: 40px;
   font-weight: 600;
-  color: white;
+  color: #3b1277;
   padding: 0 15px;
 }
 
@@ -1684,7 +1713,8 @@ footer {
   border: none;
   cursor: pointer;
   padding: 20px 0 20px 0;
-  background-color: #013cff;
+  background-color: #33b683;
   color: white;
-  border-radius: 5px;
+  border-radius: 50px;
+  font-weight: bold;
 }

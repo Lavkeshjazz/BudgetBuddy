@@ -1,4 +1,60 @@
+const User = require("../models/user");
 const nodemailer = require("nodemailer");
+
+async function handleUserSignup2(req, res, next) {
+    let { phone_number, email } = req.body;
+    email = email.toLowerCase();
+    console.log("email=");
+    console.log(email);
+    console.log("phone_number");
+    console.log(phone_number);
+    try {
+        const check_email = await User.findOne({ email });
+        const check_phonenumber = await User.findOne({ phone_number });
+
+        if (!check_phonenumber && !check_email) {
+            next(); // Call next to pass control to the next middleware
+        } else if (check_phonenumber && !check_email) {
+            return res.status(400).json({
+                status: "error",
+                statusCode: 400,
+                error: {
+                    code: "Phone number already registered",
+                    message: "Please try again with another phone number."
+                }
+            });
+        } else if (!check_phonenumber && check_email) {
+            return res.status(400).json({
+                status: "error",
+                statusCode: 400,
+                error: {
+                    code: "Email already registered",
+                    message: "Please try again with another email."
+                }
+            });
+        } else {
+            return res.status(400).json({
+                status: "error",
+                statusCode: 400,
+                error: {
+                    code: "Email and Phone number already registered",
+                    message: "Please try again with another email and phone number."
+                }
+            });
+        }
+    } catch (error) {
+        console.error("Error in handleUserSignup2:", error);
+        return res.status(500).json({
+            status: "error",
+            statusCode: 500,
+            error: {
+                code: "SOMETHING_WENT_WRONG",
+                message: "An error occurred. Please try again."
+            }
+        });
+    }
+}
+
 
 module.exports = {
     mailT: async function(req, res) {
@@ -73,5 +129,5 @@ module.exports = {
             return res.status(400).json({ error: "Invalid OTP, please try again." });
             res.render("forget2.ejs", { email, error: "Invalid OTP, please try again." });
         }
-    }
+    },handleUserSignup2
 };

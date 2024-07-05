@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
+import Navbar1 from './Navbar1';
+import Swal from 'sweetalert2';
+
 const Otpverify = () => {
   const location = useLocation();
   const signupdata = location.state;
@@ -18,7 +21,6 @@ const Otpverify = () => {
       credentials: 'include',
     });
     if (response.ok) {
-      window.alert("Otp Matched Successful");
       e.preventDefault();
       const { firstName, lastname, phone_number, email, password, userType } = signupdata;
       console.log("hello from postdata");
@@ -37,22 +39,38 @@ const Otpverify = () => {
         })
       });
       if (res.ok) {
-        window.alert('Registration Successful');
-        console.log('Registration Successful');
-        history('/login');
+        Swal.fire({
+          title: "Registration Successful",
+          text: "OTP Matched Successfully",
+          icon: "success",
+          confirmButtonText: "Sign In",
+        }).then(() => {
+          history('/login');
+        });
       }
       else if (res.status === 400) {
         const data = await res.json();
-        console.log(data);
-        window.alert(data.error.message);
+        Swal.fire({
+          icon: "error",
+          title: data.error.code,
+          text: data.error.message ,
+          confirmButtonText: "Try Again",
+        });
       }
     }
     else {
-      alert('Otp Not Matched');
+      Swal.fire({
+        icon: "error",
+        title: "OTP Not Matched",
+        text: "Please enter the OTP correctly" ,
+        confirmButtonText: "Try Again",
+      });
     }
   }
   // -----------------------------------------------------
   return (
+    <div>
+    <Navbar1 name="signin" id="loginbtn"/>
     <div className='otpverifypage'>
       <div className='otpcard'>
         <h1 className='otptitle'>Two Step Verification</h1>
@@ -70,6 +88,7 @@ const Otpverify = () => {
         </div>
         <button className='otpbtn' onClick={otpdata}>Submit</button>
       </div>
+    </div>
     </div>
   )
 }

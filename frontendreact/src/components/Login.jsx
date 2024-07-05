@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useUserContext } from './userContex';
 import { GoArrowRight } from "react-icons/go";
 import Swal from 'sweetalert2';
-import Navbar from './Navbar';
+import Navbar1 from './Navbar1';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,6 +15,7 @@ const Login = () => {
     email: '',
   })
   let name, value;
+
   const handleInputs=(e)=>{
     name=e.target.name;
     value=e.target.value;
@@ -33,7 +34,7 @@ const Login = () => {
 
   async function loginuser(e) {
     e.preventDefault(); // Prevent default form submission
-
+    try {
     const response = await fetch("http://localhost:5000/user/login", {
       method: 'POST',
       body: JSON.stringify({ email, password }),
@@ -60,11 +61,19 @@ const Login = () => {
         confirmButtonText: "Try Again",
       });
     }
-  };
+  } catch (error){
+    Swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text: error.message || "An unexpected error occurred",
+      confirmButtonText: "Try Again",
+    });
+  }
+}
 
   return (
     <div>
-    <Navbar name="login" id="loginbtn"/>
+    <Navbar1 name="login" id="loginbtn"/>
     <div className='log_in'>
       <div className='loginpage'>
         

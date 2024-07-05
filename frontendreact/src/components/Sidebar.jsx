@@ -1,6 +1,7 @@
 import React from 'react'
 import Category from './Category';
 import Price from './Price';
+import Demand from './Demand';
 
 const Sidebar = (handleChange) => {
   return (
@@ -10,6 +11,7 @@ const Sidebar = (handleChange) => {
       </div>
       <Category handleChange={handleChange}/>
       <Price handleChange={handleChange}/>
+      <Demand handleChange={handleChange}/>
     </section>
   )
 }

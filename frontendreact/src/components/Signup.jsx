@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { GoArrowLeft } from "react-icons/go";
 import Swal from 'sweetalert2';
-import Navbar from "./Navbar";
+import Navbar1 from "./Navbar1";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -91,24 +91,48 @@ const Signup = () => {
 
   const redirectToOtpPage = async (e) => {
     setOpen(true);
-    const { userType, email } = user;
+    const { userType, phone_number,email } = user;
     if (userType === 'trader') {
       e.preventDefault();
+      try{
       const response = await fetch("http://localhost:5000/trader/mail", {
         method: 'POST',
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ phone_number,email }),
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
       });
+      const responseData = await response.json(); // Parse response as JSON
       if (response.ok) {
         setOpen(false);
-        window.alert("OTP Sent to Your Email for two step verification");
-        history('/otpVerify', { state: user });
+        Swal.fire({
+          title: "Good job!",
+          text: "OTP Sent to Your Email for Two Step Verification",
+          icon: "success",
+          confirmButtonText: "Proceed",
+        }).then(() => {
+          history('/otpVerify', { state: user });
+        });
       }
       else {
-        alert('Please fill the details correctly.');
+        setOpen(false);
+        Swal.fire({
+          icon: "error",
+          title: responseData.error.code || "Error",
+          text: responseData.error.message || "Please fill the details correctly.",
+          confirmButtonText: "Try Again",
+        });
       }
-    }
+    } catch (error) {
+    setOpen(false);
+    console.error("Error fetching data:", error);
+    Swal.fire({
+        icon: "error",
+        title: "Network Error",
+        text: "An error occurred while communicating with the server.",
+        confirmButtonText: "OK",
+    });
+}
+}
     else {
       e.preventDefault();
       const { firstName, lastname, phone_number, email, password, userType } = user;
@@ -137,6 +161,7 @@ const Signup = () => {
         history('/login');
       });
     } else if (res.status === 400) {
+      setOpen(false);
       const data = await res.json();
       Swal.fire({
         icon: "error",
@@ -156,7 +181,7 @@ const Signup = () => {
 
   return (
     <div className='signup'>
-      <Navbar name="signin" id="loginbtn"/>
+      <Navbar1 name="signin" id="loginbtn"/>
       <div className='signuppage'>
         <div className='signpuslide'>
           <div className='signupform2'>
