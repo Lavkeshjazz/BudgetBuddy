@@ -1,6 +1,8 @@
 import Price from "./Price/Price";
 import "./Sidebar.css";
 import Sites from "./Sites/Sites";
+import Demand from "./Demand/Demand";
+
 const Sidebar = ({ handleChange }) => {
   return (
     <>
@@ -12,6 +14,8 @@ const Sidebar = ({ handleChange }) => {
         <Sites handleChange={handleChange} />
         <div className="solid-line2"></div>
         <Price handleChange={handleChange} />
+        <div className="solid-line2"></div>
+        <Demand handleChange={handleChange} />
         <div className="solid-line2"></div>
       </section>
     </>

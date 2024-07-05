@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { mailT, verify } = require("../controller/trader"); // Import the functions from the trader controller
-
-router.post("/mail", mailT); // Route to handle mail POST requests
+const { mailT, verify, handleUserSignup2 } = require("../controller/trader"); // Import the functions from the trader controller
+router.post("/mail", handleUserSignup2,mailT); // Route to handle mail POST requests
 router.post("/verify", verify); // Route to handle verify POST requests
 
 // Route to render the verifyemail view

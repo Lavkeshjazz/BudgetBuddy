@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useUserContext } from "./userContex";
 import { NavLink, useNavigate } from 'react-router-dom';
 
-const Navbar = (props) => {
+const Navbar1 = (props) => {
   const Navigate = useNavigate();
   const userContext = useUserContext();
   useEffect(() => {
@@ -34,7 +34,6 @@ const Navbar = (props) => {
         </NavLink>
         <ul className="rightnav">
           <li id={props.name === "home" ? props.id : ""} className="rightitem"><NavLink to="/">Home</NavLink></li>
-          <li id={props.name === "collection" ? props.id : ""} className="rightitem"><NavLink to="/collections">Collections</NavLink></li>
           {uid && (
             <li id='loginbtn' className="rightitem">
               <NavLink onClick={logout}>Logout</NavLink>
@@ -51,4 +50,4 @@ const Navbar = (props) => {
     </div>
   )
 }
-export default Navbar
+export default Navbar1
