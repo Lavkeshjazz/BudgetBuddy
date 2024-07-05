@@ -7,7 +7,7 @@ const tags = {
     flipkart : {
         name : ".VU-ZEz",
         price : ".Nx9bqj.CxhGGd",//There are two class named as ._30jeq3 and ._16Jk6d so two check both the classes, this is the way
-        image : ".DByuf4.IZexXJ.jLEJ7H._53J4C-"
+        image : [".DByuf4.IZexXJ.jLEJ7H","._53J4C-.utBuJY"]
     },
     indiamart : {
         name : ".bo.center-heading",

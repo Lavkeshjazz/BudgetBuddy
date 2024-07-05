@@ -22,6 +22,10 @@ const productSchema = new mongoose.Schema({
     highestprice :{
         type : Number
     },
+    counter : {
+        type : Number,
+        default: 0
+    },
     priceHistory : [{
         price:{
             type : Number
@@ -53,5 +57,10 @@ productSchema.methods.updatePriceStats = function () {
     this.averageprice = sum / this.priceHistory.length;
 };
 
+productSchema.pre("save", function(){
+    this.counter = this.counter+1;
+})
 const Products = mongoose.model('Products',productSchema)
 module.exports = Products;
+
+

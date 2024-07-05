@@ -8,13 +8,16 @@ const Product = require('../models/product')
 const sendEmail = require('../utils/email')
 const crypto = require('crypto');
 const ProductFactory = require('../service/productFactory');
+const isValidHttpUrl = require('../utils/Validation');
+const AppError = require('../errors/AppError');
+const FetchError = require('../errors/FetchError');
 var newPrice;
 async function defaultPage(req, res) {
   try {
     if (!req.user) return res.render("homepage");
     const xyz = req.user.email;
     return res.render("homepage", {
-      user: xyz,
+      user: xyz
     });
   } catch (error) {
     console.log(error);
@@ -87,33 +90,41 @@ async function deleteDatabase(req, res) {
 }
 //Add product urls in database
 async function addUrlinDatabase(req, res) {
-  console.log("in searching")
-  console.log(req.body);
-  const data = { productURL: req.body.ProductURL, expectedPrice: req.body.expectedPrice }
-  await fetchPrice(data.productURL, data.expectedPrice);
-  await User.updateOne({ email: req.user.email, 'itemsAdded.productURL': { $ne: data.productURL } }, { $push: { itemsAdded: data } })  //Uniquely adds url in database
-  let user = await User.findOne({ email: req.user.email })
-  let listYourProduct = [];
-  let listAllProduct = [];
-  let flag = false;
+    try {
+      console.log("in searching")
+      console.log(req.body);
+      const data = { productURL: req.body.ProductURL, expectedPrice: req.body.expectedPrice }
+      await fetchPrice(data.productURL, data.expectedPrice);
+      await User.updateOne({ email: req.user.email, 'itemsAdded.productURL': { $ne: data.productURL } }, { $push: { itemsAdded: data } })  //Uniquely adds url in database
+      let user = await User.findOne({ email: req.user.email })
+      let listYourProduct = [];
+      let listAllProduct = [];
+      let flag = false;
 
-  if (user.userType == 'user') {
-    listYourProduct = await yourproductlisting(user.itemsAdded)
-  }
+      if (user.userType == 'user') {
+        listYourProduct = await yourproductlisting(user.itemsAdded)
+      }
 
-  if (user.userType == 'trader') {
-    listYourProduct = await yourproductlisting(user.itemsAdded)
-    flag = true;
-    listAllProduct = await allproductlisiting();
-  }
+      if (user.userType == 'trader') {
+        listYourProduct = await yourproductlisting(user.itemsAdded)
+        flag = true;
+        listAllProduct = await allproductlisiting();
+      }
 
-  let products = {
-    listTitle: user.email,
-    listItems: listYourProduct,
-    listAllItems: listAllProduct,
-    checkUser: flag
-  }
-  res.render("searchpage", products)
+      let products = {
+        listTitle: user.email,
+        listItems: listYourProduct,
+        listAllItems: listAllProduct,
+        checkUser: flag
+      }
+      res.render("searchpage", products)
+        
+    } catch (error) {
+        console.log(error);
+        if(error instanceof AppError || error instanceof FetchError) return res.status(error.statusCode).json(error.serialize());
+        else return res.status(500).json({ statusCode:500 , message : error.message });
+    }
+
 }
 //ListYourProduct
 async function yourproductlisting(database) {
@@ -153,40 +164,45 @@ async function allproductlisiting() {
 }
 //Add new producturls and expectedprice in existing database using plus button
 async function add_new_data_in_existing_database(req, res) {
-  console.log("hello add function")
-  const xyz = req.user.email;
-  let listYourProduct = [];
-  let listAllProduct = [];
-  let flag = false;
-  try {
-    const data = { productURL: req.body.newProductURL, expectedPrice: req.body.newexpectedPrice }
-    await fetchPrice(data.productURL, data.expectedPrice);
-    // CurrentUser.itemsAdded.push({productURL:item1,expectedPrice:item2});
-    // await CurrentUser.save();
-    await User.updateOne({ email: req.user.email, 'itemsAdded.productURL': { $ne: data.productURL } }, { $push: { itemsAdded: data } })
+    try {
+      const xyz = req.user.email;
+      let listYourProduct = [];
+      let listAllProduct = [];
+      let flag = false;
+      try {
+        const data = { productURL: req.body.newProductURL, expectedPrice: req.body.newexpectedPrice }
+        await fetchPrice(data.productURL, data.expectedPrice);
+        // CurrentUser.itemsAdded.push({productURL:item1,expectedPrice:item2});
+        // await CurrentUser.save();
+        await User.updateOne({ email: req.user.email, 'itemsAdded.productURL': { $ne: data.productURL } }, { $push: { itemsAdded: data } })
 
-    const result = await User.findOne({ email: req.user.email })
-    if (result.userType == 'user') {
-      listYourProduct = await yourproductlisting(result.itemsAdded)
-    }
+        const result = await User.findOne({ email: req.user.email })
+        if (result.userType == 'user') {
+          listYourProduct = await yourproductlisting(result.itemsAdded)
+        }
 
-    if (result.userType == 'trader') {
-      listYourProduct = await yourproductlisting(result.itemsAdded)
-      flag = true;
-      listAllProduct = await allproductlisiting();
-    }
+        if (result.userType == 'trader') {
+          listYourProduct = await yourproductlisting(result.itemsAdded)
+          flag = true;
+          listAllProduct = await allproductlisiting();
+        }
 
-    let products = {
-      listTitle: result.email,
-      listItems: listYourProduct,
-      listAllItems: listAllProduct,
-      checkUser: flag
+        let products = {
+          listTitle: result.email,
+          listItems: listYourProduct,
+          listAllItems: listAllProduct,
+          checkUser: flag
+        }
+        res.render("searchpage", products)
+      } catch (err) {
+        console.log("helo error");
+        console.log(err);
+      }
+        
+    } catch (error) {
+        if(error instanceof AppError || error instanceof FetchError) return res.status(error.statusCode).json(error.serialize());
+        else return res.status(500).json({ statusCode:500 , message : error.message });
     }
-    res.render("searchpage", products)
-  } catch (err) {
-    console.log("helo error");
-    console.log(err);
-  }
 
 }
 //get all products
@@ -251,11 +267,24 @@ async function checkforemail(req, res) {
 
 
 async function fetchPrice(url) {
+    if(!isValidHttpUrl(url)) throw new AppError(400,'Invalid Url');
+    const cache = await Product.findOne({url : url});
+    const date = new Date()
+    if(cache){
+        console.log(cache);
+        const  doc = cache;
+        let dbDate=doc.priceHistory[doc.priceHistory.length-1].date.getDay();
+        if (dbDate!==date.getDay()) {
+          doc.priceHistory.push({
+            price: product.price,
+            date: date
+          })
+          doc.price = product.price
+        }
+        await doc.save();
+        return cache;
+    }
   const userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
-
-  //console.log(`I have reached here ${url}`);
-  
-  console.log(url);
   const response = await axios.get(url, {
     headers: {
       "User-Agent": userAgent,
@@ -270,39 +299,19 @@ async function fetchPrice(url) {
       "Sec-Fetch-User": "?1"
     }
   });
+    if(!response) throw new FetchError(404 , 'Could not fetch Product');
   const html = response.data;
 
   const parsedhtml = cheerio.load(html); //html parsing through cheerio
   let product = ProductFactory.getProduct(url, parsedhtml, response) //Factory for getting product items
   product.url = url;//adding url to product object 
-  const date = new Date()
-  //Adding the product to product collection
-  const doc = await Product.findOne({ url })
-  console.log(doc);
-  if (!doc) {
-    product.priceHistory = []
-    product.priceHistory.push({
-      price: product.price,
-      date: date
-    })
-    Product.create(product)
-  }
-  else {
-    let dbDate=doc.priceHistory[doc.priceHistory.length-1].date.getDay();
-    if (dbDate!==date.getDay()) {
-      doc.priceHistory.push({
-        price: product.price,
-        date: date
-      })
-      doc.price = product.price
-      doc.save();
-      // Update price statistics
-      doc.updatePriceStats();
-      doc.save(); // Save again to persist updated statistics
-    }
-  }
-  // return product.price;
-  return product;
+  product.priceHistory = []
+  product.priceHistory.push({
+    price: product.price,
+    date: date
+  })
+    const productI =await  Product.create(product)
+    return productI;
 }
 
 async function sendmail() {

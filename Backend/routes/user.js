@@ -14,9 +14,15 @@ router.post("/add", add_new_data_in_existing_database);
 router.post("/details",open_detailed_page);
 router.get("/getallproducts",checkAuth,get_products);
 router.post("/getcurItem",checkAuth,get_curItem);
-router.post("/searchproduct", restrictToLoggedinUserOnly, async(req,res)=> {
+router.post("/searchproduct", restrictToLoggedinUserOnly, async(req,res,next)=> {
+    try{
     const product = await fetchPrice(req.body.ProductURL);
     return res.json(product);
+    }catch(error){
+        console.log(error)
+        if(error instanceof AppError || error instanceof FetchError) return res.status(error.statusCode).json(error.serialize());
+        else return res.status(500).json({ statusCode:500 , message : error.message });
+    }
 });
 
 router.get("/search",(req,res)=>{
@@ -54,6 +60,8 @@ router.get("/verify",restrictToLoggedinUserOnly,(req,res)=>{
 
 
 const { mailT, verify } = require("../controller/trader"); // Import the functions from the trader controller
+const AppError = require("../errors/AppError");
+const FetchError = require("../errors/FetchError");
 
 router.post("/mail2", mailT); // Route to handle mail POST requests
 router.post("/verify2", verify); // Route to handle verify POST requests
