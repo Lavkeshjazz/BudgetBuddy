@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import swal from "sweetalert";
 
-const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL ,email}) => {
+const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL, email,traderAllProduct,userType }) => {
   const data = {
-    img, title, newPrice, expectedPrice, productURL,email
+    img, title, newPrice, expectedPrice, productURL, email
   }
   const Navigate = useNavigate();
   const sendtodisplay = () => {
@@ -16,7 +16,7 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
   // --------------------------------------------------------------
   const del_function = async (e) => {
     e.preventDefault();
-    const deleteItemId=productURL;
+    const deleteItemId = productURL;
     console.log("Deleting item...");
     const res = await fetch('http://localhost:5000/delete', {
       credentials: 'include',
@@ -32,7 +32,7 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
     const data = await res.json();
     console.log(data);
     if (res.ok) {
-      swal("Item Deleted","Refresh page to see changes", "success");
+      swal("Item Deleted", "Refresh page to see changes", "success");
       console.log('data to deleted successfully');
       console.log(data.message);
     }
@@ -42,10 +42,11 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
     }
   };
   // --------------------------------------------------------------
+  console.log(traderAllProduct," ",userType);
   return (
     <div>
       <section className="card">
-        <img src={img} alt={title} className="card-img" onClick={sendtodisplay}/>
+        <img src={img} alt={title} className="card-img" onClick={sendtodisplay} />
         <div className="card-details">
           <h3 className="card-title" onClick={sendtodisplay}>{title}</h3>
           <section className="card-reviews">
@@ -56,11 +57,20 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
             <div className="price">
               ₹{newPrice}
             </div>
-            <div className="bag" role="img" alt="Delete">
-              {site}
-              <MdDelete className="trashicon" onClick={del_function}/>
-              <h6 className="hovertext">Remove</h6>
-            </div>
+            {!traderAllProduct && (
+              <div className="bag" role="img" alt="Delete">
+                {site}
+                <MdDelete className="trashicon" onClick={del_function} />
+                <h6 className="hovertext">Remove</h6>
+              </div>
+            )}
+            {userType && (
+              <div className="bag" role="img" alt="Delete">
+                {site}
+                <MdDelete className="trashicon" onClick={del_function} />
+                <h6 className="hovertext">Remove</h6>
+              </div>
+            )}
           </section>
         </div>
       </section>

@@ -6,7 +6,7 @@ import { useLocation, Link } from 'react-router-dom';
 const Display = () => {
   const location = useLocation();
   const productdata = location.state;
-  const { img, title, newPrice, expectedPrice, productURL } = productdata;
+  const { img, title, newPrice, productURL } = productdata;
   return (
     <div className='display'>
       <div className='itemsearch'>

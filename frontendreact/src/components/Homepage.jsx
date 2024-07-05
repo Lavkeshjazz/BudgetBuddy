@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useUserContext } from "./userContex";
-import Navigation from "../Navigation/Nav";
 import Products from "../Products/Products";
 import Recommended from "../Recommended/Recommended";
 import Sidebar from "../Sidebar/Sidebar";
@@ -25,6 +24,8 @@ function Homepage() {
   const [email, setEmail] = useState('');
   const [products, setProducts] = useState([]);
   const [myproducts, setMyproducts] = useState([]);
+  let traderAllProduct=true;
+  const [userType, setUserType] = useState(true);
   useEffect(() => {
     const fetchdata = async () => {
       let temp;
@@ -35,20 +36,21 @@ function Homepage() {
       console.log(temp.listAllItems);
       setEmail(temp.listTitle);
       if (temp.checkUser === true) {
+        setUserType(false);
         setProducts(Object.values(temp.listAllItems));
         setMyproducts(Object.values(temp.listItems));
       }
-      else setProducts(Object.values(temp.listItems));
+      else{
+        setProducts(Object.values(temp.listItems));
+        setUserType(true);
+      }
     };
     fetchdata();
     // eslint-disable-next-line
   }, []);
-  const handleInputChange = (event) => {
-    setQuery(event.target.value);
-  };
 
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [query, setQuery] = useState("");
+  const [query] = useState("");
 
   // ----------- Radio Filtering -----------
   const handleChange = (event) => {
@@ -90,12 +92,15 @@ function Homepage() {
           expectedPrice={expectedPrice}
           productURL={productURL}
           email={email}
+          traderAllProduct={traderAllProduct}
+          userType={userType}
         />
       )
     );
   }
   let result = null;
   if (selectedCategory === "MyProds") {
+    traderAllProduct = false;
     console.log(myproducts);
     result = filteredData(myproducts, selectedCategory, query);
   }
@@ -112,7 +117,6 @@ function Homepage() {
       {username &&
         <div className="homepage">
           <Sidebar handleChange={handleChange} />
-          {/* <Navigation query={query} handleInputChange={handleInputChange} email={email} /> */}
           <Recommended handleClick={handleClick} NumProds={myproducts.length} />
           <Products result={result} />
         </div>
