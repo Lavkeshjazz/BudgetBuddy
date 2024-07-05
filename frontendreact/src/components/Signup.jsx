@@ -16,14 +16,73 @@ const Signup = () => {
     password: '',
     userType: ''
   });
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastname: '',
+    phone_number: '',
+    email: '',
+    password: '',
+  })
   let name, value;
   const handleInputs = (e) => {
+    //It is taking input as key value pair
+    //here key is name like firstname,lastname,email
+    //here value is it's value
     name = e.target.name;
     value = e.target.value;
+
+    if (name === 'firstName' || name === 'lastname') {
+      const regex = /^[a-zA-Z]*$/;
+      if (!regex.test(value)) {
+        setErrors({ ...errors, [name]: "*Only Alphabetical letters are allowed." })
+      }
+      else {
+        setErrors({ ...errors, [name]: '' })
+      }
+    }
+    else if (name === 'phone_number') {
+      const regex = /^[0-9]*$/;
+      if (!regex.test(value)) {
+        setErrors({ ...errors, phone_number: "*Only Numberic digits are allowed." })
+      }
+      if (value.length !== 10) {
+        setErrors({ ...errors, phone_number: "*The length of Phone number should only be 10" })
+      }
+      else {
+        setErrors({ ...errors, phone_number: '' });
+      }
+    }
+    else if (name === 'email') {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(value)) {
+        setErrors({ ...errors, email: "*Invalid Email Format" })
+      }
+      else {
+        setErrors({ ...errors, email: '' })
+      }
+    }
+    else if (name === 'password') {
+      if (value.length < 8) {
+        setErrors({ ...errors, password: "*Too Weak Level Password" })
+      }
+      else if (value.length >= 8 && value.length < 13) {
+        setErrors({ ...errors, password: "*Medium Level Password" })
+      }
+      else {
+        setErrors({ ...errors, password: '' });
+      }
+    }
+    else if (name === 'userType') {
+      if (value === '') {
+        setErrors({ ...errors, userType: "*Please select a user type." });
+      } else {
+        setErrors({ ...errors, userType: '' });
+      }
+    }
     setUser({ ...user, [name]: value });
   };
-  // const PostData = async (e) => {
-  //   e.preventDefault();
+
+
   //   const { firstName, lastname, phone_number, email, password, userType } = user;
   //   console.log("hello from postdata");
   //   const res = await fetch('http://localhost:5000/user/', {
@@ -103,6 +162,13 @@ const Signup = () => {
       }
     }
   };
+
+  // Check if there are any errors
+  const isDisabled = Object.values(errors).some(error => error !== '') || Object.values(user).some(value => value === '');
+
+  // Enable button only if there are no errors and userType is selected
+  const buttonDisabled = isDisabled || user.userType === '';
+
   return (
     <div className='signup'>
       <div className='signuppage'>
@@ -114,17 +180,19 @@ const Signup = () => {
           </div>
           <form className='signupform' id='register-form'>
             <h1 className='logintitle'>Sign Up</h1>
-            <input
-              className='forminput2'
-              type='text'
-              name='firstName'
-              id='firstName'
-              autoComplete='off'
-              value={user.firstName}
-              onChange={handleInputs}
-              placeholder='First Name'
-            />
-
+            <div className='form-group'>
+              <input
+                className='forminput2'
+                type='text'
+                name='firstName'
+                id='firstName'
+                autoComplete='off'
+                value={user.firstName}
+                onChange={handleInputs}
+                placeholder='First Name'
+              />
+              {errors.firstName && <span className='error'>{errors.firstName}</span>}
+            </div>
             <div className='form-group'>
               <input
                 className='forminput2'
@@ -136,6 +204,7 @@ const Signup = () => {
                 onChange={handleInputs}
                 placeholder='Last Name'
               />
+              {errors.lastname && <span className='error'>{errors.lastname}</span>}
             </div>
 
             <div className='form-group'>
@@ -149,6 +218,7 @@ const Signup = () => {
                 onChange={handleInputs}
                 placeholder='Phone'
               />
+              {errors.phone_number && <span className='error'>{errors.phone_number}</span>}
             </div>
 
             <div className='form-group'>
@@ -162,6 +232,7 @@ const Signup = () => {
                 onChange={handleInputs}
                 placeholder='Email'
               />
+              {errors.email && <span className='error'>{errors.email}</span>}
             </div>
 
             <div className='form-group'>
@@ -175,6 +246,7 @@ const Signup = () => {
                 onChange={handleInputs}
                 placeholder='Password'
               />
+              {errors.password && <span className='error'>{errors.password}</span>}
             </div>
 
             <div className='form-group'>
@@ -188,6 +260,7 @@ const Signup = () => {
                 onChange={handleInputs}
                 placeholder='user / trader'
               />
+              {errors.userType && <span className='error'>{errors.userType}</span>}
             </div>
 
             <div className='form-group form-button'>
@@ -201,6 +274,7 @@ const Signup = () => {
                 className='signinbtn'
                 value='REGISTER'
                 onClick={redirectToOtpPage}
+                disabled={buttonDisabled}
               />
             </div>
           </form>
