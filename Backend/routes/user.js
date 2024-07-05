@@ -2,7 +2,7 @@ const express = require("express");
 var bodyParser = require('body-parser');
 const axios = require("axios");
 
-const { defaultPage,checkforemail,resetPassword,forgotPassword,renderResetPassword, addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database,get_products,open_detailed_page,fetchPrice,get_curItem} = require("../controller/user");
+const { defaultPage,checkforemail,resetPassword,forgotPassword,renderResetPassword, addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database,get_products,open_detailed_page,fetchPrice,get_curItem, products_by_demand} = require("../controller/user");
 const { restrictToSearchRoute, checkAuth, restrictToLoggedinUserOnly} = require("../middlewares/auth");
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -14,6 +14,7 @@ router.post("/add", add_new_data_in_existing_database);
 router.post("/details",open_detailed_page);
 router.get("/getallproducts",checkAuth,get_products);
 router.post("/getcurItem",checkAuth,get_curItem);
+router.get("/demandItems", checkAuth , products_by_demand);
 router.post("/searchproduct", restrictToLoggedinUserOnly, async(req,res,next)=> {
     try{
     const product = await fetchPrice(req.body.ProductURL);
