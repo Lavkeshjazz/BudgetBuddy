@@ -7,6 +7,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const Signup = () => {
+  const [open, setOpen] = useState(false);
   const history = useNavigate();
   const [user, setUser] = useState({
     firstName: '',
@@ -267,7 +268,7 @@ const Signup = () => {
                 name='userType'
                 id='userType'
                 value={user.userType}
-                onChange={handleUserTypeChange}
+                onChange={handleInputs}
                 placeholder='User Type:'
               >
                 <option value=''>Select User Type</option>
@@ -295,8 +296,6 @@ const Signup = () => {
         </div>
       </div>
     </div>
-  );
-};
   );
 };
 
