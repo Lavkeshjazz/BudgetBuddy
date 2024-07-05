@@ -29,8 +29,8 @@ async function trackPrice(){
                 sendEmail(mail)
             }
             }catch (error){
-                console.log(error.message)
-                console.log(`Could not fetch price for ${element.email} `);
+                if(error instanceof AppError || error instanceof FetchError) return res.status(error.statusCode).json(error.serialize());
+                else return res.status(500).json({ statusCode:500 , message : error.message });
             }
         });
     });
