@@ -424,6 +424,14 @@ async function forgotPassword(req, res) {
   }
 }
 
+async function products_by_demand(req,res,next){
+     try {
+    const products = await Product.find().sort({ counter: -1 });
+    console.log(products);
+  } catch (error) {
+      next(error);
+  }
+}
 module.exports = {
-  defaultPage, checkforemail, fetchPrice, renderResetPassword, resetPassword, forgotPassword, addUrlinDatabase, deleteDatabase, add_new_data_in_existing_database, get_products, open_detailed_page, fetchPrice, get_curItem
+  defaultPage,products_by_demand, checkforemail, fetchPrice, renderResetPassword, resetPassword, forgotPassword, addUrlinDatabase, deleteDatabase, add_new_data_in_existing_database, get_products, open_detailed_page, fetchPrice, get_curItem
 };
