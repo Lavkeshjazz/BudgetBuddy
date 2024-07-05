@@ -1,4 +1,4 @@
-import { useState} from 'react'
+import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useUserContext } from "./userContex";
 import { GoArrowRight } from "react-icons/go";
@@ -7,6 +7,28 @@ const Login = () => {
   const [password, setPassword] = useState("")
   const navigate = useNavigate();
   const userContext = useUserContext();
+
+  // ----------------------------------------------------
+  const [errors, setErrors] = useState({
+    email: '',
+  })
+  let name, value;
+  const handleInputs = (e) => {
+    name = e.target.name;
+    value = e.target.value;
+    if (name === 'email') {
+      value = value.toLowerCase();
+      setEmail(value); // Update state with lowercase email
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(value)) {
+        setErrors({ ...errors, email: "*Invalid Email Format" })
+      }
+      else {
+        setErrors({ ...errors, email: '' })
+      }
+    }
+  }
+  // ----------------------------------------------------
   async function loginuser(e) {
     e.preventDefault();
     const response = await fetch("http://localhost:5000/user/login", {
@@ -41,9 +63,13 @@ const Login = () => {
                   id='email'
                   autoComplete='off'
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    handleInputs(e);
+                  }}
                   placeholder='Your Email'
                 />
+                {errors.email && <span className='error'>{errors.email}</span>}
               </div>
               <div className='form-group'>
                 <input
@@ -74,7 +100,7 @@ const Login = () => {
           <div className='logincard2'>
             <h2 className='logintitle'>Hello, Friend!</h2>
             <p className='loginpara'>Enter your personal details and start journey with us</p>
-            <NavLink to="/signup" className='signup_redirect'>SIGN UP<GoArrowRight/></NavLink>
+            <NavLink to="/signup" className='signup_redirect'>SIGN UP<GoArrowRight /></NavLink>
             <br />
           </div>
           <div className='logintosignup'></div>
