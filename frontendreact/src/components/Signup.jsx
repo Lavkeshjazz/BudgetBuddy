@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { GoArrowLeft } from "react-icons/go";
 import Swal from 'sweetalert2';
-import Navbar from "./Navbar";
+import Navbar1 from "./Navbar1";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Signup = () => {
   const [open, setOpen] = useState(false);
@@ -82,29 +84,72 @@ const Signup = () => {
     }
     setUser({ ...user, [name]: value });
   };
+  
 
-  const handleUserTypeChange = (e) => {
-    setUser({ ...user, userType: e.target.value });
-  };
+  
 
-  const PostData = async (e) => {
-    e.preventDefault();
-    const { firstName, lastname, phone_number, email, password, userType } = user;
-    console.log("hello from postdata");
-    const res = await fetch('http://localhost:5000/user/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName,
-        lastName: lastname,
-        phone_number,
-        email,
-        password,
-        userType
-      })
+  const redirectToOtpPage = async (e) => {
+    setOpen(true);
+    const { userType, phone_number,email } = user;
+    if (userType === 'trader') {
+      e.preventDefault();
+      try{
+      const response = await fetch("http://localhost:5000/trader/mail", {
+        method: 'POST',
+        body: JSON.stringify({ phone_number,email }),
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      });
+      const responseData = await response.json(); // Parse response as JSON
+      if (response.ok) {
+        setOpen(false);
+        Swal.fire({
+          title: "Good job!",
+          text: "OTP Sent to Your Email for Two Step Verification",
+          icon: "success",
+          confirmButtonText: "Proceed",
+        }).then(() => {
+          history('/otpVerify', { state: user });
+        });
+      }
+      else {
+        setOpen(false);
+        Swal.fire({
+          icon: "error",
+          title: responseData.error.code || "Error",
+          text: responseData.error.message || "Please fill the details correctly.",
+          confirmButtonText: "Try Again",
+        });
+      }
+    } catch (error) {
+    setOpen(false);
+    console.error("Error fetching data:", error);
+    Swal.fire({
+        icon: "error",
+        title: "Network Error",
+        text: "An error occurred while communicating with the server.",
+        confirmButtonText: "OK",
     });
+}
+}
+    else {
+      e.preventDefault();
+      const { firstName, lastname, phone_number, email, password, userType } = user;
+      console.log("hello from postdata");
+      const res = await fetch('http://localhost:5000/user/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName: lastname,
+          phone_number,
+          email,
+          password,
+          userType
+        })
+      });
     if (res.ok) {
       Swal.fire({
         title: "Good job!",
