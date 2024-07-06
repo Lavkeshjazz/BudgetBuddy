@@ -3,7 +3,9 @@ import Category from './Category';
 import Price from './Price';
 import Demand from './Demand';
 
-const Sidebar = (handleChange) => {
+const Sidebar = (handleChange,userType) => {
+  console.log("USER TYPE");
+  console.log(userType);
   return (
     <section className='Sidebar'>
       <div className='logo_container'>

@@ -34,7 +34,6 @@ const Signup = () => {
     //here value is it's value
     name = e.target.name;
     value = e.target.value;
-    
     if(name === 'firstName' || name==='lastname'){
       const regex = /^[a-zA-Z]*$/;
       if(!regex.test(value)){
@@ -169,16 +168,10 @@ const Signup = () => {
         text: data.error.message,
         confirmButtonText: "Try Again",
       });
+
     }
     }
   };
-
-  // Check if there are any errors
-  const isDisabled = Object.values(errors).some(error => error !== '') || Object.values(user).some(value => value === '');
-
-  // Enable button only if there are no errors and userType is selected
-  const buttonDisabled = isDisabled || user.userType === '';
-
   return (
     <div className='signup'>
       <Navbar1 name="signin" id="loginbtn"/>
@@ -289,7 +282,6 @@ const Signup = () => {
                 className='signinbtn'
                 value='REGISTER'
                 onClick={redirectToOtpPage}
-                disabled={buttonDisabled}
               />
             </div>
           </form>

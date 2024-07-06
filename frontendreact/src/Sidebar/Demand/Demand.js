@@ -29,8 +29,8 @@ const Demand = ({ handleChange }) => {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value="LtoH">Most in Demand</MenuItem>
-            <MenuItem value="HtoL">Least in Demand</MenuItem>
+            <MenuItem value="MtoL">Most in Demand</MenuItem>
+            <MenuItem value="LtoM">Least in Demand</MenuItem>
           </Select>
         </FormControl>
       </div>

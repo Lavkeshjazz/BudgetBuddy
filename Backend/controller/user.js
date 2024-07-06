@@ -285,6 +285,10 @@ async function fetchPrice(url) {
         return cache;
     }
   const userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
+
+  //console.log(`I have reached here ${url}`);
+
+  console.log(url);
   const response = await axios.get(url, {
     headers: {
       "User-Agent": userAgent,
@@ -300,18 +304,42 @@ async function fetchPrice(url) {
     }
   });
     if(!response) throw new FetchError(404 , 'Could not fetch Product');
+    console.log("Response received:", response.status);
   const html = response.data;
 
   const parsedhtml = cheerio.load(html); //html parsing through cheerio
   let product = ProductFactory.getProduct(url, parsedhtml, response) //Factory for getting product items
+  if (!product) {
+    throw new FetchError(404, 'Product details not found in the response');
+  }
   product.url = url;//adding url to product object 
-  product.priceHistory = []
-  product.priceHistory.push({
-    price: product.price,
-    date: date
-  })
-    const productI =await  Product.create(product)
-    return productI;
+  //Adding the product to product collection
+  const doc = await Product.findOne({ url })
+  console.log(doc);
+  if (!doc) {
+    product.priceHistory = []
+    product.priceHistory.push({
+      price: product.price,
+      date: date
+    })
+    Product.create(product)
+  }
+  else {
+    let dbDate=doc.priceHistory[doc.priceHistory.length-1].date.getDay();
+    if (dbDate!==date.getDay()) {
+      doc.priceHistory.push({
+        price: product.price,
+        date: date
+      })
+      doc.price = product.price
+      doc.save();
+      // Update price statistics
+      doc.updatePriceStats();
+      doc.save(); // Save again to persist updated statistics
+    }
+  }
+  // return product.price;
+  return product;
 }
 
 async function sendmail() {
@@ -427,7 +455,9 @@ async function forgotPassword(req, res) {
 async function products_by_demand(req,res,next){
      try {
     const products = await Product.find().sort({ counter: -1 });
-    console.log(products);
+    console.log("products by demand controller");
+    //console.log(products);
+    return res.status(200).json(products);
   } catch (error) {
       next(error);
   }

@@ -5,7 +5,7 @@ import { MdDelete } from "react-icons/md";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 
-const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL ,email, lowestprice, averageprice, highestprice}) => {
+const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL ,email, lowestprice, averageprice, highestprice,traderAllProduct,userType}) => {
   const data = {
     img, title, newPrice, expectedPrice, productURL,email, lowestprice,averageprice,highestprice
   }
@@ -64,11 +64,20 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
             <div className="price">
               ₹{newPrice}
             </div>
+            {!traderAllProduct && (
             <div className="bag" role="img" alt="Delete">
               {site}
               <MdDelete className="trashicon" onClick={del_function}/>
               <h6 className="hovertext">Remove</h6>
             </div>
+            )}
+            {userType && (
+              <div className="bag" role="img" alt="Delete">
+                {site}
+                <MdDelete className="trashicon" onClick={del_function} />
+                <h6 className="hovertext">Remove</h6>
+              </div>
+            )}
           </section>
         </div>
       </section>

@@ -20,9 +20,12 @@ router.post("/searchproduct", restrictToLoggedinUserOnly, async(req,res,next)=> 
     const product = await fetchPrice(req.body.ProductURL);
     return res.json(product);
     }catch(error){
-        console.log(error)
-        if(error instanceof AppError || error instanceof FetchError) return res.status(error.statusCode).json(error.serialize());
-        else return res.status(500).json({ statusCode:500 , message : error.message });
+        console.error("Error in /searchproduct route:", error);
+        if (error instanceof AppError || error instanceof FetchError) {
+            return res.status(error.statusCode).json(error.serialize());
+        } else {
+            return res.status(500).json({ statusCode: 500, message: error.message });
+        }
     }
 });
 
