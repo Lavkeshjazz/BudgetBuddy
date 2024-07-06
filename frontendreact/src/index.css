@@ -151,11 +151,10 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background: linear-gradient(-45deg, #160234, #320b6c, #160234, #15032f);
+  background-color: #040017;
   z-index: 1;
-  background-size: 400% 400%;
-  animation: gradientAnimation 5s ease infinite;
+  overflow: hidden;
+  backdrop-filter: blur(60px);
 }
 
 @keyframes gradientAnimation {
@@ -173,7 +172,7 @@ body {
 
 .landingtitle {
   margin-top: 70px;
-  font-size: 70px;
+  font-size: 60px;
   width: 19em;
   text-align: center;
   color: white;
@@ -197,6 +196,15 @@ body {
   align-items: flex-start;
   gap: 15px; /* Add space between lines */
   margin: 20px 0; /* Add margin for spacing */
+}
+
+.landingdetails1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px; /* Add space between lines */
+  margin: 20px 0; /* Add margin for spacing */
+  text-align: center;
 }
 
 .landingdetails .icon-text-container {
@@ -255,18 +263,25 @@ body {
   text-align: justify;
 }
 
+.landingdetails1 {
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
 .landingdetails .highlight {
   color: #33b683; 
 }
 
 .landingdetails .highlight2 {
   color: #00ff9d; 
-  font-size: 16pt;
+  font-size: 13pt;
   text-shadow: #000000;
 }
 
 .landingdetails .highlight3{
-  font-size: 18pt;
+  font-size: 15pt;
   font-weight: bold;
   text-shadow: #000000;
 }
@@ -277,6 +292,7 @@ body {
 footer {
   color: #DBEDF3;
   font-family: sans-serif;
+  margin-top: 7%;
 }
 
 .input {
@@ -307,7 +323,6 @@ footer {
   border: none;
   text-transform: uppercase;
   background-image: linear-gradient(45deg, #00935b 0%, #3affb4 51%, #00955c 100%);
-
   /* background-image: linear-gradient(45deg, #1e0868 0%, #005896  51%, #220974  100%); */
   cursor: pointer;
   background-size: 200% auto;
@@ -347,11 +362,11 @@ footer {
   background-color: #4000d7;
   transition: .2s;
 } */
-.blur1 {
+/* .blur1 {
   height: 50vh;
   width: 50vw;
   position: absolute;
-  left: 0;
+  left: 10%;
   top: 0;
   z-index: 2;
   background-color: rgba(22, 57, 255, 0.16);
@@ -359,7 +374,7 @@ footer {
   transform: translateY(50px);
   rotate: 30deg;
   border-radius: 100%;
-}
+} */
 
 .logos {
   display: flex;
@@ -1719,3 +1734,114 @@ footer {
   border-radius: 50px;
   font-weight: bold;
 }
+
+
+.blur1 {
+  height: 31em;
+  width: 31em;
+  position: fixed;
+  left: 2em;
+  top: 10em;
+  z-index: 1;
+  background-image: radial-gradient(rgb(167, 147, 255) , rgb(144, 0, 255));
+  border-radius: 100%;
+  animation:  blurmotion 5s infinite ease-in-out;
+}
+.blur2 {
+  height: 16em;
+  width: 16em;
+  position: fixed;
+  right: 10em;
+  top: 35em;
+  z-index: 1;
+  background-image: radial-gradient(rgb(185, 147, 255) , rgb(98, 0, 255));
+  border-radius: 100%;
+  animation:  blurmotion 3s infinite ease-in-out;
+}
+.blur3 {
+  height: 8em;
+  width: 8em;
+  position: fixed;
+  right: 12em;
+  top: 10em;
+  z-index: 1;
+  background-image: radial-gradient(rgb(167, 147, 255) , rgb(98, 0, 255));
+  border-radius: 100%;
+  animation:  blurmotion 4s infinite ease-in-out;
+}
+
+.blur4 {
+  height: 31em;
+  width: 31em;
+  position: fixed;
+  right: 2em;
+  top: 72em;
+  z-index: 1;
+  background-image: radial-gradient(rgb(167, 147, 255) , rgb(144, 0, 255));
+  border-radius: 100%;
+  animation:  blurmotion 5s infinite ease-in-out;
+}
+.blur5 {
+  height: 16em;
+  width: 16em;
+  position: fixed;
+  left: 14em;
+  top: 87em;
+  z-index: 1;
+  background-image: radial-gradient(rgb(185, 147, 255) , rgb(98, 0, 255));
+  border-radius: 100%;
+  animation:  blurmotion 3s infinite ease-in-out;
+}
+.blur6 {
+  height: 8em;
+  width: 8em;
+  position: fixed;
+  left: 12em;
+  top: 67em;
+  z-index: 1;
+  background-image: radial-gradient(rgb(167, 147, 255) , rgb(98, 0, 255));
+  border-radius: 100%;
+  animation:  blurmotion 4s infinite ease-in-out;
+}
+@keyframes blurmotion {
+  0% {
+    transform: translateY(15px);  
+  }
+  50%{
+    transform: translateY(0px);  
+  }
+  100% {
+    transform: translateY(15px);  
+  }
+}
+
+.landingcard{
+  background-color: rgba(255, 0, 0, 0.053);
+  padding: 2em 0em 2em 0em;
+  border-radius: 50px;
+  margin-top: 11%;
+  z-index: 200;
+  backdrop-filter: blur(80px);
+  height: 80%;
+  /* height: 100%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.landingcard1{
+  background-color: rgba(255, 0, 0, 0.053);
+  padding: 2em 4em 2em 4em;
+  border-radius: 50px;
+  z-index: 200;
+  backdrop-filter: blur(80px);
+  /* height: 100%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 16%;
+  margin-bottom: 9%;
+}
+

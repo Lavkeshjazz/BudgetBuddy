@@ -261,7 +261,7 @@ const Signup = () => {
                 name='userType'
                 id='userType'
                 value={user.userType}
-                onChange={handleUserTypeChange}
+                onChange={handleInputs}
                 placeholder='User Type:'
               >
                 <option value=''>Select User Type</option>
@@ -281,8 +281,7 @@ const Signup = () => {
                 id='signup'
                 className='signinbtn'
                 value='REGISTER'
-                onClick={PostData}
-                disabled={buttonDisabled}
+                onClick={redirectToOtpPage}
               />
             </div>
           </form>

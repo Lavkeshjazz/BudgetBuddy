@@ -28,9 +28,22 @@ class ProductFactory {
     let hostname = url.toString().split('.')[1];
     // if (hostname == "ajio")
     //   return ajio(html)
-    const scraped=scrapeProduct[hostname]
-    return scraped(tags[hostname], html);
+    console.log("Scraping hostname:", hostname);
+    if (!scrapeProduct[hostname]) {
+      throw new AppError(400, `Unsupported hostname: ${hostname}`);
+    }
+    try {
+    const scraped=scrapeProduct[hostname];
+    const product = scraped(tags[hostname], html);
+    if (!product) {
+      throw new FetchError(404, 'Product details not found in the response');
+    }
+    return product;
+  } catch (error) {
+    console.error(`Error scraping product from ${hostname}:`, error);
+    throw new FetchError(500, `Error scraping product from ${hostname}`);
   }
+}
 }
 
 module.exports = ProductFactory
