@@ -13,7 +13,7 @@ async function trackPrice(){
         items.forEach(async (product) => {
             try{
                 //fetchPrice
-            const price = await fetchPrice(product.productURL)
+            const price = await fetchPrice(product.productURL , true)
             if(price < product.expectedPrice){ 
                 console.log('sending mail now')
                 const message = `The price for ${product.productURL} has dropped and is now priced at : ${price}`
