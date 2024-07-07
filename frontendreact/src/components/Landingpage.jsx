@@ -8,7 +8,7 @@ import { GrLogin } from "react-icons/gr";
 const Landingpage = () => {
   const userContext = useUserContext();
   useEffect(() => {
-    fetch('http://localhost:5000/user/authorized', {
+    fetch('https://budgetbuddy-b4zd.onrender.com/user/authorized', {
       credentials: 'include',
     }).then(response => {
       response.json().then(userInfo => {
@@ -31,8 +31,8 @@ const Landingpage = () => {
           <h1 className='landingtitle'><span className='highlight'>Track</span>,<span className='highlight'> Compare</span>,<span className='highlight'> Save</span> <br></br>to Unlock Best Deals.</h1>
           <p className='landingdetails1'>Stay ahead of the curve with real-time price updates on our <br></br>comprehensive tracking website.</p>
           <div className='input'>
-            {!username && <NavLink to='http://localhost:3000/login'><button className='landingbtn'>Get Started</button></NavLink>}
-            {username && <NavLink to='http://localhost:3000/collections'><button className='landingbtn'>Go to Collections <GrLogin /></button></NavLink>}
+            {!username && <NavLink to='/login'><button className='landingbtn'>Get Started</button></NavLink>}
+            {username && <NavLink to='/collections'><button className='landingbtn'>Go to Collections <GrLogin /></button></NavLink>}
           </div>
         </div>
         <div className='blur4'></div>
