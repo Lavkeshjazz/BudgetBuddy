@@ -21,9 +21,22 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
-connectToMongoDB("mongodb://127.0.0.1:27017/BudgetBuddy").then(() =>
-  console.log("Mongodb connected")
-);
+// connectToMongoDB("mongodb://127.0.0.1:27017/BudgetBuddy").then(() =>
+//   console.log("Mongodb connected")
+// );
+
+// Use an environment variable for the MongoDB URI
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/BudgetBuddy";
+
+connectToMongoDB(MONGODB_URI)
+  .then(() => {
+    // Start your server or perform other initialization tasks here
+    console.log("Server started");
+  })
+  .catch((error) => {
+    console.error("Failed to connect to MongoDB:", error);
+    process.exit(1);
+  });
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
