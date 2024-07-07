@@ -193,6 +193,7 @@ const secret = "Lavkesh@123";
 async function handleUserAuth(req, res) {
     const uid = req.cookies.uid;
     console.log("uid=");
+    console.log(req.cookies.uid);
     console.log(uid);
     if (uid) {
         const decoded=jwt.verify(uid,secret);
