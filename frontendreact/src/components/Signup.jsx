@@ -94,7 +94,7 @@ const Signup = () => {
     if (userType === 'trader') {
       e.preventDefault();
       try{
-      const response = await fetch("http://localhost:5000/trader/mail", {
+      const response = await fetch("https://budgetbuddy-b4zd.onrender.com/trader/mail", {
         method: 'POST',
         body: JSON.stringify({ phone_number,email }),
         headers: { 'Content-Type': 'application/json' },
@@ -136,7 +136,7 @@ const Signup = () => {
       e.preventDefault();
       const { firstName, lastname, phone_number, email, password, userType } = user;
       console.log("hello from postdata");
-      const res = await fetch('http://localhost:5000/user/', {
+      const res = await fetch('https://budgetbuddy-b4zd.onrender.com/user/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -180,7 +180,7 @@ const Signup = () => {
           <div className='signupform2'>
             <h1 className='logintitle'>Welcome Back!</h1>
             <p className='signintext'>If you already have an account, please log in to access your price tracking dashboard and get the latest updates on your favorite products.</p>
-            <NavLink to='http://localhost:3000/login' className='signin_redirect'><GoArrowLeft />SIGN IN</NavLink>
+            <NavLink to='/login' className='signin_redirect'><GoArrowLeft />SIGN IN</NavLink>
           </div>
           <form className='signupform' id='register-form'>
           <h1 className='logintitle' style={{ textShadow: 'none' }}>Sign Up</h1>
