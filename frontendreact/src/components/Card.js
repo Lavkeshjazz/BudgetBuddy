@@ -2,12 +2,11 @@
 import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
-import swal from "sweetalert";
 import Swal from "sweetalert2";
 
-const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL ,email, lowestprice, averageprice, highestprice,traderAllProduct,userType}) => {
+const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL ,email, lowestprice, averageprice, highestprice,traderAllProduct,userType,url}) => {
   const data = {
-    img, title, newPrice, expectedPrice, productURL,email, lowestprice,averageprice,highestprice
+    img, title, newPrice, expectedPrice, productURL,email, lowestprice,averageprice,highestprice,url
   }
   const Navigate = useNavigate();
   const sendtodisplay = () => {

@@ -2,7 +2,12 @@ import React, { useState, useEffect} from 'react';
 import Chart from 'react-apexcharts';
 
 const Graph = (props) => {
-  const ProductURL = props.productURL;
+  let ProductURL = props.productURL;
+  const url=props.url;
+  if(ProductURL===undefined){
+    ProductURL=url;
+  }
+  console.log(ProductURL)
   const [GraphData, setGraphData] = useState([]);
   const fetchdata = async () => {
     const data = await fetch("http://localhost:5000/getcurItem", {
@@ -15,8 +20,9 @@ const Graph = (props) => {
         ProductURL,
       })
     });
+    console.log(data)
     const datajson = await data.json();
-    console.log(datajson.priceHistory)
+    console.log(datajson)
     setGraphData(datajson.priceHistory);
   };
   useEffect(() => {
