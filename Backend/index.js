@@ -26,12 +26,17 @@ app.use(cors(corsOptions));
 // );
 
 // Use an environment variable for the MongoDB URI
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/BudgetBuddy";
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error("MONGODB_URI is not defined in the environment variables");
+  process.exit(1);
+}
 
 connectToMongoDB(MONGODB_URI)
   .then(() => {
-    // Start your server or perform other initialization tasks here
-    console.log("Server started");
+    console.log("Server started and connected to MongoDB");
+    // Start your Express app or other server logic here
   })
   .catch((error) => {
     console.error("Failed to connect to MongoDB:", error);

@@ -15,11 +15,16 @@ async function connectToMongoDB(url) {
     await mongoose.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000
     });
-    console.log("MongoDB connected");
+    console.log("MongoDB connected successfully");
   } catch (error) {
     console.error("MongoDB connection error:", error);
-    process.exit(1);
+    if (error.name === "MongoServerError" && error.code === 8000) {
+      console.error("Authentication failed. Please check your MongoDB Atlas username and password.");
+    }
+    // Don't exit the process here, let the main application handle it
+    throw error;
   }
 }
 
