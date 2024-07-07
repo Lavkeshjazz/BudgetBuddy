@@ -80,12 +80,12 @@ module.exports = {
                 <p>Hello,</p>
                 <p>Your One-Time Password (OTP) for signup is: <strong>${otp}</strong></p>
                 <p>Please use this OTP to complete your signup process.</p>
-                <p>Best regards,<br>Vinod Thapa</p>
+                <p>Best regards,<br>Lavkesh Jaiswal</p>
             `;
       
             // Send mail
             let info = await transporter.sendMail({
-                from: '"lkjaiswal 👻" <thapa@gmail.com>',
+                from: '"BudgetBuddy" <@gmail.com>',
                 to: email,
                 subject: "OTP for Signup",
                 html: emailHTML,
@@ -127,7 +127,6 @@ module.exports = {
             // If OTP is incorrect, render the verify page again with an error message
             console.log("not verified");
             return res.status(400).json({ error: "Invalid OTP, please try again." });
-            res.render("forget2.ejs", { email, error: "Invalid OTP, please try again." });
         }
     },handleUserSignup2
 };
