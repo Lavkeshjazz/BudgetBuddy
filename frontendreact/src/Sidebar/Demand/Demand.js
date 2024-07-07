@@ -14,7 +14,7 @@ const Demand = ({ handleChange }) => {
   return (
     <>
       <div className="sites_container">
-        <h2 className="sidebar-title">Trend</h2>
+        <h2 className="sidebar-title">Popularity</h2>
         <div className="solid-line3"></div>
         <FormControl variant="filled" sx={{ m: 2, minWidth: 170 }}>
           <InputLabel id="demo-simple-select-filled-label">Sort</InputLabel>

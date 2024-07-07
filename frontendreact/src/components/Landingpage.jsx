@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useUserContext } from "./userContex";
 import Navbar from './Navbar';
 import Navbar1 from './Navbar1';
+import { GrLogin } from "react-icons/gr";
 
 const Landingpage = () => {
   const userContext = useUserContext();
@@ -31,7 +32,7 @@ const Landingpage = () => {
           <p className='landingdetails1'>Stay ahead of the curve with real-time price updates on our <br></br>comprehensive tracking website.</p>
           <div className='input'>
             {!username && <NavLink to='http://localhost:3000/login'><button className='landingbtn'>Get Started</button></NavLink>}
-            {username && <NavLink to='http://localhost:3000/collections'><button className='landingbtn'>Go to Collections</button></NavLink>}
+            {username && <NavLink to='http://localhost:3000/collections'><button className='landingbtn'>Go to Collections <GrLogin /></button></NavLink>}
           </div>
         </div>
         <div className='blur4'></div>

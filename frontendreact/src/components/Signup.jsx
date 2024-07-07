@@ -266,7 +266,7 @@ const Signup = () => {
               >
                 <option value=''>Select User Type</option>
                 <option value='user'>User</option>
-                <option value='trader'>Trader</option>
+                <option value='trader'>Retailer/Wholesaler</option>
               </select>
               {errors.userType && <span className='error'>{errors.userType}</span>}
             </div>

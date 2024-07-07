@@ -18,6 +18,7 @@ function Homepage() {
   const [myproducts, setMyproducts] = useState([]);
   const [userType, setUserType] = useState(true);
   const [tempproducts, setTempproducts] = useState([]);
+  const [tempproducts2, setTempproducts2] = useState([]);
   let traderAllProduct = true;
 
   useEffect(() => {
@@ -82,6 +83,23 @@ function Homepage() {
     };
     getProductsByDemand();
   }, []);
+
+  useEffect(() => {
+    const getProductsByDemand2 = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/trader/products_by_demand_least", {credentials: 'include'});
+        console.log("url product=");
+        const temp = await response.json();
+        console.log(temp);
+        setTempproducts2(Object.values(temp));
+      }
+      catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    getProductsByDemand2();
+  }, []);
+
   function filteredData(products, selected, query) {
     let filteredProducts = products;
     if (selected) {
@@ -94,10 +112,11 @@ function Homepage() {
         else if (selected === "HtoL") {
           filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
         }
-        else if (selected !== "MtoL") {
-          filteredProducts = filteredProducts.filter(
-            ({ productURL }) => productURL.search(selected) === 12
-          );
+        else if (selected !== "MtoL" && selected !== "LtoM") {
+          filteredProducts = filteredProducts.filter(({ productURL }) => {
+            console.log(`Selected: ${selected}, ProductURL: ${productURL}`);
+            return productURL && productURL.includes(selected);
+          });
         }
       }
     }
@@ -131,6 +150,7 @@ function Homepage() {
     result = filteredData(myproducts, selectedCategory, query);
   }
   else if (selectedCategory === "MtoL") result = filteredData(tempproducts, selectedCategory, query);
+  else if (selectedCategory === "LtoM") result = filteredData(tempproducts2, selectedCategory, query);
   else result = filteredData(products, selectedCategory, query);
 
   return (
