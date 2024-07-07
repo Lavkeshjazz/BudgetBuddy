@@ -18,7 +18,6 @@ nav {
   padding: 30px;
   margin-top: 50px;
   border-radius: 30px;
-  backdrop-filter: blur(50px);
   animation: navload 1s;
 }
 @keyframes navload {

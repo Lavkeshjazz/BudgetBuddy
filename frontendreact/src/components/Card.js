@@ -2,9 +2,9 @@
 import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
-const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL, email,traderAllProduct,userType }) => {
+const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, productURL, email, traderAllProduct, userType }) => {
   const data = {
     img, title, newPrice, expectedPrice, productURL, email
   }
@@ -32,8 +32,14 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
     const data = await res.json();
     console.log(data);
     if (res.ok) {
-      swal("Item Deleted", "Refresh page to see changes", "success");
-      console.log('data to deleted successfully');
+      Swal.fire({
+        title: "Item Deleted!",
+        text: "Refresh Page to see the changes.",
+        icon: "success",
+        confirmButtonText: "Refresh",
+      }).then(() => {
+        window.location.reload(); // This will refresh the page
+      }); console.log('data to deleted successfully');
       console.log(data.message);
     }
     else if (res.status === 400) {
@@ -42,7 +48,7 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
     }
   };
   // --------------------------------------------------------------
-  console.log(traderAllProduct," ",userType);
+  console.log(traderAllProduct, " ", userType);
   return (
     <div>
       <section className="card">

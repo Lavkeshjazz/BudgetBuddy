@@ -5,7 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import "./Nav.css";
 import { LuSun } from "react-icons/lu";
 // import { NavLink } from 'react-router-dom';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 const Nav = () => {
   const Navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -35,16 +35,26 @@ const Nav = () => {
     const data = await res.json();
     console.log(data);
     if (res.ok) {
-      // window.alert('sent successfully');
-      swal("Item found", "Click OK to proceed", "success");
       setOpen(false);
-      console.log('data sent');
-      Navigate(`/searchitempage/${expectedPrice}`, { state: data });
+      Swal.fire({
+        title: "Item found!",
+        text: "Click OK to proceed",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        Navigate(`/searchitempage/${expectedPrice}`, { state: data });
+      });
     }
     else if (res.status === 400) {
       const data = await res.json();
-      console.log(data);
-      window.alert(data.error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: data.error.message,
+        confirmButtonText: "Try Again",
+      }).then(() => {
+        Navigate('/collections');
+      });
     }
   };
   const [email, setEmail] = useState('');
@@ -62,13 +72,6 @@ const Nav = () => {
   }, []);
   return (
     <>
-      {/* {!email &&
-        <div className="loginfirst">
-          <h1>Please Login First</h1>
-          <NavLink to='http://localhost:3000/login'><button className='landingbtn'>Log In</button></NavLink>
-        </div>
-      } */}
-      {/* {email && */}
       <nav>
         <h2 className="navtitle">Welcome, <div className='email_section'>{email}</div><LuSun className="hello" /></h2>
         <div className='formcontainer'>

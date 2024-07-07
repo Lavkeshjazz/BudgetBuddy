@@ -1,41 +1,30 @@
 import React from 'react';
-import ReactImageMagnify from 'react-image-magnify';
 import Graph from './Graph';
 import { useLocation, Link } from 'react-router-dom';
 
 const Display = () => {
   const location = useLocation();
   const productdata = location.state;
-  const { img, title, newPrice, productURL } = productdata;
+  const { img, title, expectedPrice, newPrice, productURL } = productdata;
   return (
     <div className='display'>
       <div className='itemsearch'>
-        <h2>{title}</h2>
-        <h3>₹{newPrice}</h3>
-        {/* <h4>₹{expectedPrice}</h4> */}
         <div className='cardbox'>
-          <div className='magnifier'>
-            <ReactImageMagnify {...{
-              smallImage: {
-                alt: 'Wristwatch by Ted Baker London',
-                isFluidWidth: true,
-                src: `${img}`,
-              },
-              largeImage: {
-                src: `${img}`,
-                width: 1100,
-                height: 750
-              },
-              shouldUsePositiveSpaceLens: true,
-              isHintEnabled: true,
-            }} />
-          </div>
-          <div className='graphcontainer'>
-            <Graph productURL={productURL} />
-          </div>
+          <img src={img} alt='Wristwatch by Ted Baker London' className='productimg' />
         </div>
+        <h2 className='ptitle'>{title}</h2>
+        <div className='pricesection'>
+          <h3 className='pprice'> CURRENT PRICE IS ₹ {newPrice}</h3>
+          <h3 className='exprice'>EXPECTED PRICE IS ₹ {expectedPrice}</h3>
+        </div>
+        <div className='graphcontainer'>
+          <p className='graphtitle'>Price History</p>
+          <Graph productURL={productURL} />
+        </div>
+        <p className='linkguide'>You can visit product in its official website at</p>
+        <Link to={productURL} target='_blank'><h4 className='producturl'>{productURL}</h4></Link>
       </div>
-      <Link to='/collections'><button className='gobackbtn'>Go Back</button></Link>
+      <Link to='/collections'><button className='gobackbtn'>Back to Collections</button></Link>
     </div>
   )
 }

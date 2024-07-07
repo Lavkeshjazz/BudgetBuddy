@@ -3,7 +3,8 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import swal from 'sweetalert';
-
+import { Link } from 'react-router-dom';
+import { GoArrowRight } from "react-icons/go";
 const Searchitempage = () => {
   const [open, setOpen] = useState(false);
   const Navigate = useNavigate();
@@ -134,11 +135,12 @@ const Searchitempage = () => {
           <div className='searchdetails'>
             <h1 className='searchtitle'>{productdata.name}</h1>
             <h1 className='currentpricetag'>Current Price</h1>
-            <h1 className='currentprice'>₹{productdata.price}</h1>
+            <h1 className='currentprice'>₹ {productdata.price}</h1>
             <h1 className='expectedpricetag'>Expected Price</h1>
-            <h1 className='expectedprice'>₹{expectedPrice}</h1>
+            <h1 className='expectedprice'>₹ {expectedPrice}</h1>
           </div>
         </div>
+        <Link to='/collections' className='gobackbtn2'>Go To Collections <GoArrowRight /></Link>        
       </div>
     </div>
   )
