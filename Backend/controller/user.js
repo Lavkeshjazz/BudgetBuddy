@@ -266,11 +266,11 @@ async function checkforemail(req, res) {
 }
 
 
-async function fetchPrice(url) {
+async function fetchPrice(url,update = false) {
     if(!isValidHttpUrl(url)) throw new AppError(400,'Invalid Url');
     const cache = await Product.findOne({url : url});
     const date = new Date()
-    if(cache){
+    if(cache && !update){
         console.log(cache);
         const  doc = cache;
         let dbDate=doc.priceHistory[doc.priceHistory.length-1].date.getDay();
@@ -340,38 +340,6 @@ async function fetchPrice(url) {
   }
   // return product.price;
   return product;
-}
-
-async function sendmail() {
-  const nodemailer = require("nodemailer");
-  const user = "zen.jaiswal34@gmail.com";
-  const pass = "ejbtxdljmgevlkmw"
-
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // Use `true` for port 465, `false` for all other ports
-    auth: {
-      user,
-      pass
-    },
-  });
-
-  // async..await is not allowed in global scope, must use a wrapper
-  async function main() {
-    // send mail with defined transport object
-    const info = await transporter.sendMail({
-      from: `"Lavkesh" <${user}>`, // sender address
-      to: "lavkesh.jaiswal34@gmail.com, btech10237.22@bitmesra.ac.in", // list of receivers
-      subject: "Price fell down ✔", // Subject line
-      text: `The price of ${url} fell down, check it out!!!`, // plain text body
-    });
-
-    console.log("Message sent: %s", info.messageId);
-    // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
-  }
-  main().catch(console.error);
-
 }
 
 /*
