@@ -206,7 +206,7 @@ async function handleUserAuth(req, res) {
         });
     }
     else {
-        return res.status(401);
+        return res.status(401).json({status:400,message:"Message will be No UID"});
     }
 }
 module.exports = {
