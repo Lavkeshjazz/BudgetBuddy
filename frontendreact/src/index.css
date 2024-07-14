@@ -383,7 +383,7 @@ body {
 }
 
 .loginpage {
-  height: 93.5vh;
+  height: 94vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -754,72 +754,92 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  /* height: 100vh; */
-  padding: 2em;
+  height: 100vh;
+  padding: 4em;
   background-color:#040017;
-  padding-top: 4.3em;
+  padding-top: 10em;
 }
 .itemsearch {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  border-radius: 40px;
-  width: 85%;
+  border-radius: 10px;
+  width: 80%;
+  height: 80vh;
   padding: 3em;
-  background-color: hwb(245 95% 0%);
+  background-image: linear-gradient(90deg, hsl(270, 100%, 98%), #cdbcff 100%);
+  margin-top: 20px;
+}
+.displaycontainer{
+  display: flex;
+  /* height: 100%; */
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2em;
+  padding-top: 4.7em;
 }
 .cardbox {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;  
-  padding: 4em;
-  height: 22em; 
-  background-color: white;
-  box-shadow: 0 8px 20px rgb(151, 151, 151);
+  flex-direction: column;
+  padding: 3em 0 0 0;
+  height: 90%;  
+  width: 80%;
+  background-color: rgb(255, 255, 255);
   margin-bottom: 40px;
+  border-radius: 20px;
 }
 .ptitle{
-  background-color: #17001a17;
-  padding: 30px;
-  font-size: 20px;
+  background-color: #7b00ff;
+  color: white;
+  font-weight: 100;
+  padding: 50px ;
+  font-size: 1em;
   text-align: center;
-  margin-bottom: 30px;
-  border-radius: 10px;
-  width: 50em;
 }
-.pricesection{
-  padding: 30px;
+.pprice{
+  color: white;
+  background-color: #17001a;
+  width: 100%;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  background-color: #17001a17;
-  gap: 20px;
-  border-radius: 10px;
-  margin-bottom: 70px;
+  font-weight: 900;
+  border-radius:0 0 20px 20px;
 }
 .productimg{
   height: 20vh;
+  margin-bottom: 25px;
 }
 .linkguide{
-  font-weight: 900;
+  margin-top: 50px;
+  color: #3e3e3e;
 }
 .graphtitle{
-  background-color: rgb(236, 236, 236);
   text-align: center;
   font-size: 22px;
   text-transform: uppercase;
   font-weight: 900;
-  padding: 20px 0 20px 0;
+  padding: 10px 0 20px 0;
   margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.graph{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 18.5em;
+  scale: 0.9;
 }
 .producturl{
-  width: 50em;
-  text-align: center;
-  margin-top: 20px;
-  padding-top: 0px;
+  margin-top: 10px;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -828,10 +848,12 @@ body {
 }
 .graphcontainer {
   object-fit: contain;
-  background-color: #ffffff;
-  padding: 30px;
-  box-shadow: 0 8px 20px rgb(151, 151, 151);
-  margin-bottom: 100px;
+  padding: 50px ;
+  background-color: white;
+  /* height: 100%; */
+  width: 50%;
+  margin-right: 30px;
+  border-radius: 10px;
 }
 
 .displaycard {
@@ -891,19 +913,30 @@ body {
 }
 
 .gobackbtn {
-  background-color: hsla(247, 100%, 67%, 0.599);
+  background-color: hsl(269, 100%, 50%);
   padding: 15px;
   color: white;
+  font-weight: 900;
+  letter-spacing: 1px;
   border-radius: 50px;
   border: none;
-  width: 17em;
+  width: 3.8em;
+  height: 50px;
   cursor: pointer;
-  margin: 60px 0 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: .5s;
+  transform: translate(-34.8vw,-7vh);
 }
-
+.gobacklink{
+  text-decoration: none;
+}
+.gobackarrow{
+  font-size: 30px;
+}
 .gobackbtn:hover {
-  background-color: #413c63;
+  background-color: #040017;
   transition: .5s;
 }
 
@@ -921,7 +954,7 @@ body {
   display: flex;
   background-color: rgb(255, 255, 255);
   margin: 40px 0 70px 0;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 .searchanother {
@@ -974,7 +1007,7 @@ body {
 }
 
 .imagesection {
-  border-radius: 20px;
+  border-radius: 10px;
   background-color: #ffffff;
   width: 27vw;
   display: flex;
@@ -985,9 +1018,9 @@ body {
 }
 
 .searchdetails {
-  background-color: #210131f3;
+  background-color: #09001cf3;
   /* background-image: linear-gradient(50deg, #070a3689, hwb(264 61% 0% / 0.549)); */
-  border-radius: 0px 17px 17px 0px;
+  border-radius: 0px 8px 8px 0px;
   color: white;
   /* height: 92.5vh; */
   width: 27vw;
@@ -1016,12 +1049,11 @@ body {
 
 .addtotrack {
   margin-top: 4em;
-  background-color: #23004e;
+  background-color: #ffae00;
   padding: 15px;
   color: rgb(255, 255, 255);
   font-size: 16px;
-  border-radius: 50px;
-  /* font-weight: 900; */
+  border-radius: 5px;
   border: none;
   width: 15em;
   cursor: pointer;
@@ -1030,7 +1062,7 @@ body {
 }
 
 .addtotrack:hover {
-  background-color: #1e0028;
+  background-color: #ff8000;
 }
 .gobackbtn2{
   background-color: #e7e3ff;
@@ -1207,7 +1239,7 @@ body {
 .css-ahj2mt-MuiTypography-root {
   font-family: "Reddit Sans", sans-serif !important;
 }
-@media (max-width: 1350px) {
+@media (max-width: 1550px) {
   .navbar{
     height: 55px;
     font-size: 13px;
@@ -1216,7 +1248,8 @@ body {
     margin-left: 50px;
   } 
   .blur1{
-    height: 200px;
+    height: 400px;
+    width: 400px;
   }
   .landingtitle{
     font-size: 3em;
@@ -1234,6 +1267,9 @@ body {
   .loginslide{
     height: 27em;
     margin-bottom: 30px;
+  }
+  .log_in{
+    padding-top: 50px;
   }
   .logincard{
     height: 27em;
@@ -1363,8 +1399,59 @@ body {
     margin: 0;
     font-size: 14px;
   }
+  .graph{
+    scale: 0.5;
+  }
+  .ptitle{
+    height: 9.6em;
+    display: -webkit-box;
+    -webkit-line-clamp: 5 ;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .pprice{
+    font-size: 14px;
+  }
 }
 
+@media (max-width: 1080px) {
+  .itemsearch{
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+  }
+  .displaycontainer{
+    padding: 0;
+    margin: 0;
+    width: 80%;
+  }
+  .ptitle{
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .graphcontainer{
+    width: 100%;
+    margin: 0;
+  }
+  .display{
+    height: 160vh;
+    padding-top: 5em;
+  }
+  .gobackbtn{
+    margin-top: 50px;
+    transform: translate(0,0);
+  }
+  .linkguide{
+    margin: 0;
+    font-size: 12px;
+  }
+  .producturl{
+    margin: 0;
+    font-size: 12px;
+  }
+}
 @media (max-width: 768px) {
   .loginslide{
     flex-direction: column;
@@ -1419,25 +1506,34 @@ body {
 
 @media (max-width: 425px) {
   .landingdetails{
-    width: 90%;
+    width: 100%;
     font-size: 12px;
+    color: #d0dbff;
   }
   .landingpage{
     height: 100vh;
   }
+  .landingcard{
+    backdrop-filter: blur(20px);
+    /* height: 100%; */
+    padding: 0;
+    margin: 0 20px 0 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
   .navlogo{
     margin: 0;
+  }
+  .blur3{
+    display: none;
   }
   .landingtitle{
     font-size: 30px;
   }
   .blur1{
-    height: 150px;
+    height: 300px;
     width: 300px;
     background-color: rgba(255, 255, 255, 0.332);
-  }
-  .landingbtn{
-    box-shadow: 0 10px 40px #03ffea3c;
   }
   .navlogo{
     display: none;
@@ -1456,7 +1552,7 @@ body {
     margin: 0;
     padding: 12px 0 12px 0;
     background-color: #7300ff;
-    border: 1px solid white;
+    border: none;
     border-radius: 0;
   }
   #loginbtn a{
@@ -1466,17 +1562,63 @@ body {
     width: 80%;
     box-shadow: none;
   }
+  .loginpage{
+    height: 100vh;
+  }
   .loginslide{
     width: 80%;
     box-shadow: none;
   }
   .logincard2{
     padding-top: 30px;
+    margin-bottom: 90px;
+    border-radius: 20%;
   }
   .logincard{
-    border-radius: 9px 9px 0 0;
+    border-radius: 9px 9px 10% 10%;
+  }
+  .resetcard{
+    background-color: rgb(245, 246, 255);
+    background-image: none;
+    border-radius: 8px;
+    height: auto;
+    width: 17em;
+    color: #000000;
+  }
+  .forminput{
+    width: 17em;
+    height: 30px;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 30px;
+    border: 1px solid rgba(143, 143, 143, 0.891);
+    outline: none;
+    background-color: rgb(255, 255, 255);
+  }
+  .resettologin{
+    display: none;
+  }
+  .itemsearch{
+    flex-direction: column;
+    height: 100%;
+  }
+  .graph{
+    scale: 0.4;
+  }
+  .ptitle{
+    font-size: 8px;
+    height: 20px;
+  }
+  .pprice{
+    font-size: 12px;
+  }
+  .itemsearch{
+    width: 100%;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0);
   }
 }
+
 .otpverifypage{
   background-color: #040017;
   height: 100vh;

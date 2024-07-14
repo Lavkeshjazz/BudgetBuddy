@@ -73,7 +73,7 @@ const Nav = () => {
   return (
     <>
       <nav>
-        <h2 className="navtitle">Welcome, <div className='email_section'>{email}</div><LuSun className="hello" /></h2>
+        <h2 className="navtitle1">Welcome, <div className='email_section'>{email}</div><LuSun className="hello" /></h2>
         <div className='formcontainer'>
           <h2 className="navtitle">SEARCH NEW PRODUCT</h2>
           <form className='home_form'>
@@ -100,7 +100,7 @@ const Nav = () => {
             <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
               <CircularProgress color="inherit" />
             </Backdrop>
-            <button type="search" className='searchbtn' onClick={Itemdata}>Search</button>
+            <button type="search" className='searchbtn' onClick={Itemdata}>FIND</button>
 
           </form>
         </div>

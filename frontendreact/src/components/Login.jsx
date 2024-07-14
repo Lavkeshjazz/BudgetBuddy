@@ -52,7 +52,12 @@ const Login = () => {
 
     }
     else {
-      alert('Please fill the details correctly.');
+      // alert('Please fill the details correctly.');
+      Swal.fire({
+        title: "Login failed!",
+        icon: "error",
+        confirmButtonText: "Try Again",
+      })
     }
   }
   return (

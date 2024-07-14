@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import { GoArrowRight } from "react-icons/go";
 const Searchitempage = () => {
@@ -41,7 +41,13 @@ const Searchitempage = () => {
     if (res.ok) {
       setOpen(false);
       // window.alert('Item Added');
-      swal("Item Added!","click OK to continue", "success");
+      // swal("Item Added!","click OK to continue", "success");
+      Swal.fire({
+        title: "Item Added!",
+        text: "Click OK to proceed",
+        icon: "success",
+        confirmButtonText: "OK",
+      })
       console.log('Item Added');
     }
     else if (res.status === 400) {
@@ -85,7 +91,13 @@ const Searchitempage = () => {
     if (res.ok) {
       setOpen(false);
       // window.alert('sent successfully');
-      swal("Item found!","click OK to continue", "success");
+      // swal("Item found!","click OK to continue", "success");
+      Swal.fire({
+        title: "Item found!",
+        text: "Click OK to proceed",
+        icon: "success",
+        confirmButtonText: "OK",
+      })
       console.log('data sent');
       Navigate(`/searchitempage/${expectedPrice}`, { state: data });
     }
