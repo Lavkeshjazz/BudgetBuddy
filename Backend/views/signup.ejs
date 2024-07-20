@@ -8,16 +8,16 @@
 <body>
     <h1>Signup</h1>
     <form action="/user" method="post">
-      <label>First Name</label>
-      <input type="text" required name="firstName" />
+      <label>First Name*</label>
+      <input type="text"  name="firstName" required/>
       <label>Last Name</label>
-      <input type="text" required name="lastName" />
-      <label>Phone Number</label>
-      <input type="text" required name="phone_number" />
-      <label>Email</label>
-      <input type="text" required name="email" />
-      <label>Password</label>
-      <input type="text" required name="password" />
+      <input type="text" name="lastName" />
+      <label>Phone Number*</label>
+      <input type="text" name="phone_number" required/>
+      <label>Email*</label>
+      <input type="text" name="email" required/>
+      <label>Password*</label>
+      <input type="text" name="password" required/>
 
       <!-- Add a dropdown menu for user type -->
       <label>User Type</label>

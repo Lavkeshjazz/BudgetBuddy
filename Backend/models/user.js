@@ -13,11 +13,13 @@ const userSchema = new mongoose.Schema(
     phone_number: {
         type: String,
         required: true,
+        unique: true,
         
     },
     email: {
       type: String,
       required: true,
+      unique: true,
       
     },
     password: {
@@ -34,7 +36,7 @@ const userSchema = new mongoose.Schema(
       productURL: {
         //type: mongoose.Schema.Types.ObjectId,
         type:String,
-        // unique: true,
+        //unique: true,
       },
       expectedPrice: {
         type:Number,
