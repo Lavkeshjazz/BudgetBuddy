@@ -67,4 +67,4 @@ userSchema.methods.createToken = function(){
 }
 const User = mongoose.model("BudgetBuddy-users", userSchema);
 
-module.exports = User;
+module.exports = User;  

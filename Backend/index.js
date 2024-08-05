@@ -15,7 +15,7 @@ const jwt = require('jsonwebtoken');
 const port = 5000;
 
 const corsOptions = {
-  origin: 'https://fascinating-sunburst-065a30.netlify.app',
+  origin: 'http://localhost:3000',
   credentials: true,            //access-control-allow-credentials:true
   optionSuccessStatus: 200
 }

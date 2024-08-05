@@ -199,7 +199,6 @@ const secret = "Lavkesh@123";
 async function handleUserAuth(req, res) {
     const uid = req.cookies.uid;
     console.log("uid=");
-    console.log(req.cookies.uid);
     console.log(uid);
     if (uid) {
         const decoded=jwt.verify(uid,secret);
@@ -213,7 +212,7 @@ async function handleUserAuth(req, res) {
         });
     }
     else {
-        return res.status(401).json({status:400,message:"Message will be No UID"});
+        return res.status(401);
     }
 }
 module.exports = {
