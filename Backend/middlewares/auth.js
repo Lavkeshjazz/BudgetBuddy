@@ -21,20 +21,20 @@ async function restrictToLoggedinUserOnly(req, res, next) {
 
 async function checkAuth(req, res, next) {
   const userUid = req.cookies?.uid;
-  console.log("req cookies =");
+  console.log("req cokkies=")
   console.log(req.cookies);
-  console.log("CHECK AUTH=");
-  console.log(userUid);
-  if (userUid) {
-    const user = await getUser(userUid); // Assuming getUser is an async function
-    if (user) {
-      req.user = user;
-      return next();
-    }
+  //if (userUid) {
+  const user = getUser(userUid);
+  console.log("CheckAuth working properly=");
+  console.log(user);
+  if (user) {
+    // console.log(req.user);
+    req.user = user;
+    return next();
   }
+  // }
   return res.redirect('/login');
 }
-
 
 async function restrictToSearchRoute(req, res, next) {
   // If user is not logged in, redirect to login page
