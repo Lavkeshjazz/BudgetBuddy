@@ -8,7 +8,7 @@ import { GrLogin } from "react-icons/gr";
 const Landingpage = () => {
   const userContext = useUserContext();
   useEffect(() => {
-    fetch('https://budgetbuddy-b4zd.onrender.com/user/authorized', {
+    fetch('https://budgetbuddy-1-s4a6.onrender.com/user/authorized', {
       credentials: 'include',
     }).then(response => {
       response.json().then(userInfo => {

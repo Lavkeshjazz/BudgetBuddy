@@ -15,7 +15,7 @@ const jwt = require('jsonwebtoken');
 const port = 5000;
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://budget-buddy-one-beta.vercel.app/',
   credentials: true,            //access-control-allow-credentials:true
   optionSuccessStatus: 200
 }

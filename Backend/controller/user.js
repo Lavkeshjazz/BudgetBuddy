@@ -390,7 +390,7 @@ async function forgotPassword(req, res) {
   const resetToken = user.createToken();
   await user.save();
   // const resetUrl = `${req.protocol}://${req.get('host')}/user/resetPassword/${resetToken}`
-  const resetUrl = `${req.protocol}://localhost:3000/user/resetPassword/${resetToken}`
+  const resetUrl = `${req.protocol}://budget-buddy-one-beta.vercel.app//user/resetPassword/${resetToken}`
   const message = `We have received a password reset request. Please use the below link to reset your password\n\n${resetUrl}`;
   let mail = {
     type: 'Password Reset Email',

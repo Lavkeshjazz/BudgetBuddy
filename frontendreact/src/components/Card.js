@@ -20,7 +20,7 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
     e.preventDefault();
     const deleteItemId=productURL;
     console.log("Deleting item...");
-    const res = await fetch('https://budgetbuddy-b4zd.onrender.com/delete', {
+    const res = await fetch('https://budgetbuddy-1-s4a6.onrender.com/delete', {
       credentials: 'include',
       method: 'POST',
       headers: {

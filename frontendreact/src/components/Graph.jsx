@@ -10,7 +10,7 @@ const Graph = (props) => {
   console.log(ProductURL)
   const [GraphData, setGraphData] = useState([]);
   const fetchdata = async () => {
-    const data = await fetch("https://budgetbuddy-b4zd.onrender.com/getcurItem", {
+    const data = await fetch("https://budgetbuddy-1-s4a6.onrender.com/getcurItem", {
       credentials: 'include',
       method: 'POST',
       headers: {

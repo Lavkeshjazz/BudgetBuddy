@@ -6,7 +6,7 @@ const Navbar = (props) => {
   const Navigate = useNavigate();
   const userContext = useUserContext();
   useEffect(() => {
-    fetch('https://budgetbuddy-b4zd.onrender.com/user/authorized', {
+    fetch('https://budgetbuddy-1-s4a6.onrender.com/user/authorized', {
       credentials: 'include',
     }).then((response) => {
       response.json().then(user => {
@@ -16,7 +16,7 @@ const Navbar = (props) => {
     // eslint-disable-next-line
   }, []);
   function logout() {
-    fetch('https://budgetbuddy-b4zd.onrender.com/logout', {
+    fetch('https://budgetbuddy-1-s4a6.onrender.com/logout', {
       credentials: 'include',
       method: 'GET',
     }).then(() => {

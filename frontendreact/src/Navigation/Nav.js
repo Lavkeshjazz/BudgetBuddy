@@ -46,7 +46,7 @@ const Nav = (props) => {
     setOpen(true);
     const { ProductURL, expectedPrice } = user;
     try {
-    const res = await fetch('https://budgetbuddy-b4zd.onrender.com/searchproduct/', {
+    const res = await fetch('https://budgetbuddy-1-s4a6.onrender.com/searchproduct/', {
       credentials: 'include',
       method: 'POST',
       headers: {
