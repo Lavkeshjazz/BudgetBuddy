@@ -12,7 +12,7 @@ router.post("/addUrlinDatabase", restrictToLoggedinUserOnly,addUrlinDatabase);
 router.post("/delete", deleteDatabase);
 router.post("/add", add_new_data_in_existing_database);
 router.post("/details",open_detailed_page);
-router.get("/getallproducts",checkAuth,get_products);
+router.get("/getallproducts",get_products);
 router.post("/getcurItem",checkAuth,get_curItem);
 router.get("/demandItems", checkAuth , products_by_demand);
 router.post("/searchproduct", restrictToLoggedinUserOnly, async(req,res,next)=> {
