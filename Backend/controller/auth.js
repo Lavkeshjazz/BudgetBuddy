@@ -169,13 +169,13 @@ async function handleUserLogin(req, res) {
         }
         console.log("Correct Credentials");
         const token = setUser(user_exist);
-        const cookieOptions = {
+        res.cookie("uid", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // true in production
+            secure: true, // Always use secure in production
             sameSite: 'none',
             //maxAge: 24 * 60 * 60 * 1000 // 24 hours
-        };
-        res.cookie("uid", token,cookieOptions);
+        });
+        console.log("Cookie set:", token);
         return res.status(200).json({
             user_exist
         })
