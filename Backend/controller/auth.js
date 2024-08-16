@@ -168,17 +168,14 @@ async function handleUserLogin(req, res) {
             );
         }
         console.log("Correct Credentials");
-        const token = generateToken(user_exist);
-        console.log("Generated token:", token);
-        res.cookie("uid", token, {
+        const token = setUser(user_exist);
+        const cookieOptions = {
             httpOnly: true,
-            secure: true, // Always use secure for HTTPS
-            sameSite: 'none', // Required for cross-site cookie
-            //maxAge: 24 * 60 * 60 * 1000, // 24 hours
-            path: '/', // Ensure the cookie is sent for all paths
-            //domain: 'https://budget-buddy-one-beta.vercel.app/' // Replace with your actual domain
-        });
-        console.log("Set-Cookie header:", res.getHeader('Set-Cookie'));
+            sameSite: 'None',
+            secure: true,
+            //domain: 'fascinating-sunburst-065a30.netlify.app'
+        };
+        res.cookie("uid", token,cookieOptions);
         return res.status(200).json({
             user_exist
         })

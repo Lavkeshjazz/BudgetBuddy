@@ -41,91 +41,63 @@ async function open_detailed_page(req, res) {
 }
 //Delete database
 async function deleteDatabase(req, res) {
-  const URLToDelete = req.body.deleteItemId;
-  const xyz = req.user.email;
-  var checker = false;
-  const resulttttttt = await User.findOne({ email: req.user.email })
-  if (resulttttttt.userType == 'user') {
-    await User.updateMany({ "itemsAdded.productURL": URLToDelete }, { $pull: { itemsAdded: { productURL: URLToDelete } } });
-  }
-  if (resulttttttt.userType == 'trader') {
-    for (const index in resulttttttt.itemsAdded) {
-      if (URLToDelete == resulttttttt.itemsAdded[index].productURL) {
-        checker = true;
-      }
-    }
-    if (checker == true) {
-      await User.updateMany({ "itemsAdded.productURL": URLToDelete }, { $pull: { itemsAdded: { productURL: URLToDelete } } });
-    }
-    else {
-      console.log("Not Your Product");
-    }
-  }
-
-  const result = await User.findOne({ email: req.user.email })
-
-  let listYourProduct = [];
-  let listAllProduct = [];
-  let flag = false;
   try {
-    if (result.userType == 'user') {
-      listYourProduct = await yourproductlisting(result.itemsAdded);
+    const URLToDelete = req.body.deleteItemId;
+    const userEmail = req.user.email;
+    
+    // Find the user by email
+    const user = await User.findOne({ email: userEmail });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-    if (result.userType == 'trader') {
-      listYourProduct = await yourproductlisting(result.itemsAdded);
-      flag = true;
-      listAllProduct = await allproductlisiting();
-    }
-    let products = {
-      listTitle: xyz,
-      listItems: listYourProduct,
-      listAllItems: listAllProduct,
-      checkUser: flag
-    }
-    res.status(200).json({message:"success", products: products });
 
-  } catch (err) {
-    console.log(err);
-  }
-}
-//Add product urls in database
-async function addUrlinDatabase(req, res) {
-    try {
-      // console.log("in searching")
-      // console.log(req.body);
-      const data = { productURL: req.body.ProductURL, expectedPrice: req.body.expectedPrice }
-      await fetchPrice(data.productURL, data.expectedPrice);
-      await User.updateOne({ email: req.user.email, 'itemsAdded.productURL': { $ne: data.productURL } }, { $push: { itemsAdded: data } })  //Uniquely adds url in database
-      let user = await User.findOne({ email: req.user.email })
-      let listYourProduct = [];
-      let listAllProduct = [];
-      let flag = false;
-
-      if (user.userType == 'user') {
-        listYourProduct = await yourproductlisting(user.itemsAdded)
+    // Check user type and perform item deletion
+    if (user.userType === 'user') {
+      // For regular users, just remove items with the given URL
+      await User.updateMany({ "itemsAdded.productURL": URLToDelete }, { $pull: { itemsAdded: { productURL: URLToDelete } } });
+    } else if (user.userType === 'trader') {
+      // For traders, ensure the item to delete belongs to them before removing
+      const itemExists = user.itemsAdded.some(item => item.productURL === URLToDelete);
+      
+      if (itemExists) {
+        await User.updateMany({ "itemsAdded.productURL": URLToDelete }, { $pull: { itemsAdded: { productURL: URLToDelete } } });
+      } else {
+        console.log("Not Your Product");
+        return res.status(403).json({ message: "Not your product" });
       }
+    }
 
-      if (user.userType == 'trader') {
-        listYourProduct = await yourproductlisting(user.itemsAdded)
+    // Fetch updated product listings
+    let listYourProduct = [];
+    let listAllProduct = [];
+    let flag = false;
+
+    if (user.userType === 'user' || user.userType === 'trader') {
+      listYourProduct = await yourproductlisting(user.itemsAdded);
+      
+      if (user.userType === 'trader') {
         flag = true;
         listAllProduct = await allproductlisiting();
       }
-
-      let products = {
-        listTitle: user.email,
-        listItems: listYourProduct,
-        listAllItems: listAllProduct,
-        checkUser: flag
-      }
-      res.render("searchpage", products)
-        
-    } catch (error) {
-        console.log(error);
-        if(error instanceof AppError || error instanceof FetchError) return res.status(error.statusCode).json(error.serialize());
-        else return res.status(500).json({ statusCode:500 , message : error.message });
     }
 
+    const products = {
+      listTitle: userEmail,
+      listItems: listYourProduct,
+      listAllItems: listAllProduct,
+      checkUser: flag
+    };
+
+    res.status(200).json({ message: "success", products });
+  } catch (err) {
+    console.error(err);
+    if (err instanceof AppError || err instanceof FetchError) {
+      return res.status(err.statusCode).json(err.serialize());
+    }
+    return res.status(500).json({ statusCode: 500, message: err.message });
+  }
 }
+
 //ListYourProduct
 async function yourproductlisting(database) {
   let listYourProduct = [];
@@ -425,6 +397,66 @@ async function products_by_demand(req,res,next){
     const products = await Product.find().sort({ counter: -1 });
     //console.log("products by demand controller");
     //console.log(products);
+    return res.status(200).json(products);
+  } catch (error) {
+      next(error);
+  }
+}
+
+async function products_by_demand_least(req, res, next) {
+  try {
+    const products = await Product.find().sort({ counter: 1 });
+    // console.log("products by demand ascending controller");
+    // console.log(products);
+nsole.log(products);
+    return res.status(200).json(products);
+  } catch (error) {
+      next(error);
+  }
+}
+
+async function products_by_demand_least(req, res, next) {
+  try {
+    const products = await Product.find().sort({ counter: 1 });
+    // // sole.log("products by demand ascending controller");
+    // // sole.log(products);
+nsole.log(products);
+    return res.status(200).json(products);
+  } catch (error) {
+      next(error);
+  }
+}
+
+async function products_by_demand_least(req, res, next) {
+  try {
+    const products = await Product.find().sort({ counter: 1 });
+    // // sole.log("products by demand ascending controller");
+    // // sole.log(products);
+nsole.log(products);
+    return res.status(200).json(products);
+  } catch (error) {
+      next(error);
+  }
+}
+
+async function products_by_demand_least(req, res, next) {
+  try {
+    const products = await Product.find().sort({ counter: 1 });
+    // // sole.log("products by demand ascending controller");
+    // // sole.log(products);
+nsole.log(products);
+    return res.status(200).json(products);
+  } catch (error) {
+      next(error);
+  }
+}
+
+async function products_by_demand_least(req, res, next) {
+  try {
+    const products = await Product.find().sort({ counter: 1 });
+    // // sole.log("products by demand ascending controller");
+    // // sole.log(products);
+//console.log(products);
     return res.status(200).json(products);
   } catch (error) {
       next(error);

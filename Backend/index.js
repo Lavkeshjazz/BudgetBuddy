@@ -11,15 +11,12 @@ const trader = require("./routes/trader")    //Authentican Part
 const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");  //Authentican Part
 const cors = require("cors");
 const app = express();
-app.set('trust proxy', 1);
 const jwt = require('jsonwebtoken');
 const port = 5000;
 
 const corsOptions = {
-  origin: 'https://budget-buddy-one-beta.vercel.app',
+  origin: 'http://localhost:3000',
   credentials: true,            //access-control-allow-credentials:true
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
   optionSuccessStatus: 200
 }
 app.use(cors(corsOptions));
@@ -65,15 +62,11 @@ const session = require('express-session');
 // Set up body parser middleware to parse URL-encoded data
 
 
+// Set up session middleware
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'Lavkesh@123',
+  secret: 'secret', // Secret key to sign the session ID cookie
   resave: false,
-  saveUninitialized: true,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-    sameSite: 'none', // Required for cross-site cookie in production
-    //maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
+  saveUninitialized: true
 }));
 
 
@@ -96,7 +89,7 @@ app.listen(port, () => {
 cron.start();
 
 
-// comment
+
 // app.get('/authorized', (req, res) => {
 //   const uid = req.cookies.uid;
 //   if(uid) {

@@ -34,58 +34,41 @@ const Login = () => {
 
   async function loginuser(e) {
     e.preventDefault(); // Prevent default form submission
-    console.log("Attempting login for email:", email);
-
     try {
-        const response = await fetch("https://budgetbuddy-1-s4a6.onrender.com/user/login", {
-            method: 'POST',
-            credentials: 'include',
-            body: JSON.stringify({ email, password }),
-            headers: { 'Content-Type': 'application/json' },
+    const response = await fetch("https://budgetbuddy-1-s4a6.onrender.com/user/login", {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (response.ok) {
+      Swal.fire({
+        title: "Login Successful!",
+        icon: "success",
+        confirmButtonText: "Proceed",
+      }).then(() => {
+        response.json().then(userInfo => {
+        userContext.login(userInfo.user_exist);
+        navigate('/');
         });
-
-        console.log("Login response status:", response.status);
-        console.log("Login response headers:", response.headers);
-
-        const data = await response.json();
-        console.log("Login response data:", data);
-
-        if (response.ok) {
-            console.log("Login successful");
-            console.log("Cookies after login:", document.cookie);
-
-            Swal.fire({
-                title: "Login Successful!",
-                icon: "success",
-                confirmButtonText: "Proceed",
-            }).then(() => {
-                userContext.login(data.user_exist);
-                
-                // Add a slight delay before navigation
-                setTimeout(() => {
-                    navigate('/');
-                    console.log("Navigated to home page");
-                    console.log("Cookies after navigation:", document.cookie);
-                }, 500);
-            });
-        } else {
-            console.error("Login failed:", data.error.message);
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: data.error.message,
-                confirmButtonText: "Try Again",
-            });
-        }
-    } catch (error) {
-        console.error("Login error:", error);
-        Swal.fire({
-            icon: "error",
-            title: "Login Failed",
-            text: error.message || "An unexpected error occurred",
-            confirmButtonText: "Try Again",
-        });
+      });
+    } else{
+      const data = await response.json();
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: data.error.message,
+        confirmButtonText: "Try Again",
+      });
     }
+  } catch (error){
+    Swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text: error.message || "An unexpected error occurred",
+      confirmButtonText: "Try Again",
+    });
+  }
 }
 
   return (
