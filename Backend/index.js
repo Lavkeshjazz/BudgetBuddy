@@ -17,6 +17,8 @@ const port = 5000;
 const corsOptions = {
   origin: 'https://budget-buddy-one-beta.vercel.app',
   credentials: true,            //access-control-allow-credentials:true
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   optionSuccessStatus: 200
 }
 app.use(cors(corsOptions));

@@ -37,10 +37,14 @@ const Login = () => {
     try {
     const response = await fetch("https://budgetbuddy-1-s4a6.onrender.com/user/login", {
       method: 'POST',
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
+      
+    })
+    .then(response => response.json())
+    .then(data => console.log('Login Response:', data))
+    .catch(error => console.error('Login Error:', error));
    // console.log("RESPONSE OK=");
    // console.log(response.ok);
     if (response.ok) {

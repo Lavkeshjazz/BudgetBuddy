@@ -29,6 +29,7 @@ function Homepage() {
           credentials: 'include',
         });
         temp = await data.json();
+        console.log('All Cookies:', document.cookie);
         setEmail(temp.listTitle);
         setfirstName(temp.listName1);
         setlastName(temp.listName2);
