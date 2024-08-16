@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 const Otpverify = () => {
   const location = useLocation();
   const signupdata = location.state;
-  console.log(signupdata.email);
+ // console.log(signupdata.email);
   const { email } = signupdata;
   const [otp, setOtp] = useState('');
   const history = useNavigate();
@@ -23,7 +23,7 @@ const Otpverify = () => {
     if (response.ok) {
       e.preventDefault();
       const { firstName, lastname, phone_number, email, password, userType } = signupdata;
-      console.log("hello from postdata");
+     // console.log("hello from postdata");
       const res = await fetch('https://budgetbuddy-1-s4a6.onrender.com/user/', {
         method: 'POST',
         headers: {

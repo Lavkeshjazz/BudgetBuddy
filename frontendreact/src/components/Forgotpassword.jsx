@@ -41,7 +41,7 @@ const Forgotpassword = () => {
           navigate('/login');
           });
         }
-      console.log(res.data)
+     // console.log(res.data)
     }).catch(err => {
       Swal.fire({
         icon: "error",

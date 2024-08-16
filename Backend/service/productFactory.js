@@ -28,7 +28,7 @@ class ProductFactory {
     let hostname = url.toString().split('.')[1];
     // if (hostname == "ajio")
     //   return ajio(html)
-    console.log("Scraping hostname:", hostname);
+    //console.log("Scraping hostname:", hostname);
     if (!scrapeProduct[hostname]) {
       throw new AppError(400, `Unsupported hostname: ${hostname}`);
     }

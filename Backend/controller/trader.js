@@ -4,10 +4,10 @@ const nodemailer = require("nodemailer");
 async function handleUserSignup2(req, res, next) {
     let { phone_number, email } = req.body;
     email = email.toLowerCase();
-    console.log("email=");
-    console.log(email);
-    console.log("phone_number");
-    console.log(phone_number);
+    // console.log("email=");
+    // console.log(email);
+    // console.log("phone_number");
+    // console.log(phone_number);
     try {
         const check_email = await User.findOne({ email });
         const check_phonenumber = await User.findOne({ phone_number });
@@ -120,12 +120,12 @@ module.exports = {
       
         if (otp == req.session.otp) {
             // If OTP is correct, redirect to home page
-            console.log("verified");
+            //console.log("verified");
             return res.status(200).json({ success: "OTP verified successfully" });
         //    res.redirect("/login");
         } else {
             // If OTP is incorrect, render the verify page again with an error message
-            console.log("not verified");
+            //console.log("not verified");
             return res.status(400).json({ error: "Invalid OTP, please try again." });
         }
     },handleUserSignup2

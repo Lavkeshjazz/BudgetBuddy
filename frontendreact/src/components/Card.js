@@ -19,7 +19,7 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
   const del_function = async (e) => {
     e.preventDefault();
     const deleteItemId=productURL;
-    console.log("Deleting item...");
+    //console.log("Deleting item...");
     const res = await fetch('https://budgetbuddy-1-s4a6.onrender.com/delete', {
       credentials: 'include',
       method: 'POST',
@@ -32,10 +32,10 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
       })
     });
     const data = await res.json();
-    console.log(data);
+    //console.log(data);
     if (res.ok) {
-      console.log('data to deleted successfully');
-      console.log(data.message);
+      //console.log('data to deleted successfully');
+      //console.log(data.message);
       Swal.fire({
         title: "Item Deleted!",
         text : "Refresh Page to see the changes.",
@@ -46,7 +46,7 @@ const Card = ({ img, title, star, reviews, newPrice, site, expectedPrice, produc
         });
     }
     else if (res.status === 400) {
-      console.log(data);
+     // console.log(data);
       window.alert(data.error.message);
     }
   };

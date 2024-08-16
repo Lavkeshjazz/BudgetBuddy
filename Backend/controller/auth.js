@@ -63,7 +63,7 @@ async function handleUserSignup(req, res) {
                 password,
                 userType
             });
-            console.log("user type:", userType);
+            //console.log("user type:", userType);
             return res.status(200).json({
                 user
             })
@@ -117,7 +117,7 @@ async function handleUserSignup(req, res) {
 }
 
 async function handleUserLogin(req, res) {
-    console.log("hello from handleUserLogin")
+    //console.log("hello from handleUserLogin")
     const email = req.body.email;
     const password = req.body.password;
     try {
@@ -167,7 +167,7 @@ async function handleUserLogin(req, res) {
             }
             );
         }
-        console.log("Correct Credentials");
+        //console.log("Correct Credentials");
         const token = setUser(user_exist);
         const cookieOptions = {
             httpOnly: true,
@@ -198,11 +198,11 @@ async function handleUserLogin(req, res) {
 const secret = "Lavkesh@123";
 async function handleUserAuth(req, res) {
     const uid = req.cookies.uid;
-    console.log("uid=");
-    console.log(uid);
+    // console.log("uid=");
+    // console.log(uid);
     if (uid) {
         const decoded=jwt.verify(uid,secret);
-        console.log(decoded)
+        //console.log(decoded)
         const user_exist = await User.findOne({ email: decoded.email });
         return res.status(200).json({
             user_exist,

@@ -20,8 +20,8 @@ const Sidebar = ({ handleChange }) => {
   }, []);
 
   const username = userContext.user;
-  console.log("USER TYPE");
-  console.log(username?.userType); // Optional chaining to avoid errors if username is null or undefined
+  // console.log("USER TYPE");
+  // console.log(username?.userType); // Optional chaining to avoid errors if username is null or undefined
   return (
     <>
       <section className="sidebar">

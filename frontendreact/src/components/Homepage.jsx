@@ -72,9 +72,9 @@ function Homepage() {
     const getProductsByDemand = async () => {
       try {
         const response = await fetch("https://budgetbuddy-1-s4a6.onrender.com/trader/products_by_demand", {credentials: 'include'});
-        console.log("url product=");
+        //console.log("url product=");
         const temp = await response.json();
-        console.log(temp);
+       // console.log(temp);
         setTempproducts(Object.values(temp));
       }
       catch (error) {
@@ -88,9 +88,9 @@ function Homepage() {
     const getProductsByDemand2 = async () => {
       try {
         const response = await fetch("https://budgetbuddy-1-s4a6.onrender.com/trader/products_by_demand_least", {credentials: 'include'});
-        console.log("url product=");
+        //("url product=");
         const temp = await response.json();
-        console.log(temp);
+      //  console.log(temp);
         setTempproducts2(Object.values(temp));
       }
       catch (error) {
@@ -103,8 +103,8 @@ function Homepage() {
   function filteredData(products, selected, query) {
     let filteredProducts = products;
     if (selected) {
-      console.log(selected);
-      console.log(filteredProducts)
+     // console.log(selected);
+     // console.log(filteredProducts)
       if (selected !== "MyProds") {
         if (selected === "LtoH") {
           filteredProducts = filteredProducts.sort((a, b) => a.price - b.price);
@@ -114,7 +114,7 @@ function Homepage() {
         }
         else if (selected !== "MtoL" && selected !== "LtoM") {
           filteredProducts = filteredProducts.filter(({ productURL }) => {
-            console.log(`Selected: ${selected}, ProductURL: ${productURL}`);
+           // console.log(`Selected: ${selected}, ProductURL: ${productURL}`);
             return productURL && productURL.includes(selected);
           });
         }
@@ -146,7 +146,7 @@ function Homepage() {
   let result = null;
   if (selectedCategory === "MyProds") {
     traderAllProduct = false;
-    console.log(myproducts);
+    //console.log(myproducts);
     result = filteredData(myproducts, selectedCategory, query);
   }
   else if (selectedCategory === "MtoL") result = filteredData(tempproducts, selectedCategory, query);

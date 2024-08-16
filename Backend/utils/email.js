@@ -11,7 +11,7 @@ const sendEmail = (option) =>{
             pass : process.env.EMAIL_PASSWORD
         }
     })
-    console.log(option.body)
+   // console.log(option.body)
     transporter.sendMail(option.body,(err)=>{
         if(err){
             console.log(err)

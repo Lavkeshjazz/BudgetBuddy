@@ -135,7 +135,7 @@ const Signup = () => {
     else {
       e.preventDefault();
       const { firstName, lastname, phone_number, email, password, userType } = user;
-      console.log("hello from postdata");
+      //console.log("hello from postdata");
       const res = await fetch('https://budgetbuddy-1-s4a6.onrender.com/user/', {
         method: 'POST',
         headers: {

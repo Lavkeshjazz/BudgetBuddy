@@ -7,7 +7,7 @@ import Navbar from './Navbar';
 const Display = () => {
   const location = useLocation();
   const productdata = location.state;
-  console.log(productdata);
+ // console.log(productdata);
   const { img, title, newPrice, productURL, lowestprice, averageprice, highestprice, url } = productdata;
   return (
     <div>

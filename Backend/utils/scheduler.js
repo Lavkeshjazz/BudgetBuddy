@@ -4,7 +4,7 @@ const User = require('../models/user');
 const sendEmail = require('./email');
 
 async function trackPrice(){
-    console.log('scheduled task has begun ');
+    //console.log('scheduled task has begun ');
     const user = await User.find({});
     //For all user
     user.forEach(element => {

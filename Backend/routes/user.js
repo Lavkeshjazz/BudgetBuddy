@@ -12,7 +12,7 @@ router.post("/addUrlinDatabase", restrictToLoggedinUserOnly,addUrlinDatabase);
 router.post("/delete", deleteDatabase);
 router.post("/add", add_new_data_in_existing_database);
 router.post("/details",open_detailed_page);
-router.get("/getallproducts",get_products);
+router.get("/getallproducts",checkAuth,get_products);
 router.post("/getcurItem",checkAuth,get_curItem);
 router.get("/demandItems", checkAuth , products_by_demand);
 router.post("/searchproduct", restrictToLoggedinUserOnly, async(req,res,next)=> {
@@ -40,7 +40,7 @@ router.get("/signup", (req,res)=>{
 
 //Signout
 router.get("/logout",(req,res)=>{
-    console.log("logged out...")
+   // console.log("logged out...")
     res.cookie("uid",'',{maxAge : 1});
     return res.redirect('/');     
 });
@@ -57,7 +57,7 @@ router.get("/mail",(req,res)=>{
     return res.render("verifyemail");
 })
 router.get("/verify",restrictToLoggedinUserOnly,(req,res)=>{
-    console.log("hello i m verify from user");
+    //console.log("hello i m verify from user");
     return res.json({status:true, message: "authorized"})
     // return res.render("forget.ejs")
 })

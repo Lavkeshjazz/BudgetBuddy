@@ -7,7 +7,7 @@ const Graph = (props) => {
   if(ProductURL===undefined){
     ProductURL=url;
   }
-  console.log(ProductURL)
+  //console.log(ProductURL)
   const [GraphData, setGraphData] = useState([]);
   const fetchdata = async () => {
     const data = await fetch("https://budgetbuddy-1-s4a6.onrender.com/getcurItem", {
@@ -20,15 +20,15 @@ const Graph = (props) => {
         ProductURL,
       })
     });
-    console.log(data)
+    //console.log(data)
     const datajson = await data.json();
-    console.log(datajson)
+    //console.log(datajson)
     setGraphData(datajson.priceHistory);
   };
   useEffect(() => {
     fetchdata();
     if (GraphData.length !== 0) {
-      console.log(GraphData);
+      //console.log(GraphData);
       setGraphData(GraphData);
     }
     // eslint-disable-next-line

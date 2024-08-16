@@ -41,8 +41,8 @@ const Login = () => {
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
-    console.log("RESPONSE OK=");
-    console.log(response.ok);
+   // console.log("RESPONSE OK=");
+   // console.log(response.ok);
     if (response.ok) {
       Swal.fire({
         title: "Login Successful!",

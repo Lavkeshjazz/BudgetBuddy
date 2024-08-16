@@ -11,21 +11,21 @@ const Searchitempage = () => {
   const Navigate = useNavigate();
   const params = useParams();
   const expectedPrice = params.expectedPrice;
-  console.log(expectedPrice);
+  //console.log(expectedPrice);
   // -----------------------------------------------------------------------
   const location = useLocation();
   const productdata = location.state;
-  console.log(productdata);
+  //(productdata);
 
   // -----------------------------------------------------------------------
   const AddFunction = async (e) => {
     setOpen(true);
-    console.log("hehhehe");
+    //console.log("hehhehe");
     e.preventDefault();
     const { url } = productdata;
     const ProductURL = url;
-    console.log(ProductURL);
-    console.log(expectedPrice)
+    // console.log(ProductURL);
+    // console.log(expectedPrice)
     const res = await fetch('https://budgetbuddy-1-s4a6.onrender.com/addUrlinDatabase', {
       credentials: 'include',
       method: 'POST',
@@ -38,7 +38,7 @@ const Searchitempage = () => {
       })
 
     });
-    console.log("ho gya add");
+    //console.log("ho gya add");
     if (res.ok) {
       setOpen(false);
       Swal.fire({
@@ -51,7 +51,7 @@ const Searchitempage = () => {
         });
     } else if (res.status === 400) {
       const data = await res.json();
-      console.log(data);
+     // console.log(data);
       window.alert(data.error.message);
     }
   };
@@ -72,7 +72,7 @@ const Searchitempage = () => {
     const { P_URL, ePrice } = user;
     const ProductURL = P_URL;
     const expectedPrice = ePrice;
-    console.log("hello Im sending product details");
+    //console.log("hello Im sending product details");
     const res = await fetch('https://budgetbuddy-1-s4a6.onrender.com/searchproduct/', {
       credentials: 'include',
       method: 'POST',
@@ -86,17 +86,17 @@ const Searchitempage = () => {
 
     });
     const data = await res.json();
-    console.log(data);
+   // console.log(data);
     if (res.ok) {
       setOpen(false);
       // window.alert('sent successfully');
       swal("Item found!","click OK to continue", "success");
-      console.log('data sent');
+      //console.log('data sent');
       Navigate(`/searchitempage/${expectedPrice}`, { state: data });
     }
     else if (res.status === 400) {
       const data = await res.json();
-      console.log(data);
+      //console.log(data);
       window.alert(data.error.message);
     }
   };

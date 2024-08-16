@@ -62,7 +62,7 @@ const Nav = (props) => {
       throw new Error(data.message || 'Unknown error occurred');
     }
     const data = await res.json();
-    console.log(data);
+   // console.log(data);
     if (res.ok) {
       setOpen(false);
       Swal.fire({

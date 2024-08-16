@@ -91,8 +91,8 @@ async function deleteDatabase(req, res) {
 //Add product urls in database
 async function addUrlinDatabase(req, res) {
     try {
-      console.log("in searching")
-      console.log(req.body);
+      // console.log("in searching")
+      // console.log(req.body);
       const data = { productURL: req.body.ProductURL, expectedPrice: req.body.expectedPrice }
       await fetchPrice(data.productURL, data.expectedPrice);
       await User.updateOne({ email: req.user.email, 'itemsAdded.productURL': { $ne: data.productURL } }, { $push: { itemsAdded: data } })  //Uniquely adds url in database
@@ -195,7 +195,7 @@ async function add_new_data_in_existing_database(req, res) {
         }
         res.render("searchpage", products)
       } catch (err) {
-        console.log("helo error");
+        //console.log("helo error");
         console.log(err);
       }
         
@@ -230,7 +230,7 @@ async function get_products(req, res) {
     }
     // console.log(products);
     // console.log("yoyoyyoyo")
-    console.log("products fetched succesfully");
+    //console.log("products fetched succesfully");
     return res.status(200).json(products);
   }
   catch (err) {
@@ -239,13 +239,13 @@ async function get_products(req, res) {
   }
 }
 async function get_curItem(req, res) {
-  console.log("inside get CUR ITEM");
+  //console.log("inside get CUR ITEM");
   try {
     const x = req.body.ProductURL;
-    console.log(x)
+    //console.log(x)
     const y = await Product.findOne({ url: x });
-    console.log(y.priceHistory)
-    console.log("sab sahi chal raha")
+    // console.log(y.priceHistory)
+    // console.log("sab sahi chal raha")
     return res.status(200).json(y);
   }
   catch (err) {
@@ -271,7 +271,7 @@ async function fetchPrice(url,update = false) {
     const cache = await Product.findOne({url : url});
     const date = new Date()
     if(cache && !update){
-        console.log(cache);
+        //console.log(cache);
         const  doc = cache;
         let dbDate=doc.priceHistory[doc.priceHistory.length-1].date.getDay();
         if (dbDate!==date.getDay()) {
@@ -288,7 +288,7 @@ async function fetchPrice(url,update = false) {
 
   //console.log(`I have reached here ${url}`);
 
-  console.log(url);
+  //console.log(url);
   const response = await axios.get(url, {
     headers: {
       "User-Agent": userAgent,
@@ -304,7 +304,7 @@ async function fetchPrice(url,update = false) {
     }
   });
     if(!response) throw new FetchError(404 , 'Could not fetch Product');
-    console.log("Response received:", response.status);
+    //console.log("Response received:", response.status);
   const html = response.data;
 
   const parsedhtml = cheerio.load(html); //html parsing through cheerio
@@ -315,7 +315,7 @@ async function fetchPrice(url,update = false) {
   product.url = url;//adding url to product object 
   //Adding the product to product collection
   const doc = await Product.findOne({ url })
-  console.log(doc);
+  //console.log(doc);
   if (!doc) {
     product.priceHistory = []
     product.priceHistory.push({
@@ -434,8 +434,8 @@ async function products_by_demand(req,res,next){
 async function products_by_demand_least(req, res, next) {
   try {
     const products = await Product.find().sort({ counter: 1 });
-    console.log("products by demand ascending controller");
-    console.log(products);
+    // console.log("products by demand ascending controller");
+    // console.log(products);
     return res.status(200).json(products);
   } catch (error) {
     next(error);
