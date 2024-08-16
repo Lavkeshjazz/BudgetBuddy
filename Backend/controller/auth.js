@@ -171,9 +171,11 @@ async function handleUserLogin(req, res) {
         const token = setUser(user_exist);
         res.cookie("uid", token, {
             httpOnly: true,
-            secure: true, // Always use secure in production
-            sameSite: 'none',
-            //maxAge: 24 * 60 * 60 * 1000 // 24 hours
+            secure: true, // Always use secure for HTTPS
+            sameSite: 'none', // Required for cross-site cookie
+            //maxAge: 24 * 60 * 60 * 1000, // 24 hours
+            path: '/', // Ensure the cookie is sent for all paths
+            domain: 'https://budget-buddy-one-beta.vercel.app/' // Replace with your actual domain
         });
         console.log("Cookie set:", token);
         return res.status(200).json({
