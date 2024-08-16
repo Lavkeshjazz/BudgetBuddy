@@ -21,22 +21,31 @@ async function restrictToLoggedinUserOnly(req, res, next) {
 
 
 async function checkAuth(req, res, next) {
-  try {
-    const userUid = req.cookies?.uid;
-    console.log("Request Cookies:", req.cookies);
+  console.log("CheckAuth - Request headers:", req.headers);
+  console.log("CheckAuth - Cookies:", req.cookies);
 
-    const user = getUser(userUid); // Use await if getUser is async
-    console.log("CheckAuth working properly=", user);
+  const userUid = req.cookies?.uid;
+  console.log("CheckAuth - userUid:", userUid);
 
-    if (user) {
-      req.user = user;
-      return next();
-    } else {
+  if (!userUid) {
+      console.log("CheckAuth - No UID cookie found");
       return res.status(401).json({ message: "Please log in first" });
-    }
+  }
+
+  try {
+      const user = getUser(userUid);
+      console.log("CheckAuth - Decoded user:", user);
+
+      if (user) {
+          req.user = user;
+          return next();
+      } else {
+          console.log("CheckAuth - Invalid token");
+          return res.status(401).json({ message: "Invalid session" });
+      }
   } catch (err) {
-    console.error("Error in checkAuth:", err.message);
-    return res.status(500).json({ message: "Internal server error" });
+      console.error("CheckAuth - Error:", err);
+      return res.status(500).json({ message: "Internal server error" });
   }
 }
 
