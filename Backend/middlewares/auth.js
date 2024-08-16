@@ -33,7 +33,7 @@ async function checkAuth(req, res, next) {
     return next();
   }
   // }
-  return res.redirect('/login');
+  next("Please log in first");
 }
 
 async function restrictToSearchRoute(req, res, next) {
