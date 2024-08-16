@@ -52,11 +52,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  console.log('Request Cookies:', req.cookies);
-  console.log('Session:', req.session);
-  next();
-});
 
 // VERIFY PACKAGE
 const nodemailer = require("nodemailer");
