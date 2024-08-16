@@ -42,9 +42,6 @@ const Login = () => {
       headers: { 'Content-Type': 'application/json' },
       
     })
-    .then(response => response.json())
-    .then(data => console.log('Login Response:', data))
-    .catch(error => console.error('Login Error:', error));
    // console.log("RESPONSE OK=");
    // console.log(response.ok);
     if (response.ok) {
