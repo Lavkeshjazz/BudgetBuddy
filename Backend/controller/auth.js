@@ -175,7 +175,7 @@ async function handleUserLogin(req, res) {
             sameSite: 'none', // Required for cross-site cookie
             //maxAge: 24 * 60 * 60 * 1000, // 24 hours
             path: '/', // Ensure the cookie is sent for all paths
-            domain: 'https://budget-buddy-one-beta.vercel.app/' // Replace with your actual domain
+            //domain: 'https://budget-buddy-one-beta.vercel.app/' // Replace with your actual domain
         });
         console.log("Cookie set:", token);
         return res.status(200).json({
