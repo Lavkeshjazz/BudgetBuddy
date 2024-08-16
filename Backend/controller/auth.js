@@ -168,7 +168,7 @@ async function handleUserLogin(req, res) {
             );
         }
         console.log("Correct Credentials");
-        const token = setUser(user_exist);
+        const token = generateToken(user_exist);
         console.log("Generated token:", token);
         res.cookie("uid", token, {
             httpOnly: true,

@@ -11,6 +11,7 @@ const trader = require("./routes/trader")    //Authentican Part
 const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");  //Authentican Part
 const cors = require("cors");
 const app = express();
+app.set('trust proxy', 1);
 const jwt = require('jsonwebtoken');
 const port = 5000;
 
