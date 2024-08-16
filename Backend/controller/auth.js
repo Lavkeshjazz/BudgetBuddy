@@ -168,14 +168,15 @@ async function handleUserLogin(req, res) {
             );
         }
         console.log("Correct Credentials");
+        // Generate token and set it as a cookie
         const token = setUser(user_exist);
         const cookieOptions = {
-            httpOnly: true,
-            sameSite: 'None',
-            secure: true,
-          //  domain: 'fascinating-sunburst-065a30.netlify.app'
+        httpOnly: true, // Ensures cookie is not accessible via JavaScript
+        sameSite: 'None', // Allows cross-site cookies
+        secure: true, // Only sent over HTTPS
+        // domain: 'yourdomain.com' // Specify domain if needed
         };
-        res.cookie("uid", token,cookieOptions);
+        res.cookie("uid", token, cookieOptions);
         return res.status(200).json({
             user_exist
         })
