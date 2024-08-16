@@ -171,9 +171,9 @@ async function handleUserLogin(req, res) {
         const token = setUser(user_exist);
         const cookieOptions = {
             httpOnly: true,
-            sameSite: 'None',
-            secure: true,
-            //domain: 'fascinating-sunburst-065a30.netlify.app'
+            secure: process.env.NODE_ENV === 'production', // true in production
+            sameSite: 'none',
+            //maxAge: 24 * 60 * 60 * 1000 // 24 hours
         };
         res.cookie("uid", token,cookieOptions);
         return res.status(200).json({

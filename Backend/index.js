@@ -62,11 +62,15 @@ const session = require('express-session');
 // Set up body parser middleware to parse URL-encoded data
 
 
-// Set up session middleware
 app.use(session({
-  secret: 'Lavkesh@123', // Secret key to sign the session ID cookie
+  secret: process.env.SESSION_SECRET || 'Lavkesh@123',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+    sameSite: 'none', // Required for cross-site cookie in production
+    //maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
 }));
 
 
