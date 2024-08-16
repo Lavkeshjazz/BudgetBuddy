@@ -6,11 +6,11 @@ async function restrictToLoggedinUserOnly(req, res, next) {
   try {
     const userUid = req.cookies?.uid;
     if (!userUid) {
-      throw Error("Not logged in. Please log in to continue");
+      throw new Error("Not logged in. Please log in to continue");
     }
-    const user = getUser(userUid);
+    const user = await getUser(userUid); // Use await if getUser is async
     if (!user) {
-      throw Error("Not logged in. Please log in to continue");
+      throw new Error("Not logged in. Please log in to continue");
     }
     req.user = user;
     next();
@@ -19,22 +19,27 @@ async function restrictToLoggedinUserOnly(req, res, next) {
   }
 }
 
+
 async function checkAuth(req, res, next) {
-  const userUid = req.cookies?.uid;
-  console.log("req cokkies=")
-  console.log(req.cookies);
-  //if (userUid) {
-  const user = getUser(userUid);
-  console.log("CheckAuth working properly=");
-  console.log(user);
-  if (user) {
-    // console.log(req.user);
-    req.user = user;
-    return next();
+  try {
+    const userUid = req.cookies?.uid;
+    console.log("Request Cookies:", req.cookies);
+
+    const user = await getUser(userUid); // Use await if getUser is async
+    console.log("CheckAuth working properly=", user);
+
+    if (user) {
+      req.user = user;
+      return next();
+    } else {
+      return res.status(401).json({ message: "Please log in first" });
+    }
+  } catch (err) {
+    console.error("Error in checkAuth:", err.message);
+    return res.status(500).json({ message: "Internal server error" });
   }
-  // }
-  next("Please log in first");
 }
+
 
 async function restrictToSearchRoute(req, res, next) {
   // If user is not logged in, redirect to login page
