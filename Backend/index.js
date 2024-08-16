@@ -64,7 +64,7 @@ const session = require('express-session');
 
 // Set up session middleware
 app.use(session({
-  secret: 'secret', // Secret key to sign the session ID cookie
+  secret: 'Lavkesh@123', // Secret key to sign the session ID cookie
   resave: false,
   saveUninitialized: true
 }));
