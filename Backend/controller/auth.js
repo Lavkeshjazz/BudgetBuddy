@@ -173,7 +173,7 @@ async function handleUserLogin(req, res) {
             httpOnly: true,
             sameSite: 'None',
             secure: true,
-            domain: 'fascinating-sunburst-065a30.netlify.app'
+            //domain: 'fascinating-sunburst-065a30.netlify.app'
         };
         res.cookie("uid", token,cookieOptions);
         return res.status(200).json({
