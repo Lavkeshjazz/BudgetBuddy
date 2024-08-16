@@ -65,6 +65,6 @@ userSchema.methods.createToken = function(){
   console.log(resetToken,this.passwordResetToken);
   return resetToken;
 }
-const User = mongoose.model("BudgetBuddy-users", userSchema);
+const User = mongoose.model("budgetbuddy-users", userSchema);
 
 module.exports = User;  

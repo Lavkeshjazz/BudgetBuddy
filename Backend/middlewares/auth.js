@@ -25,6 +25,8 @@ async function checkAuth(req, res, next) {
   console.log(req.cookies);
   //if (userUid) {
   const user = getUser(userUid);
+  console.log("CheckAuth working properly=");
+  console.log(user);
   if (user) {
     // console.log(req.user);
     req.user = user;
