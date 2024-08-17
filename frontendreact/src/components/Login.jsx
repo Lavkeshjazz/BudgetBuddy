@@ -33,42 +33,43 @@ const Login = () => {
   }
 
   async function loginuser(e) {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     try {
-    const response = await fetch("https://budgetbuddy-1-s4a6.onrender.com/user/login", {
-      method: 'POST',
-      body: JSON.stringify({ email, password }),
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (response.ok) {
-      Swal.fire({
-        title: "Login Successful!",
-        icon: "success",
-        confirmButtonText: "Proceed",
-      }).then(() => {
-        response.json().then(userInfo => {
-        userContext.login(userInfo.user_exist);
-        navigate('/');
+        const response = await fetch("https://budgetbuddy-1-s4a6.onrender.com/user/login", {
+            method: 'POST',
+            body: JSON.stringify({ email, password }),
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
         });
-      });
-    } else{
-      const data = await response.json();
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: data.error.message,
-        confirmButtonText: "Try Again",
-      });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            Swal.fire({
+                title: "Login Successful!",
+                icon: "success",
+                confirmButtonText: "Proceed",
+            }).then(() => {
+                userContext.login(data.user_exist);
+                navigate('/');
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Login Failed",
+                text: data.error?.message || "An unexpected error occurred",
+                confirmButtonText: "Try Again",
+            });
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: "Unable to connect to the server. Please try again later.",
+            confirmButtonText: "OK",
+        });
     }
-  } catch (error){
-    Swal.fire({
-      icon: "error",
-      title: "Login Failed",
-      text: error.message || "An unexpected error occurred",
-      confirmButtonText: "Try Again",
-    });
-  }
 }
 
   return (
