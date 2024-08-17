@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'; // Added useState import
 import { NavLink } from 'react-router-dom';
 import { useUserContext } from "./userContex";
 import Navbar from './Navbar';
@@ -8,25 +8,27 @@ import { GrLogin } from "react-icons/gr";
 const Landingpage = () => {
   const userContext = useUserContext();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
     fetch('https://budgetbuddy-1-s4a6.onrender.com/user/authorized', {
       credentials: 'include',
     }).then(response => response.json())
       .then(userInfo => {
-          if (userInfo && userInfo.user_exist) {
-              userContext.login(userInfo.user_exist);
-              setIsLoggedIn(true);
-          } else {
-              setIsLoggedIn(false);
-          }
+        if (userInfo && userInfo.user_exist) {
+          userContext.login(userInfo.user_exist);
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
       })
       .catch(error => {
-          console.error('Error checking auth status:', error);
-          setIsLoggedIn(false);
+        console.error('Error checking auth status:', error);
+        setIsLoggedIn(false);
       });
   }, [userContext]);
 
   const username = userContext.user;
+
   return (
     <div className='landing'>
       {isLoggedIn ? <Navbar name="home" id="loginbtn" /> : <Navbar1 name="home" id="loginbtn" />}
@@ -35,13 +37,13 @@ const Landingpage = () => {
         <div className='blur2'></div>
         <div className='blur3'></div>
         <div className='landingcard'>
-          <h1 className='landingtitle'><span className='highlight'>Track</span>,<span className='highlight'> Compare</span>,<span className='highlight'> Save</span> <br></br>to Unlock Best Deals.</h1>
-          <p className='landingdetails1'>Stay ahead of the curve with real-time price updates on our <br></br>comprehensive tracking website.</p>
+          <h1 className='landingtitle'><span className='highlight'>Track</span>, <span className='highlight'>Compare</span>, <span className='highlight'>Save</span> <br />to Unlock Best Deals.</h1>
+          <p className='landingdetails1'>Stay ahead of the curve with real-time price updates on our <br />comprehensive tracking website.</p>
           <div className='input'>
-               {isLoggedIn 
-                    ? <NavLink to='/collections'><button className='landingbtn'>Go to Collections <GrLogin /></button></NavLink>
-                    : <NavLink to='/login'><button className='landingbtn'>Get Started</button></NavLink>
-                }
+            {isLoggedIn
+              ? <NavLink to='/collections'><button className='landingbtn'>Go to Collections <GrLogin /></button></NavLink>
+              : <NavLink to='/login'><button className='landingbtn'>Get Started</button></NavLink>
+            }
           </div>
         </div>
         <div className='blur4'></div>
@@ -71,15 +73,12 @@ const Landingpage = () => {
             </div>
           </p>
           <footer>
-            <p class="footer">Your privacy is important to us. We never share your information with third parties.</p>
+            <p className="footer">Your privacy is important to us. We never share your information with third parties.</p>
           </footer>
-          {/* </div>
-      </div>
-      </div> */}
         </div>
       </div>
     </div>
   )
 }
 
-export default Landingpage
+export default Landingpage;
