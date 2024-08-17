@@ -7,22 +7,29 @@ import { GrLogin } from "react-icons/gr";
 
 const Landingpage = () => {
   const userContext = useUserContext();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     fetch('https://budgetbuddy-1-s4a6.onrender.com/user/authorized', {
       credentials: 'include',
-    }).then(response => {
-      response.json().then(userInfo => {
-        userContext.login(userInfo);
+    }).then(response => response.json())
+      .then(userInfo => {
+          if (userInfo && userInfo.user_exist) {
+              userContext.login(userInfo.user_exist);
+              setIsLoggedIn(true);
+          } else {
+              setIsLoggedIn(false);
+          }
       })
-    })
-    // eslint-disable-next-line
-  }, []);
+      .catch(error => {
+          console.error('Error checking auth status:', error);
+          setIsLoggedIn(false);
+      });
+  }, [userContext]);
 
   const username = userContext.user;
   return (
     <div className='landing'>
-      {!username && <Navbar1 name="home" id="loginbtn" />}
-      {username && <Navbar name="home" id="loginbtn" />}
+      {isLoggedIn ? <Navbar name="home" id="loginbtn" /> : <Navbar1 name="home" id="loginbtn" />}
       <div className='landingpage'>
         <div className='blur1'></div>
         <div className='blur2'></div>
@@ -31,8 +38,10 @@ const Landingpage = () => {
           <h1 className='landingtitle'><span className='highlight'>Track</span>,<span className='highlight'> Compare</span>,<span className='highlight'> Save</span> <br></br>to Unlock Best Deals.</h1>
           <p className='landingdetails1'>Stay ahead of the curve with real-time price updates on our <br></br>comprehensive tracking website.</p>
           <div className='input'>
-            {!username && <NavLink to='/login'><button className='landingbtn'>Get Started</button></NavLink>}
-            {username && <NavLink to='/collections'><button className='landingbtn'>Go to Collections <GrLogin /></button></NavLink>}
+               {isLoggedIn 
+                    ? <NavLink to='/collections'><button className='landingbtn'>Go to Collections <GrLogin /></button></NavLink>
+                    : <NavLink to='/login'><button className='landingbtn'>Get Started</button></NavLink>
+                }
           </div>
         </div>
         <div className='blur4'></div>

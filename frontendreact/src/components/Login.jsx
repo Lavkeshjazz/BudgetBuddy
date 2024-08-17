@@ -42,11 +42,13 @@ const Login = () => {
             credentials: 'include',
         });
 
-        console.log("Response status:", response.status);
-        const data = await response.json();
-        console.log("Response data:", data);
+        // console.log("Response status:", response.status);
+        // const data = await response.json();
+        // console.log("Response data:", data);
 
         if (response.ok) {
+            const userInfo = await response.json();
+            userContext.login(userInfo.user_exist);
             Swal.fire({
                 title: "Login Successful!",
                 icon: "success",
@@ -56,6 +58,8 @@ const Login = () => {
                 navigate('/');
             });
         } else {
+          const errorData = await response.json();
+          console.error("Login failed:", errorData);
             Swal.fire({
                 icon: "error",
                 title: "Login Failed",
