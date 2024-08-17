@@ -2,8 +2,8 @@ const express = require("express");
 var bodyParser = require('body-parser');
 const axios = require("axios");
 
-const { defaultPage,checkforemail,resetPassword,forgotPassword,renderResetPassword, addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database,get_products,open_detailed_page,fetchPrice,get_curItem, products_by_demand} = require("../controller/user");
-const { restrictToSearchRoute, checkAuth, restrictToLoggedinUserOnly} = require("../middlewares/auth");
+const { addUrlinDatabase,deleteDatabase,add_new_data_in_existing_database,get_products,open_detailed_page,fetchPrice,get_curItem, products_by_demand} = require("../controller/user");
+const { checkAuth, restrictToLoggedinUserOnly} = require("../middlewares/auth");
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 // router.get("/", defaultPage);
@@ -39,10 +39,30 @@ router.get("/signup", (req,res)=>{
 });
 
 //Signout
-router.get("/logout",(req,res)=>{
-    console.log("logged out...")
-    res.cookie("uid",'',{maxAge : 1});
-    return res.redirect('/');     
+router.get("/logout", (req, res) => {
+    try {
+        // Clear the cookie
+        res.clearCookie("uid", {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None'
+        });
+
+        // If you're using express-session
+        if (req.session) {
+            req.session.destroy(err => {
+                if (err) {
+                    console.error("Session destruction error:", err);
+                }
+            });
+        }
+
+        // Send a response to clear client-side state
+        res.status(200).json({ message: "Logged out successfully" });
+    } catch (error) {
+        console.error("Logout error:", error);
+        res.status(500).json({ message: "Error during logout" });
+    }
 });
 
 router.get("/login", (req,res)=>{

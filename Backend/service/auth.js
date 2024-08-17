@@ -16,6 +16,7 @@ function getUser(token) {
   try {
     return jwt.verify(token, secret);
   } catch (error) {
+    console.error('JWT Verification failed:', error.message);
     return null;
   }
 }

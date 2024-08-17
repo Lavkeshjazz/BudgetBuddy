@@ -3,7 +3,7 @@ const { handleUserSignup, handleUserLogin, handleUserAuth } = require("../contro
 const { forgotPassword, resetPassword ,renderResetPassword} = require("../controller/user");
 const router = express.Router();
 
-router.post("/", handleUserSignup);
+router.post("/signup", handleUserSignup);
 router.post("/login", handleUserLogin);
 router.get("/authorized", handleUserAuth);
 router.post('/forgotPassword',forgotPassword)

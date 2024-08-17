@@ -20,19 +20,24 @@ async function restrictToLoggedinUserOnly(req, res, next) {
 }
 
 async function checkAuth(req, res, next) {
-  const userUid = req.cookies?.uid;
-  console.log("req cookies =");
-  console.log(req.cookies);
+  try {
+    const userUid = req.cookies?.uid;
 
-  if (userUid) {
-    const user = await getUser(userUid); // Assuming getUser is an async function
-    if (user) {
-      req.user = user;
-      return next();
+    if (!userUid) {
+      return res.redirect('/login');
     }
-  }
 
-  return res.redirect('/login');
+    const user = await getUser(userUid);
+    if (!user) {
+      return res.redirect('/login');
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    console.error('Authentication error:', error);
+    res.status(500).send('Internal Server Error');
+  }
 }
 
 
