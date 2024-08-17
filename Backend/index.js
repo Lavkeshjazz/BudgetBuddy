@@ -1,17 +1,16 @@
-//Hello
 const express = require("express");
-const path = require("path");
-var bodyParser = require('body-parser');
+// const path = require("path");
+// var bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');    //Authentican Part
 const { connectToMongoDB } = require("./connect");
 const cron = require('./utils/scheduler.js')
 const userRouter = require("./routes/user");
 const userRouterauth = require("./routes/auth");
 const trader = require("./routes/trader")    //Authentican Part
-const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");  //Authentican Part
+const {checkAuth } = require("./middlewares/auth");  //Authentican Part
 const cors = require("cors");
 const app = express();
-const jwt = require('jsonwebtoken');
+//const jwt = require('jsonwebtoken');
 const port = 5000;
 
 const corsOptions = {
@@ -44,11 +43,12 @@ connectToMongoDB(MONGODB_URI)
   });
 
 app.set("view engine", "ejs");
-app.set("views", path.resolve("./views"));
+//app.set("views", path.resolve("./views"));
 
 app.use(express.static("public"));
-app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -64,9 +64,14 @@ const session = require('express-session');
 
 // Set up session middleware
 app.use(session({
-  secret: 'secret', // Secret key to sign the session ID cookie
+  secret: "Lavkesh@123",
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    secure: true, // Set to true if using https
+    httpOnly: true,
+    //maxAge: null // This will make the session cookie last for the duration of the browser session
+  }
 }));
 
 

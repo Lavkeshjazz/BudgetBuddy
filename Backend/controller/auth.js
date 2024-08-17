@@ -169,12 +169,19 @@ async function handleUserLogin(req, res) {
         }
         console.log("Correct Credentials");
         const token = setUser(user_exist);
-        const cookieOptions = {
+        // const cookieOptions = {
+        //     httpOnly: true,
+        //     sameSite: 'None',
+        //     secure: true,
+        //     //domain: 'fascinating-sunburst-065a30.netlify.app'
+        // };
+        // res.cookie("uid", token,cookieOptions);
+        res.cookie("uid", token, {
             httpOnly: true,
             sameSite: 'None',
             secure: true,
             //domain: 'fascinating-sunburst-065a30.netlify.app'
-        };
+        });
         res.cookie("uid", token,cookieOptions);
         return res.status(200).json({
             user_exist

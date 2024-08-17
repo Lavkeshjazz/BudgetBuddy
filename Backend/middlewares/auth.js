@@ -20,18 +20,24 @@ async function restrictToLoggedinUserOnly(req, res, next) {
 }
 
 async function checkAuth(req, res, next) {
-  const userUid = req.cookies?.uid;
-  console.log("req cokkies=")
-  console.log(req.cookies);
-  //if (userUid) {
-  const user = getUser(userUid);
-  if (user) {
-    // console.log(req.user);
+  try {
+    const userUid = req.cookies?.uid;
+
+    if (!userUid) {
+      return res.redirect('/login');
+    }
+
+    const user = await getUser(userUid);
+    if (!user) {
+      return res.redirect('/login');
+    }
+
     req.user = user;
-    return next();
+    next();
+  } catch (error) {
+    console.error('Authentication error:', error);
+    res.status(500).send('Internal Server Error');
   }
-  // }
-  next("Please log in first");
 }
 
 async function restrictToSearchRoute(req, res, next) {
