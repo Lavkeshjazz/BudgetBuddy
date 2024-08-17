@@ -168,24 +168,27 @@ async function handleUserLogin(req, res) {
             );
         }
         console.log("Correct Credentials");
+        try{
         const token = setUser(user_exist);
-        // const cookieOptions = {
-        //     httpOnly: true,
-        //     sameSite: 'None',
-        //     secure: true,
-        //     //domain: 'fascinating-sunburst-065a30.netlify.app'
-        // };
-        // res.cookie("uid", token,cookieOptions);
-        res.cookie("uid", token, {
+        const cookieOptions = {
             httpOnly: true,
             sameSite: 'None',
             secure: true,
-            //domain: 'fascinating-sunburst-065a30.netlify.app'
-        });
-        res.cookie("uid", token,cookieOptions);
+        };
+        res.cookie("uid", token, cookieOptions);
+        console.log("Sending success response"); // Add this log
         return res.status(200).json({
-            user_exist
-        })
+            status: "success",
+            message: "Login successful",
+            user: user_exist // Make sure to not send sensitive information
+        });
+         }catch (error) {
+        console.error("Error after successful credential check:", error);
+        return res.status(500).json({
+            status: "error",
+            message: "An error occurred after authentication"
+        });
+    }
     } catch (error) {
         // Handle any other errors
         // return res.render("login", {
