@@ -98,6 +98,46 @@ async function deleteDatabase(req, res) {
   }
 }
 
+//Add product urls in database
+async function addUrlinDatabase(req, res) {
+  try {
+    console.log("in searching")
+    console.log(req.body);
+    const data = { productURL: req.body.ProductURL, expectedPrice: req.body.expectedPrice }
+    await fetchPrice(data.productURL, data.expectedPrice);
+    await User.updateOne({ email: req.user.email, 'itemsAdded.productURL': { $ne: data.productURL } }, { $push: { itemsAdded: data } })  //Uniquely adds url in database
+    let user = await User.findOne({ email: req.user.email })
+    let listYourProduct = [];
+    let listAllProduct = [];
+    let flag = false;
+
+    if (user.userType == 'user') {
+      listYourProduct = await yourproductlisting(user.itemsAdded)
+    }
+
+    if (user.userType == 'trader') {
+      listYourProduct = await yourproductlisting(user.itemsAdded)
+      flag = true;
+      listAllProduct = await allproductlisiting();
+    }
+
+    let products = {
+      listTitle: user.email,
+      listItems: listYourProduct,
+      listAllItems: listAllProduct,
+      checkUser: flag
+    }
+    res.render("searchpage", products)
+      
+  } catch (error) {
+      console.log(error);
+      if(error instanceof AppError || error instanceof FetchError) return res.status(error.statusCode).json(error.serialize());
+      else return res.status(500).json({ statusCode:500 , message : error.message });
+  }
+
+}
+
+
 //ListYourProduct
 async function yourproductlisting(database) {
   let listYourProduct = [];
