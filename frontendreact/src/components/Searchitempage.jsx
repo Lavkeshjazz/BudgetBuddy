@@ -26,7 +26,7 @@ const Searchitempage = () => {
     const ProductURL = url;
     console.log(ProductURL);
     console.log(expectedPrice)
-    const res = await fetch('https://budgetbuddy-b4zd.onrender.com/addUrlinDatabase', {
+    const res = await fetch('http://localhost:5000/addUrlinDatabase', {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -73,7 +73,7 @@ const Searchitempage = () => {
     const ProductURL = P_URL;
     const expectedPrice = ePrice;
     console.log("hello Im sending product details");
-    const res = await fetch('https://budgetbuddy-b4zd.onrender.com/searchproduct/', {
+    const res = await fetch('http://localhost:5000/searchproduct/', {
       credentials: 'include',
       method: 'POST',
       headers: {

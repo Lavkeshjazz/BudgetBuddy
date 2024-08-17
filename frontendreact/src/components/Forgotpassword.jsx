@@ -29,7 +29,7 @@ const Forgotpassword = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    Axios.post("https://budgetbuddy-b4zd.onrender.com/user/forgotPassword", {
+    Axios.post("http://localhost:5000/user/forgotPassword", {
       email,
     }).then(res => {
       if (res.data.status) {

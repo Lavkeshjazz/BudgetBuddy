@@ -94,7 +94,7 @@ const Signup = () => {
     if (userType === 'trader') {
       e.preventDefault();
       try{
-      const response = await fetch("https://budgetbuddy-b4zd.onrender.com/trader/mail", {
+      const response = await fetch("http://localhost:5000/trader/mail", {
         method: 'POST',
         body: JSON.stringify({ phone_number,email }),
         headers: { 'Content-Type': 'application/json' },
@@ -136,7 +136,7 @@ const Signup = () => {
       e.preventDefault();
       const { firstName, lastname, phone_number, email, password, userType } = user;
       console.log("hello from postdata");
-      const res = await fetch('https://budgetbuddy-b4zd.onrender.com/user/', {
+      const res = await fetch('http://localhost:5000/user/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

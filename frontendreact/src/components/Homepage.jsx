@@ -25,7 +25,7 @@ function Homepage() {
     const fetchdata = async () => {
       try {
         let temp;
-        const data = await fetch("https://budgetbuddy-b4zd.onrender.com/getallproducts", {
+        const data = await fetch("http://localhost:5000/getallproducts", {
           credentials: 'include',
         });
         temp = await data.json();
@@ -71,7 +71,7 @@ function Homepage() {
   useEffect(() => {
     const getProductsByDemand = async () => {
       try {
-        const response = await fetch("https://budgetbuddy-b4zd.onrender.com/trader/products_by_demand", {credentials: 'include'});
+        const response = await fetch("http://localhost:5000/trader/products_by_demand", {credentials: 'include'});
         console.log("url product=");
         const temp = await response.json();
         console.log(temp);
@@ -87,7 +87,7 @@ function Homepage() {
   useEffect(() => {
     const getProductsByDemand2 = async () => {
       try {
-        const response = await fetch("https://budgetbuddy-b4zd.onrender.com/trader/products_by_demand_least", {credentials: 'include'});
+        const response = await fetch("http://localhost:5000/trader/products_by_demand_least", {credentials: 'include'});
         console.log("url product=");
         const temp = await response.json();
         console.log(temp);
