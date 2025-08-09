@@ -45,12 +45,13 @@ const Nav = (props) => {
     }
     setOpen(true);
     const { ProductURL, expectedPrice } = user;
+    const token = localStorage.getItem('authToken');
     try {
     const res = await fetch('http://localhost:5000/searchproduct/', {
-      credentials: 'include',
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+         "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         ProductURL,

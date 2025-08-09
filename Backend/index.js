@@ -67,7 +67,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: true, // Set to true if using https
+    secure: process.env.NODE_ENV === 'production', // true only in prod with HTTPS
     httpOnly: true,
     //maxAge: null // This will make the session cookie last for the duration of the browser session
   }

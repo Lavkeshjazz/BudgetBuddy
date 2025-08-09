@@ -93,12 +93,12 @@ const Signup = () => {
     const { userType, phone_number,email } = user;
     if (userType === 'trader') {
       e.preventDefault();
+      const token = localStorage.getItem("authToken");
       try{
       const response = await fetch("http://localhost:5000/trader/mail", {
         method: 'POST',
         body: JSON.stringify({ phone_number,email }),
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        headers: { 'Content-Type': 'application/json',Authorization: `Bearer ${token}` },
       });
       const responseData = await response.json(); // Parse response as JSON
       if (response.ok) {
@@ -136,7 +136,7 @@ const Signup = () => {
       e.preventDefault();
       const { firstName, lastname, phone_number, email, password, userType } = user;
       console.log("hello from postdata");
-      const res = await fetch('http://localhost:5000/user/', {
+      const res = await fetch('http://localhost:5000/user/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

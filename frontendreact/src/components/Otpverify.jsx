@@ -11,23 +11,23 @@ const Otpverify = () => {
   const { email } = signupdata;
   const [otp, setOtp] = useState('');
   const history = useNavigate();
+  const token= localStorage.getItem('authToken');
   // -----------------------------------------------------
   async function otpdata(e) {
     e.preventDefault();
     const response = await fetch("http://localhost:5000/trader/verify", {
       method: 'POST',
       body: JSON.stringify({ email, otp }),
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+      headers: { 'Content-Type': 'application/json',Authorization: `Bearer ${token}`,  },
     });
     if (response.ok) {
       e.preventDefault();
       const { firstName, lastname, phone_number, email, password, userType } = signupdata;
       console.log("hello from postdata");
-      const res = await fetch('http://localhost:5000/user/', {
+      const res = await fetch('http://localhost:5000/user/signup', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           firstName,

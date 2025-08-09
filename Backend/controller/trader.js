@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const nodemailer = require("nodemailer");
+require('dotenv').config();
 
 async function handleUserSignup2(req, res, next) {
     let { phone_number, email } = req.body;
@@ -54,21 +55,24 @@ async function handleUserSignup2(req, res, next) {
         });
     }
 }
-
+let otpStore = null; 
 
 module.exports = {
+    
     mailT: async function(req, res) {
         try {
             // Generate a random 6-digit OTP
             const otp = Math.floor(100000 + Math.random() * 900000);
       
             // Create a Nodemailer transporter
+            console.log("CONTROLLER transponder=")
+            console.log(JSON.stringify(process.env.EMAIL),JSON.stringify(process.env.EMAIL_PASSWORD))
             const transporter = nodemailer.createTransport({
                 host: "smtp.gmail.com",
                 port: 587,
                 auth: {
-                    user: "zen.jaiswal34@gmail.com",
-                    pass: "ejbtxdljmgevlkmw",
+                    user: process.env.EMAIL,
+                    pass: process.env.EMAIL_PASSWORD
                 },
             });
       
@@ -85,14 +89,15 @@ module.exports = {
       
             // Send mail
             let info = await transporter.sendMail({
-                from: '"BudgetBuddy" <@gmail.com>',
+                from: process.env.EMAIL,
                 to: email,
-                subject: "OTP for Signup",
+                subject: "OTP for Verification at BudgetBuddy",
                 html: emailHTML,
             });
       
             console.log("Message sent: %s", info.messageId);
-            req.session.otp = otp; // Store the OTP in session
+            otpStore = otp;
+            console.log("session otp:",otp)
             const successMessage = `
                 <html>
                 <head>
@@ -115,10 +120,11 @@ module.exports = {
     verify: function(req, res) {
         const { email, otp } = req.body;
         // Here you can verify the OTP
-        console.log(req.session.otp);
-        console.log(otp);
+        console.log("sesssssion_otp:",otpStore)
+        console.log("email:",email)
+        console.log("otp:",otp);
       
-        if (otp == req.session.otp) {
+        if (otp == otpStore) {
             // If OTP is correct, redirect to home page
             console.log("verified");
             return res.status(200).json({ success: "OTP verified successfully" });

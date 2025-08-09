@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import Chart from 'react-apexcharts';
 
 const Graph = (props) => {
+  const token = localStorage.getItem("authToken");
   let ProductURL = props.productURL;
   const url=props.url;
   if(ProductURL===undefined){
@@ -11,10 +12,10 @@ const Graph = (props) => {
   const [GraphData, setGraphData] = useState([]);
   const fetchdata = async () => {
     const data = await fetch("http://localhost:5000/getcurItem", {
-      credentials: 'include',
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+         "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         ProductURL,

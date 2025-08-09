@@ -39,18 +39,21 @@ const Login = () => {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+      // credentials: 'include',
     });
+    const data = await response.json();
+    console.log("login data=",data)
     if (response.ok) {
+      const { user, token } = data;
+      localStorage.setItem("authToken", token);
+      console.log("login token=",localStorage.getItem("authToken"))
+      userContext.login(user);
       Swal.fire({
         title: "Login Successful!",
         icon: "success",
         confirmButtonText: "Proceed",
       }).then(() => {
-        response.json().then(userInfo => {
-        userContext.login(userInfo.user_exist);
         navigate('/');
-        });
       });
     } else{
       const data = await response.json();

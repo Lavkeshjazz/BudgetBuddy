@@ -5,6 +5,7 @@ const { containsOnlyDigits } = require("../middlewares/utils");
 const jwt=require('jsonwebtoken');
 
 async function handleUserSignup(req, res) {
+    console.log("handleusersignup")
     let { firstName, lastName, phone_number, email, password, userType } = req.body;
     firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
     lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1).toLowerCase();
@@ -54,7 +55,7 @@ async function handleUserSignup(req, res) {
         const check_email = await User.findOne({ email });
         let user;
         if (!check_phonenumber && !check_email) {
-
+            console.log("check !check_phonenumber && !check_email")
             user = await User.create({
                 firstName,
                 lastName,
@@ -169,6 +170,7 @@ async function handleUserLogin(req, res) {
         }
         console.log("Correct Credentials");
         const token = setUser(user_exist);
+        console.log("token handleusersignup=", token);
         // const cookieOptions = {
         //     httpOnly: true,
         //     sameSite: 'None',
@@ -176,13 +178,16 @@ async function handleUserLogin(req, res) {
         //     //domain: 'fascinating-sunburst-065a30.netlify.app'
         // };
         // res.cookie("uid", token,cookieOptions);
-        res.cookie("uid", token, {
-            httpOnly: true,
-            sameSite: 'None',
-            secure: true,
-        });
+        // res.cookie("uid", token, {
+        //     httpOnly: true,
+        //     sameSite: 'None',
+        //     secure: true,
+        // });
+        res.setHeader('Authorization', `Bearer ${token}`);
         return res.status(200).json({
-            user_exist
+            user_exist,
+            token,
+            message: 'Login successful',
         })
     } catch (error) {
         // Handle any other errors
@@ -202,23 +207,27 @@ async function handleUserLogin(req, res) {
 }
 const secret = "Lavkesh@123";
 async function handleUserAuth(req, res) {
-    const uid = req.cookies.uid;
-    console.log("uid=");
-    console.log(uid);
-    if (uid) {
-        const decoded=jwt.verify(uid,secret);
-        console.log(decoded)
-        const user_exist = await User.findOne({ email: decoded.email });
-        return res.status(200).json({
-            user_exist,
-            status: 'success',
-            message: 'Authorizeddddddd',
-            uid: uid
-        });
-    }
-    else {
-        return res.status(401);
-    }
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) {
+    console.log("No authorization header found, 401");
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  const token = authHeader.split(' ')[1]; // Bearer <token>
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    console.log('Decoded token:', decoded);
+    const user_exist = await User.findOne({ email: decoded.email });
+    return res.status(200).json({
+      user_exist,
+      status: 'success',
+      message: 'Authorized',
+      token: token,
+    });
+  } catch (err) {
+    console.log("Token verification failed:", err.message);
+    return res.status(401).json({ error: 'Invalid token' });
+  }
 }
 module.exports = {
     handleUserSignup,

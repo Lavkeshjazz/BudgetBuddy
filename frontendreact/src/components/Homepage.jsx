@@ -19,15 +19,20 @@ function Homepage() {
   const [userType, setUserType] = useState(true);
   const [tempproducts, setTempproducts] = useState([]);
   const [tempproducts2, setTempproducts2] = useState([]);
+  const token = localStorage.getItem("authToken");
   let traderAllProduct = true;
-
+  console.log("homepage token=",token)
   useEffect(() => {
     const fetchdata = async () => {
       try {
         let temp;
         const data = await fetch("http://localhost:5000/getallproducts", {
-          credentials: 'include',
+          headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+          }
         });
+        console.log("homepage data=",data)
         temp = await data.json();
         setEmail(temp.listTitle);
         setfirstName(temp.listName1);
