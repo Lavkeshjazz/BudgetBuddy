@@ -9,7 +9,7 @@ import { useEffect } from "react";
 const Sidebar = ({ handleChange }) => {
   const userContext = useUserContext();
   useEffect(() => {
-    fetch('http://localhost:5000/user/authorized', {
+    fetch('https://budgetbuddy-ecnc.onrender.com/user/authorized', {
       credentials: 'include',
     }).then(response => {
       response.json().then(userInfo => {

@@ -10,7 +10,7 @@ const Navbar = (props) => {
     console.log("navbar token=",token)
     if (!token) return; // no token, no fetch
 
-    fetch("http://localhost:5000/user/authorized", {
+    fetch("https://budgetbuddy-ecnc.onrender.com/user/authorized", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

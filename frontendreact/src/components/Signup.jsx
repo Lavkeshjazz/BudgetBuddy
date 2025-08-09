@@ -95,7 +95,7 @@ const Signup = () => {
       e.preventDefault();
       const token = localStorage.getItem("authToken");
       try{
-      const response = await fetch("http://localhost:5000/trader/mail", {
+      const response = await fetch("https://budgetbuddy-ecnc.onrender.com/trader/mail", {
         method: 'POST',
         body: JSON.stringify({ phone_number,email }),
         headers: { 'Content-Type': 'application/json',Authorization: `Bearer ${token}` },
@@ -136,7 +136,7 @@ const Signup = () => {
       e.preventDefault();
       const { firstName, lastname, phone_number, email, password, userType } = user;
       console.log("hello from postdata");
-      const res = await fetch('http://localhost:5000/user/signup', {
+      const res = await fetch('https://budgetbuddy-ecnc.onrender.com/user/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

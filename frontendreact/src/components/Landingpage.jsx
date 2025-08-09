@@ -13,7 +13,7 @@ const Landingpage = () => {
 
     if (!token) return; // no token, don’t fetch
 
-    fetch("http://localhost:5000/user/authorized", {
+    fetch("https://budgetbuddy-ecnc.onrender.com/user/authorized", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

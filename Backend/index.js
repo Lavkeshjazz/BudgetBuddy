@@ -14,7 +14,7 @@ const app = express();
 const port = 5000;
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://budget-buddy-1rvb0alvs-lavkeshs-projects.vercel.app/',
   credentials: true,            //access-control-allow-credentials:true
   optionSuccessStatus: 200
 }

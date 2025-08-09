@@ -28,7 +28,7 @@ const Searchitempage = () => {
     const ProductURL = url;
     console.log(ProductURL);
     console.log(expectedPrice);
-    const res = await fetch("http://localhost:5000/addUrlinDatabase", {
+    const res = await fetch("https://budgetbuddy-ecnc.onrender.com/addUrlinDatabase", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +86,7 @@ const Searchitempage = () => {
     }
 
     console.log("Sending product details...");
-    const res = await fetch("http://localhost:5000/searchproduct/", {
+    const res = await fetch("https://budgetbuddy-ecnc.onrender.com/searchproduct/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

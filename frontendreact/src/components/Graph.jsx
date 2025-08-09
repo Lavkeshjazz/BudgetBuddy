@@ -11,7 +11,7 @@ const Graph = (props) => {
   console.log(ProductURL)
   const [GraphData, setGraphData] = useState([]);
   const fetchdata = async () => {
-    const data = await fetch("http://localhost:5000/getcurItem", {
+    const data = await fetch("https://budgetbuddy-ecnc.onrender.com/getcurItem", {
       method: 'POST',
       headers: {
          "Content-Type": "application/json",

@@ -47,7 +47,7 @@ const Nav = (props) => {
     const { ProductURL, expectedPrice } = user;
     const token = localStorage.getItem('authToken');
     try {
-    const res = await fetch('http://localhost:5000/searchproduct/', {
+    const res = await fetch('https://budgetbuddy-ecnc.onrender.com/searchproduct/', {
       method: 'POST',
       headers: {
          "Content-Type": "application/json",
